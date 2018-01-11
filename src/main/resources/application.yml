@@ -14,6 +14,6 @@ management:
   context-path: /management
   security:
     enabled: false
-#spring.main.web-environment=false
-#stock.api.endpoint=https://www.quandl.com/api/v3/datatables/WIKI/PRICES.csv
-#stock.api.key=s-GMZ_xkw6CrkGYUWs1p
+quandl:
+  api:
+    endpoint: 'https://www.quandl.com/api/v3/datatables/WIKI/PRICES.csv?ticker=COF,GOOGL,MSFT&date.gte=2017-01-01&date.lte=2017-06-30&api_key=s-GMZ_xkw6CrkGYUWs1p'

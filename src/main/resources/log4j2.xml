@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="debug">
+	<Properties>
+		<Property name="log-path">logs</Property>
+	</Properties>
+	<Appenders>
+		<RollingFile name="file-log" fileName="${log-path}/cofi-coding-exercise.log"
+			filePattern="${log-path}/%d{yyyy-MM-dd:HH}_cofi-coding-exercise.log">
+			<PatternLayout>
+				<pattern>[%-5level] %d{yyyy-MM-dd_HH:mm:ss.SSS} [%t] %c{1} - %msg%n
+				</pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1"
+					modulate="true" />
+			</Policies>
+		</RollingFile>
+		<Console name="console" target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="[%-5level] %d{yyyy-MM-dd_HH:mm:ss.SSS} [%t] %c{1} - %msg%n" />
+		</Console>
+	</Appenders>
+	<Loggers>
+		<Logger name="io.github.belachewhm.cofi.coding.exercise" level="info"
+			additivity="false">
+			<appender-ref ref="file-log" level="info" />
+			<appender-ref ref="console" level="info" />
+		</Logger>
+		<Root level="info" additivity="false">
+			<appender-ref ref="console" />
+		</Root>
+	</Loggers>
+</Configuration>
