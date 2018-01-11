@@ -1,6 +1,8 @@
 package io.github.belachewhm.cofi.coding.exercise.config;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -40,8 +42,14 @@ public class SpringConfig {
 		return new BufferedReader(new InputStreamReader(connection.getInputStream()));
 	}
 
+	// @Bean
+	// public BufferedReader bufferedReader() throws IOException {
+	// File csvFile = new File("src/test/resources/WIKI-PRICES_1000.csv");
+	// return new BufferedReader(new FileReader(csvFile));
+	// }
+
 	@Bean
-	public List<StockRecord> stockRecords() {
+	public List<StockRecord> stockRecords() throws IOException {
 		log.info("Injesting Records...");
 		List<StockRecord> stockRecords = null;
 		stockRecords = bufferedReader.lines().skip(1).map(line -> {
@@ -55,8 +63,10 @@ public class SpringConfig {
 			}
 			return stockRecord;
 		}).collect(Collectors.toList());
+
+		bufferedReader.close();
 		
-		log.info("Number of Records Injested: "+stockRecords.size());
+		log.info("Number of Records Injested: " + stockRecords.size());
 		return stockRecords;
 	}
 }
