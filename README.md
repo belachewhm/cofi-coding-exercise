@@ -2,6 +2,12 @@
 
 An application that retrieves pricing data from the Quandl WIKI Stock Price API for a given set of securities and date range, and displays various information about the data retrieved
 
+* [Summary](#summary)
+* [Tech-Stack](#tech-stack)
+* [Build](#build)
+* [Run](#run)
+* [Contributors](#contributors)
+
 ## Summary
 
 ## Tech Stack
