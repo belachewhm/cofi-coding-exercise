@@ -1,1 +1,1 @@
-# cofi-coding-exercise
+# COFI_Coding_Exercise

@@ -1,0 +1,19 @@
+#global properties
+project:
+  name: @project.name@
+  version: @project.version@
+  description: @project.description@
+server:
+  context-path: /cofi-coding-exercise
+  port: 8080
+endpoints:
+  shutdown:
+    enabled: false
+    sensitive: false
+management:
+  context-path: /management
+  security:
+    enabled: false
+#spring.main.web-environment=false
+#stock.api.endpoint=https://www.quandl.com/api/v3/datatables/WIKI/PRICES.csv
+#stock.api.key=s-GMZ_xkw6CrkGYUWs1p
