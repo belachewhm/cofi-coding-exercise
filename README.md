@@ -1,6 +1,6 @@
 # COFI_Coding_Exercise
 
-An application that retrieves pricing data from the Quandl WIKI Stock Price API for a given set of securities and date range, and displays various information about the data retrieved
+This application retrieves pricing data from the Quandl WIKI Stock Price API for a given date range and set of securities, exposes APIs with Metadata about the securities data, and provides a customized Swagger Page as a user interface
 
 * [Summary](#summary)
 * [Tech-Stack](#tech-stack)
