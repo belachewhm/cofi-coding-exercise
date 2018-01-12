@@ -6,12 +6,14 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.Comparator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,12 +33,11 @@ public class StockServiceImpl implements StockService {
 	 * @return
 	 */
 	public Map<String, Map<String, Map<String, String>>> averageMonthlyOpenAndClose(String ticker) {
-		List<String> tickers = new ArrayList<String>() {
+		return averageMonthlyOpenAndClose(new ArrayList<String>() {
 			{
 				add(ticker);
 			}
-		};
-		return averageMonthlyOpenAndClose(tickers);
+		});
 	}
 
 	/**
@@ -65,9 +66,9 @@ public class StockServiceImpl implements StockService {
 							.collect(Collectors.groupingBy(StockRecord::getMonthAndYear))
 							.forEach((k, v) -> put(k, new LinkedHashMap<String, String>() {
 								{
-									String average_open = (new DecimalFormat("#.00")).format(truncatePrice(
+									String average_open = (new DecimalFormat("#.00")).format(truncateValueAsPrice(
 											v.stream().collect(Collectors.averagingDouble(StockRecord::getOpen))));
-									String average_close = (new DecimalFormat("#.00")).format(truncatePrice(
+									String average_close = (new DecimalFormat("#.00")).format(truncateValueAsPrice(
 											v.stream().collect(Collectors.averagingDouble(StockRecord::getClose))));
 									put("average_open", average_open);
 									put("average_close", average_close);
@@ -82,20 +83,21 @@ public class StockServiceImpl implements StockService {
 	/**
 	 * 
 	 * @param ticker
+	 *            a single ticker symbol
 	 * @return
 	 */
 	public Map<String, Map<String, String>> maxDailyProfit(String ticker) {
-		List<String> tickers = new ArrayList<String>() {
+		return maxDailyProfit(new ArrayList<String>() {
 			{
 				add(ticker);
 			}
-		};
-		return maxDailyProfit(tickers);
+		});
 	}
 
 	/**
 	 * 
 	 * @param tickers
+	 *            an array of ticker symbols ex. {"COF","GOOGL","MSFT"}
 	 * @return
 	 */
 	public Map<String, Map<String, String>> maxDailyProfit(String[] tickers) {
@@ -105,6 +107,7 @@ public class StockServiceImpl implements StockService {
 	/**
 	 * 
 	 * @param tickers
+	 *            a list of ticker symbols
 	 * @return
 	 */
 	@SuppressWarnings("serial")
@@ -118,19 +121,81 @@ public class StockServiceImpl implements StockService {
 							.max(Comparator.comparingDouble(StockRecord::calculateMaximumDailyProfit));
 					put("date", (new SimpleDateFormat("yyyy-MM-dd")).format(stockRecord.get().getDate()));
 					put("profit", (new DecimalFormat("#.00"))
-							.format(truncatePrice(stockRecord.get().calculateMaximumDailyProfit())));
+							.format(truncateValueAsPrice(stockRecord.get().calculateMaximumDailyProfit())));
 				}
 			});
 		}
 		return resultMap;
 	}
-
-	public String busyDay() {
-		return String.valueOf(stockRecords.size());
+	
+	/**
+	 * 
+	 * @param ticker
+	 *            a single ticker symbol
+	 * @return
+	 */
+	public Map<String, Map<String, String>> busyDay(String ticker) {
+		return busyDay(new ArrayList<String>() {
+			{
+				this.add(ticker);
+			}
+		});
 	}
 
-	public String biggestLoser() {
-		return String.valueOf(stockRecords.size());
+	/**
+	 * 
+	 * @param tickers
+	 *            an array of ticker symbols ex. {"COF","GOOGL","MSFT"}
+	 * @return
+	 */
+	public Map<String, Map<String, String>> busyDay(String[] tickers) {
+		return busyDay(Arrays.asList(tickers));
+	}
+
+	/**
+	 * 
+	 * @param tickers
+	 *            a list of ticker symbols
+	 * @return
+	 */
+	public Map<String, Map<String, String>> busyDay(List<String> tickers)
+	{
+		Map<String, Map<String, String>> resultMap = new LinkedHashMap<String, Map<String, String>>();
+		for (String ticker : tickers)
+		{
+			//TODO: Add implementation
+		}
+		return resultMap;
+	}
+	
+	/**
+	 * 
+	 * @param tickers
+	 *            an array of ticker symbols ex. {"COF","GOOGL","MSFT"}
+	 * @return
+	 */
+	public Entry<String, Integer> biggestLoser(String[] tickers)
+	{
+		return biggestLoser(Arrays.asList(tickers)); 
+	}
+	
+	/**
+	 * 
+	 * @param tickers
+	 *            a list of ticker symbols
+	 * @return
+	 */
+	public Entry<String,Integer> biggestLoser(List<String> tickers)
+	{
+		Map<String, Integer> mapOfLoserCount = new LinkedHashMap<String, Integer>();
+		stockRecords.stream()
+			.filter(record -> record.isLoser())
+			.collect(Collectors.groupingBy(StockRecord::getTicker))
+			.forEach((k,v)->
+			{
+				mapOfLoserCount.put(k, v.size());
+			});
+		return Collections.max(mapOfLoserCount.entrySet(), Comparator.comparingInt(Map.Entry::getValue));
 	}
 
 	/**
@@ -140,7 +205,7 @@ public class StockServiceImpl implements StockService {
 	 * @param value
 	 * @return
 	 */
-	private Double truncatePrice(Double value) {
+	private Double truncateValueAsPrice(Double value) {
 		return BigDecimal.valueOf(value).setScale(2, RoundingMode.HALF_UP).doubleValue();
 	}
 }

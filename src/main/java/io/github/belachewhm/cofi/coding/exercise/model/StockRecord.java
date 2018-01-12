@@ -14,4 +14,6 @@ public interface StockRecord {
 	double getClose();
 
 	Date getDate();
+	
+	boolean isLoser();
 }

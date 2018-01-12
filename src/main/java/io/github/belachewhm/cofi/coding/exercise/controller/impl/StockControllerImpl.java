@@ -1,7 +1,5 @@
 package io.github.belachewhm.cofi.coding.exercise.controller.impl;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,12 +25,13 @@ public class StockControllerImpl implements StockController{
 	@Autowired
 	private ObjectMapper mapper;
 	
+	private String[] tickers = { "COF", "GOOGL", "MSFT" };
+	
 	@RequestMapping(value = "/averageMonthlyOpenAndClose", method = RequestMethod.GET)
 	@ApiOperation(value = "Displays the average monthly open and close prices for each security for each month of data in the data set", response = String.class)
 	public String averageMonthlyOpenAndClose() throws JsonProcessingException
 	{
 		log.info("***** Request Recieved to " + this.getClass().getName() + " *****");
-		String[] tickers = { "COF", "GOOGL", "MSFT" };
 		return mapper.writeValueAsString(stockService.averageMonthlyOpenAndClose(tickers));
 	}
 
@@ -41,7 +40,6 @@ public class StockControllerImpl implements StockController{
 	public String maxDailyProfit() throws JsonProcessingException
 	{
 		log.info("***** Request Recieved to " + this.getClass().getName() + " *****");
-		String[] tickers = { "COF", "GOOGL", "MSFT" };
 		return mapper.writeValueAsString(stockService.maxDailyProfit(tickers));
 	}
 
@@ -50,7 +48,7 @@ public class StockControllerImpl implements StockController{
 	public String busyDay() throws JsonProcessingException
 	{
 		log.info("***** Request Recieved to " + this.getClass().getName() + " *****");
-		return mapper.writeValueAsString(stockService.busyDay());
+		return mapper.writeValueAsString(stockService.busyDay(tickers));
 	}
 
 	@RequestMapping(value = "/biggestLoser", method = RequestMethod.GET)
@@ -58,6 +56,6 @@ public class StockControllerImpl implements StockController{
 	public String biggestLoser() throws JsonProcessingException
 	{
 		log.info("***** Request Recieved to " + this.getClass().getName() + " *****");
-		return mapper.writeValueAsString(stockService.biggestLoser());
+		return mapper.writeValueAsString(stockService.biggestLoser(tickers));
 	}
 }
