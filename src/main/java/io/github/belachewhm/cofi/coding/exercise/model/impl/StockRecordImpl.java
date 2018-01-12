@@ -5,9 +5,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import io.github.belachewhm.cofi.coding.exercise.model.StockRecord;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class StockRecordImpl implements StockRecord {
 	private String ticker;
 	private Date date;
