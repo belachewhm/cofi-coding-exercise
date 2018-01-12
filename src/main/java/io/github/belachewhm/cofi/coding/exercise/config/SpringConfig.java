@@ -36,7 +36,7 @@ public class SpringConfig {
 		connection.setRequestMethod("GET");
 		connection.setConnectTimeout(60 * 1000);
 		connection.setRequestProperty("User-Agent", "Mozilla/5.0");
-		log.info("Connection to " + url + "...");
+		log.info("Connecting to " + url + "...");
 		connection.connect();
 		log.info("Connection Successful!");
 		return new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -65,7 +65,7 @@ public class SpringConfig {
 		}).collect(Collectors.toList());
 
 		bufferedReader.close();
-		
+		log.info("Record Injestion Successful!");
 		log.info("Number of Records Injested: " + stockRecords.size());
 		return stockRecords;
 	}

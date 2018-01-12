@@ -1,5 +1,7 @@
 package io.github.belachewhm.cofi.coding.exercise.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,8 +22,13 @@ public class StockController {
 
 	@RequestMapping(value = "/averageMonthlyOpenAndClose", method = RequestMethod.GET)
 	@ApiOperation(value = "Displays the average monthly open and close prices for each security for each month of data in the data set", response = String.class)
-	public String averageMonthlyOpenAndClose() {
-		return stockService.averageMonthlyOpenAndClose();
+	public Map<String, Map<String, Map<String, Double>>> averageMonthlyOpenAndClose()
+	{
+		String[] tickers = {"COF","GOOGL","MSFT"};
+		
+		Map<String, Map<String, Map<String, Double>>> averageMonthlyOpenAndClose = stockService.averageMonthlyOpenAndClose(tickers);
+
+		return averageMonthlyOpenAndClose;
 	}
 
 	@RequestMapping(value = "/maxDailyProfit", method = RequestMethod.GET)

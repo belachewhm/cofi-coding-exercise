@@ -2,8 +2,6 @@ package io.github.belachewhm.cofi.coding.exercise.model;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Month;
-import java.time.ZoneId;
 import java.util.Date;
 
 import lombok.Data;
@@ -44,7 +42,8 @@ public class StockRecord {
 		setAdj_volume(Double.parseDouble(adj_volume));
 	}
 
-	public Month getMonth() {
-		return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getMonth();
+	public String getMonthAndYear() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+		return sdf.format(date);
 	}
 }
