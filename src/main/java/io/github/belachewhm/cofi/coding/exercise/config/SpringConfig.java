@@ -28,6 +28,27 @@ public class SpringConfig {
 	@Autowired 
 	private BufferedReader bufferedReader;
 	
+	@Autowired
+	private HttpURLConnection httpURLConnection;
+	
+	@Bean
+	public HttpURLConnection httpURLConnection() throws IOException
+	{
+		URL url = new URL(environment.getProperty("quandl.api.endpoint"));		
+		return (HttpURLConnection) url.openConnection();
+	}
+	
+	@Bean
+	public BufferedReader bufferedReader() throws IOException {
+		httpURLConnection.setRequestMethod("GET");
+		httpURLConnection.setConnectTimeout(60 * 1000);
+		httpURLConnection.setRequestProperty("User-Agent", "Mozilla/5.0");
+		log.info("Connecting to " + httpURLConnection.getURL().toExternalForm() + "...");
+		httpURLConnection.connect();
+		log.info("Connection Successful!");
+		return new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
+	}
+	
 	@Bean
 	public List<StockRecord> stockRecords() throws IOException {
 		log.info("Injesting Records...");
@@ -51,18 +72,5 @@ public class SpringConfig {
 			bufferedReader.close();
 		}
 		return stockRecords;
-	}
-
-	@Bean
-	public BufferedReader bufferedReader() throws IOException {
-		URL url = new URL(environment.getProperty("quandl.api.endpoint"));
-		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-		connection.setRequestMethod("GET");
-		connection.setConnectTimeout(60 * 1000);
-		connection.setRequestProperty("User-Agent", "Mozilla/5.0");
-		log.info("Connecting to " + url + "...");
-		connection.connect();
-		log.info("Connection Successful!");
-		return new BufferedReader(new InputStreamReader(connection.getInputStream()));
 	}
 }

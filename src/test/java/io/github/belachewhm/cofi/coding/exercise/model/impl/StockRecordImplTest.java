@@ -79,7 +79,7 @@ public class StockRecordImplTest {
 
 	@Test
 	public void testIsLoser_assertTrue() {
-		double close = Double.parseDouble(RandomStringUtils.random(9, false, true));
+		double close = Double.parseDouble(RandomStringUtils.random(8, false, true));
 		double open = Double.parseDouble(RandomStringUtils.random(10, false, true));
 		StockRecordImpl record = new StockRecordImpl() {
 			{
@@ -93,7 +93,7 @@ public class StockRecordImplTest {
 	@Test
 	public void testIsLoser_assertFalse() {
 		double close = Double.parseDouble(RandomStringUtils.random(10, false, true));
-		double open = Double.parseDouble(RandomStringUtils.random(9, false, true));
+		double open = Double.parseDouble(RandomStringUtils.random(8, false, true));
 		StockRecordImpl record = new StockRecordImpl() {
 			{
 				setClose(close);
