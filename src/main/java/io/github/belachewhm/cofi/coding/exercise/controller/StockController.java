@@ -21,14 +21,13 @@ public class StockController {
 	private StockService stockService;
 
 	@RequestMapping(value = "/averageMonthlyOpenAndClose", method = RequestMethod.GET)
-	@ApiOperation(value = "Displays the average monthly open and close prices for each security for each month of data in the data set", response = String.class)
+	@ApiOperation(value = "Displays the average monthly open and close prices for each security for each month of data in the data set", response = Map.class)
 	public Map<String, Map<String, Map<String, Double>>> averageMonthlyOpenAndClose()
 	{
-		String[] tickers = {"COF","GOOGL","MSFT"};
+		log.info("***** Request Recieved to " + this.getClass().getName() + " *****");
 		
-		Map<String, Map<String, Map<String, Double>>> averageMonthlyOpenAndClose = stockService.averageMonthlyOpenAndClose(tickers);
-
-		return averageMonthlyOpenAndClose;
+		String[] tickers = {"COF","GOOGL","MSFT"};
+		return stockService.averageMonthlyOpenAndClose(tickers);
 	}
 
 	@RequestMapping(value = "/maxDailyProfit", method = RequestMethod.GET)
