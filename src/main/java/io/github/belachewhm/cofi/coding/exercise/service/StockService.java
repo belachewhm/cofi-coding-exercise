@@ -2,6 +2,7 @@ package io.github.belachewhm.cofi.coding.exercise.service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -26,7 +27,7 @@ public class StockService {
 	 *            a single ticker symbol
 	 * @return
 	 */
-	public Map<String, Map<String, Map<String, Double>>> averageMonthlyOpenAndClose(String ticker) {
+	public Map<String, Map<String, Map<String, String>>> averageMonthlyOpenAndClose(String ticker) {
 		List<String> tickers = new ArrayList<String>() {
 			{
 				add(ticker);
@@ -41,7 +42,7 @@ public class StockService {
 	 *            a list of ticker symbols
 	 * @return
 	 */
-	public Map<String, Map<String, Map<String, Double>>> averageMonthlyOpenAndClose(List<String> tickers) {
+	public Map<String, Map<String, Map<String, String>>> averageMonthlyOpenAndClose(List<String> tickers) {
 		return averageMonthlyOpenAndClose(tickers.toArray(new String[tickers.size()]));
 	}
 
@@ -51,26 +52,34 @@ public class StockService {
 	 *            an array of ticker symbols ex. {"COF","GOOGL","MSFT"}
 	 * @return
 	 */
-	public Map<String, Map<String, Map<String, Double>>> averageMonthlyOpenAndClose(String[] tickers) {
-		Map<String, Map<String, Map<String, Double>>> recordsByTicker = new LinkedHashMap<String, Map<String, Map<String, Double>>>();
+	public Map<String, Map<String, Map<String, String>>> averageMonthlyOpenAndClose(String[] tickers) {
+		Map<String, Map<String, Map<String, String>>> recordsByTicker = new LinkedHashMap<String, Map<String, Map<String, String>>>();
 		for (String ticker : tickers)
 		{
-			recordsByTicker.put(ticker, new LinkedHashMap<String, Map<String, Double>>()
+			recordsByTicker.put(ticker, new LinkedHashMap<String, Map<String, String>>()
 			{{
 				stockRecords.stream()
 					.filter(record -> record.getTicker().equalsIgnoreCase(ticker))
 					.collect(Collectors.groupingBy(StockRecord::getMonthAndYear))
-					.forEach((k, v) -> put(k, new LinkedHashMap<String, Double>()
+					.forEach((k, v) -> put(k, new LinkedHashMap<String, String>()
 					{{
-						put("average_open", truncatePrice(v.stream().collect(Collectors.averagingDouble(StockRecord::getOpen))));
-						put("average_close", truncatePrice(v.stream().collect(Collectors.averagingDouble(StockRecord::getClose))));
+						DecimalFormat decimalFormat = new DecimalFormat("#.00");
+						String average_open = decimalFormat.format(truncatePrice(v.stream().collect(Collectors.averagingDouble(StockRecord::getOpen))));
+						String average_close = decimalFormat.format(truncatePrice(v.stream().collect(Collectors.averagingDouble(StockRecord::getClose))));
+						put("average_open", average_open);
+						put("average_close", average_close);
 					}}));
 			}});
 		}
 		return recordsByTicker;
 	}
 
-	public String maxDailyProfit() {
+	public String maxDailyProfit()
+	{
+		
+		
+		
+		
 		return String.valueOf(stockRecords.size());
 	}
 

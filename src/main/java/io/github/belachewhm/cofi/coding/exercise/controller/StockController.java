@@ -22,7 +22,7 @@ public class StockController {
 
 	@RequestMapping(value = "/averageMonthlyOpenAndClose", method = RequestMethod.GET)
 	@ApiOperation(value = "Displays the average monthly open and close prices for each security for each month of data in the data set", response = Map.class)
-	public Map<String, Map<String, Map<String, Double>>> averageMonthlyOpenAndClose()
+	public Map<String, Map<String, Map<String, String>>> averageMonthlyOpenAndClose()
 	{
 		log.info("***** Request Recieved to " + this.getClass().getName() + " *****");
 		
