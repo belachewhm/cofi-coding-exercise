@@ -127,7 +127,32 @@ public class StockServiceImpl implements StockService {
 		}
 		return resultMap;
 	}
-	
+
+	/**
+	 * 
+	 * @param tickers
+	 *            an array of ticker symbols ex. {"COF","GOOGL","MSFT"}
+	 * @return
+	 */
+	public Entry<String, Integer> biggestLoser(String[] tickers) {
+		return biggestLoser(Arrays.asList(tickers));
+	}
+
+	/**
+	 * 
+	 * @param tickers
+	 *            a list of ticker symbols
+	 * @return
+	 */
+	public Entry<String, Integer> biggestLoser(List<String> tickers) {
+		Map<String, Integer> mapOfLoserCount = new LinkedHashMap<String, Integer>();
+		stockRecords.stream().filter(record -> record.isLoser()).collect(Collectors.groupingBy(StockRecord::getTicker))
+				.forEach((k, v) -> {
+					mapOfLoserCount.put(k, v.size());
+				});
+		return Collections.max(mapOfLoserCount.entrySet(), Comparator.comparingInt(Map.Entry::getValue));
+	}
+
 	/**
 	 * 
 	 * @param ticker
@@ -158,44 +183,12 @@ public class StockServiceImpl implements StockService {
 	 *            a list of ticker symbols
 	 * @return
 	 */
-	public Map<String, Map<String, String>> busyDay(List<String> tickers)
-	{
+	public Map<String, Map<String, String>> busyDay(List<String> tickers) {
 		Map<String, Map<String, String>> resultMap = new LinkedHashMap<String, Map<String, String>>();
-		for (String ticker : tickers)
-		{
-			//TODO: Add implementation
+		for (String ticker : tickers) {
+			// TODO: Add implementation
 		}
 		return resultMap;
-	}
-	
-	/**
-	 * 
-	 * @param tickers
-	 *            an array of ticker symbols ex. {"COF","GOOGL","MSFT"}
-	 * @return
-	 */
-	public Entry<String, Integer> biggestLoser(String[] tickers)
-	{
-		return biggestLoser(Arrays.asList(tickers)); 
-	}
-	
-	/**
-	 * 
-	 * @param tickers
-	 *            a list of ticker symbols
-	 * @return
-	 */
-	public Entry<String,Integer> biggestLoser(List<String> tickers)
-	{
-		Map<String, Integer> mapOfLoserCount = new LinkedHashMap<String, Integer>();
-		stockRecords.stream()
-			.filter(record -> record.isLoser())
-			.collect(Collectors.groupingBy(StockRecord::getTicker))
-			.forEach((k,v)->
-			{
-				mapOfLoserCount.put(k, v.size());
-			});
-		return Collections.max(mapOfLoserCount.entrySet(), Comparator.comparingInt(Map.Entry::getValue));
 	}
 
 	/**

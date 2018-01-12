@@ -53,6 +53,6 @@ public class StockRecordImpl implements StockRecord {
 	
 	public boolean isLoser()
 	{
-		return (close > open);
+		return (close < open);
 	}
 }
