@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.github.belachewhm.cofi.coding.exercise.service.StockService;
+import io.github.belachewhm.cofi.coding.exercise.service.impl.StockServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Api(tags = "/api", description = "Expand the endpoints below to interact with web services")
 public class StockController {
 	@Autowired
-	private StockService stockService;
+	private StockServiceImpl stockService;
 
 	@RequestMapping(value = "/averageMonthlyOpenAndClose", method = RequestMethod.GET)
 	@ApiOperation(value = "Displays the average monthly open and close prices for each security for each month of data in the data set", response = Map.class)
@@ -31,9 +31,12 @@ public class StockController {
 	}
 
 	@RequestMapping(value = "/maxDailyProfit", method = RequestMethod.GET)
-	@ApiOperation(value = "Which day would provide the highest amount of profit for each security if purchased at the day's low and sold at the day's high", response = String.class)
-	public String maxDailyProfit() {
-		return stockService.maxDailyProfit();
+	@ApiOperation(value = "Which day would provide the highest amount of profit for each security if purchased at the day's low and sold at the day's high", response = Map.class)
+	public Map<String, Map<String, String>> maxDailyProfit() {
+		log.info("***** Request Recieved to " + this.getClass().getName() + " *****");
+		
+		String[] tickers = {"COF","GOOGL","MSFT"};
+		return stockService.maxDailyProfit(tickers);
 	}
 
 	@RequestMapping(value = "/busyDay", method = RequestMethod.GET)
