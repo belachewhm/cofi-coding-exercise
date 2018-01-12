@@ -17,7 +17,6 @@ import org.springframework.core.env.Environment;
 
 import io.github.belachewhm.cofi.coding.exercise.model.StockRecord;
 import io.github.belachewhm.cofi.coding.exercise.model.impl.StockRecordImpl;
-import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -26,14 +25,14 @@ public class SpringConfig {
 	@Autowired
 	private Environment environment;
 
+	@Autowired 
+	private BufferedReader bufferedReader;
+	
 	@Bean
-	public List<StockRecord> stockRecords() {
+	public List<StockRecord> stockRecords() throws IOException {
 		log.info("Injesting Records...");
 		List<StockRecord> stockRecords = null;
 		try {
-			// Lombok @Cleanup annotation automatically closes this resource
-			@Cleanup
-			BufferedReader bufferedReader = bufferedReader();
 			stockRecords = bufferedReader.lines().skip(1).map(line -> {
 				String[] x = Pattern.compile(",").split(line);
 				StockRecord stockRecord = null;
@@ -47,12 +46,14 @@ public class SpringConfig {
 			}).collect(Collectors.toList());
 			log.info("Record Injestion Successful!");
 			log.info("Number of Records Injested: " + stockRecords.size());
-		} catch (IOException ioe) {
-			log.error(ioe.getMessage());
+		}
+		finally{
+			bufferedReader.close();
 		}
 		return stockRecords;
 	}
 
+	@Bean
 	public BufferedReader bufferedReader() throws IOException {
 		URL url = new URL(environment.getProperty("quandl.api.endpoint"));
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -64,9 +65,4 @@ public class SpringConfig {
 		log.info("Connection Successful!");
 		return new BufferedReader(new InputStreamReader(connection.getInputStream()));
 	}
-
-	// public BufferedReader bufferedReader() throws IOException {
-	// File csvFile = new File("src/test/resources/WIKI-PRICES_1000.csv");
-	// return new BufferedReader(new FileReader(csvFile));
-	// }
 }

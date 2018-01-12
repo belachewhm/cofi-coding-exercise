@@ -29,7 +29,7 @@ public class Swagger2Config {
 	}
 
 	@SuppressWarnings("deprecation")
-	private ApiInfo apiInfo() {
+	protected ApiInfo apiInfo() {
 		String title = "Capital One Investing Coding Test";
 		String description = environment.getProperty("project.description");
 		String version = environment.getProperty("project.version");
