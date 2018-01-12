@@ -6,12 +6,12 @@ public interface StockRecord {
 	String getMonthAndYear();
 
 	double calculateMaximumDailyProfit();
-	
+
 	String getTicker();
-	
+
 	double getOpen();
-	
+
 	double getClose();
-	
+
 	Date getDate();
 }

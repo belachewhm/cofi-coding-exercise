@@ -20,14 +20,14 @@ import io.github.belachewhm.cofi.coding.exercise.model.StockRecord;
 import io.github.belachewhm.cofi.coding.exercise.service.StockService;
 
 @Service
-public class StockServiceImpl implements StockService
-{
+public class StockServiceImpl implements StockService {
 	@Autowired
 	private List<StockRecord> stockRecords;
 
 	/**
 	 * 
-	 * @param ticker a single ticker symbol
+	 * @param ticker
+	 *            a single ticker symbol
 	 * @return
 	 */
 	public Map<String, Map<String, Map<String, String>>> averageMonthlyOpenAndClose(String ticker) {
@@ -41,49 +41,50 @@ public class StockServiceImpl implements StockService
 
 	/**
 	 * 
-	 * @param tickers an array of ticker symbols ex. {"COF","GOOGL","MSFT"}
+	 * @param tickers
+	 *            an array of ticker symbols ex. {"COF","GOOGL","MSFT"}
 	 * @return
 	 */
-	public Map<String, Map<String, Map<String, String>>> averageMonthlyOpenAndClose(String[] tickers)
-	{
+	public Map<String, Map<String, Map<String, String>>> averageMonthlyOpenAndClose(String[] tickers) {
 		return averageMonthlyOpenAndClose(Arrays.asList(tickers));
 	}
-	
+
 	/**
 	 * 
-	 * @param tickers a list of ticker symbols
+	 * @param tickers
+	 *            a list of ticker symbols
 	 * @return
 	 */
 	@SuppressWarnings("serial")
-	public Map<String, Map<String, Map<String, String>>> averageMonthlyOpenAndClose(List<String> tickers)
-	{
+	public Map<String, Map<String, Map<String, String>>> averageMonthlyOpenAndClose(List<String> tickers) {
 		Map<String, Map<String, Map<String, String>>> resultMap = new LinkedHashMap<String, Map<String, Map<String, String>>>();
-		for(String ticker : tickers)
-		{
-			resultMap.put(ticker, new LinkedHashMap<String, Map<String, String>>()
-			{{
-				stockRecords.stream()
-					.filter(record -> record.getTicker().equalsIgnoreCase(ticker))
-					.collect(Collectors.groupingBy(StockRecord::getMonthAndYear))
-					.forEach((k, v) -> put(k, new LinkedHashMap<String, String>()
-					{{
-						String average_open = (new DecimalFormat("#.00")).format(truncatePrice(v.stream().collect(Collectors.averagingDouble(StockRecord::getOpen))));
-						String average_close = (new DecimalFormat("#.00")).format(truncatePrice(v.stream().collect(Collectors.averagingDouble(StockRecord::getClose))));
-						put("average_open", average_open);
-						put("average_close", average_close);
-					}}));
-			}});
+		for (String ticker : tickers) {
+			resultMap.put(ticker, new LinkedHashMap<String, Map<String, String>>() {
+				{
+					stockRecords.stream().filter(record -> record.getTicker().equalsIgnoreCase(ticker))
+							.collect(Collectors.groupingBy(StockRecord::getMonthAndYear))
+							.forEach((k, v) -> put(k, new LinkedHashMap<String, String>() {
+								{
+									String average_open = (new DecimalFormat("#.00")).format(truncatePrice(
+											v.stream().collect(Collectors.averagingDouble(StockRecord::getOpen))));
+									String average_close = (new DecimalFormat("#.00")).format(truncatePrice(
+											v.stream().collect(Collectors.averagingDouble(StockRecord::getClose))));
+									put("average_open", average_open);
+									put("average_close", average_close);
+								}
+							}));
+				}
+			});
 		}
 		return resultMap;
 	}
-	
+
 	/**
 	 * 
 	 * @param ticker
 	 * @return
 	 */
-	public Map<String, Map<String, String>> maxDailyProfit(String ticker)
-	{
+	public Map<String, Map<String, String>> maxDailyProfit(String ticker) {
 		List<String> tickers = new ArrayList<String>() {
 			{
 				add(ticker);
@@ -91,36 +92,35 @@ public class StockServiceImpl implements StockService
 		};
 		return maxDailyProfit(tickers);
 	}
-	
+
 	/**
 	 * 
 	 * @param tickers
 	 * @return
 	 */
-	public Map<String, Map<String, String>> maxDailyProfit(String[] tickers)
-	{
+	public Map<String, Map<String, String>> maxDailyProfit(String[] tickers) {
 		return maxDailyProfit(Arrays.asList(tickers));
 	}
-	
+
 	/**
 	 * 
 	 * @param tickers
 	 * @return
 	 */
 	@SuppressWarnings("serial")
-	public Map<String, Map<String, String>> maxDailyProfit(List<String> tickers)
-	{
+	public Map<String, Map<String, String>> maxDailyProfit(List<String> tickers) {
 		Map<String, Map<String, String>> resultMap = new LinkedHashMap<String, Map<String, String>>();
-		for(String ticker : tickers)
-		{
-			resultMap.put(ticker, new LinkedHashMap<String, String>()
-			{{
-				Optional<StockRecord> stockRecord = stockRecords.stream()
-					.filter(record -> record.getTicker().equalsIgnoreCase(ticker))
-					.max(Comparator.comparingDouble(StockRecord::calculateMaximumDailyProfit));
-				put("date", (new SimpleDateFormat("yyyy-MM-dd")).format(stockRecord.get().getDate()));
-				put("profit", (new DecimalFormat("#.00")).format(truncatePrice(stockRecord.get().calculateMaximumDailyProfit())));
-			}});
+		for (String ticker : tickers) {
+			resultMap.put(ticker, new LinkedHashMap<String, String>() {
+				{
+					Optional<StockRecord> stockRecord = stockRecords.stream()
+							.filter(record -> record.getTicker().equalsIgnoreCase(ticker))
+							.max(Comparator.comparingDouble(StockRecord::calculateMaximumDailyProfit));
+					put("date", (new SimpleDateFormat("yyyy-MM-dd")).format(stockRecord.get().getDate()));
+					put("profit", (new DecimalFormat("#.00"))
+							.format(truncatePrice(stockRecord.get().calculateMaximumDailyProfit())));
+				}
+			});
 		}
 		return resultMap;
 	}
