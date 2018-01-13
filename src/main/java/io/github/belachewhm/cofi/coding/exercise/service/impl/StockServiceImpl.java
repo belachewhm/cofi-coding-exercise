@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,16 +62,15 @@ public class StockServiceImpl implements StockService {
 	public Map<String, Map<String, Map<String, String>>> averageMonthlyOpenAndClose(List<String> tickers) {
 		Map<String, Map<String, Map<String, String>>> resultMap = new LinkedHashMap<String, Map<String, Map<String, String>>>();
 		for (String ticker : tickers) {
-			resultMap.put(ticker, new LinkedHashMap<String, Map<String, String>>() {
+			//Use a TreeMap to preserve insertion order
+			resultMap.put(ticker, new TreeMap<String, Map<String, String>>() {
 				{
 					stockRecords.stream().filter(record -> record.getTicker().equalsIgnoreCase(ticker))
 							.collect(Collectors.groupingBy(StockRecord::getMonthAndYear))
 							.forEach((k, v) -> put(k, new LinkedHashMap<String, String>() {
 								{
-									String average_open = (new DecimalFormat("#.00")).format(truncateDoubleToPrice(
-											v.stream().collect(Collectors.averagingDouble(StockRecord::getOpen))));
-									String average_close = (new DecimalFormat("#.00")).format(truncateDoubleToPrice(
-											v.stream().collect(Collectors.averagingDouble(StockRecord::getClose))));
+									String average_open = (new DecimalFormat("#.00")).format(truncateDoubleToPrice(v.stream().collect(Collectors.averagingDouble(StockRecord::getOpen))));
+									String average_close = (new DecimalFormat("#.00")).format(truncateDoubleToPrice(v.stream().collect(Collectors.averagingDouble(StockRecord::getClose))));
 									put("average_open", average_open);
 									put("average_close", average_close);
 								}
@@ -147,7 +147,8 @@ public class StockServiceImpl implements StockService {
 	 * @return
 	 */
 	@SuppressWarnings("serial")
-	public Map<String, Integer> biggestLoser(List<String> tickers) {
+	public Map<String, Integer> biggestLoser(List<String> tickers)
+	{
 		Map<String, Integer> mapOfLoserCount = new LinkedHashMap<String, Integer>();
 		stockRecords.stream().filter(record -> record.isLoser()).collect(Collectors.groupingBy(StockRecord::getTicker))
 				.forEach((k, v) -> {
