@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import io.github.belachewhm.cofi.coding.exercise.controller.MainFeaturesController;
 import io.github.belachewhm.cofi.coding.exercise.service.StockService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -17,7 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @Api(tags = "1. Main Feature", description = "Main Features for this Coding Exercise")
-public class MainFeaturesController {
+public class MainFeaturesControllerImpl implements MainFeaturesController
+{
 	@Autowired
 	private StockService stockService;
 

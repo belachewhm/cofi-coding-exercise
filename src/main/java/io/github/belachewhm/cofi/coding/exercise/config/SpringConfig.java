@@ -28,18 +28,15 @@ public class SpringConfig {
 	@Autowired 
 	private BufferedReader bufferedReader;
 	
-	@Autowired
+	private URL url;
+	
 	private HttpURLConnection httpURLConnection;
 	
 	@Bean
-	public HttpURLConnection httpURLConnection() throws IOException
+	public BufferedReader bufferedReader() throws IOException
 	{
-		URL url = new URL(environment.getProperty("quandl.api.endpoint"));		
-		return (HttpURLConnection) url.openConnection();
-	}
-	
-	@Bean
-	public BufferedReader bufferedReader() throws IOException {
+		url = new URL(environment.getProperty("quandl.api.endpoint"));
+		httpURLConnection = (HttpURLConnection) url.openConnection();
 		httpURLConnection.setRequestMethod("GET");
 		httpURLConnection.setConnectTimeout(60 * 1000);
 		httpURLConnection.setRequestProperty("User-Agent", "Mozilla/5.0");

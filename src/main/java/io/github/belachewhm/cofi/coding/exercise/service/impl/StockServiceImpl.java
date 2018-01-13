@@ -66,9 +66,9 @@ public class StockServiceImpl implements StockService {
 							.collect(Collectors.groupingBy(StockRecord::getMonthAndYear))
 							.forEach((k, v) -> put(k, new LinkedHashMap<String, String>() {
 								{
-									String average_open = (new DecimalFormat("#.00")).format(truncateValueAsPrice(
+									String average_open = (new DecimalFormat("#.00")).format(truncateDoubleToPrice(
 											v.stream().collect(Collectors.averagingDouble(StockRecord::getOpen))));
-									String average_close = (new DecimalFormat("#.00")).format(truncateValueAsPrice(
+									String average_close = (new DecimalFormat("#.00")).format(truncateDoubleToPrice(
 											v.stream().collect(Collectors.averagingDouble(StockRecord::getClose))));
 									put("average_open", average_open);
 									put("average_close", average_close);
@@ -121,7 +121,7 @@ public class StockServiceImpl implements StockService {
 							.max(Comparator.comparingDouble(StockRecord::calculateMaximumDailyProfit));
 					put("date", (new SimpleDateFormat("yyyy-MM-dd")).format(stockRecord.get().getDate()));
 					put("profit", (new DecimalFormat("#.00"))
-							.format(truncateValueAsPrice(stockRecord.get().calculateMaximumDailyProfit())));
+							.format(truncateDoubleToPrice(stockRecord.get().calculateMaximumDailyProfit())));
 				}
 			});
 		}
@@ -198,7 +198,7 @@ public class StockServiceImpl implements StockService {
 	 * @param value
 	 * @return
 	 */
-	private Double truncateValueAsPrice(Double value) {
+	private Double truncateDoubleToPrice(Double value) {
 		return BigDecimal.valueOf(value).setScale(2, RoundingMode.HALF_UP).doubleValue();
 	}
 }

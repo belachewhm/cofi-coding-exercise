@@ -28,13 +28,13 @@ public class SpringConfigTest {
 
 	@Mock
 	private BufferedReader bufferedReader;
-
+	
 	@Mock
 	private HttpURLConnection httpURLConnection;
 
 	@Mock
 	private InputStream inputStream;
-
+	
 	@InjectMocks
 	SpringConfig springConfig;
 
@@ -67,22 +67,6 @@ public class SpringConfigTest {
 			Assert.fail(fnfe.getMessage());
 		} finally {
 			br.close();
-		}
-	}
-
-	@Test
-	public void testBufferedReader() {
-		try {
-			Mockito.doNothing().when(httpURLConnection).setRequestMethod(Mockito.anyString());
-			Mockito.doNothing().when(httpURLConnection).setConnectTimeout(Mockito.anyInt());
-			Mockito.doNothing().when(httpURLConnection).setRequestProperty(Mockito.anyString(), Mockito.anyString());
-			Mockito.doNothing().when(httpURLConnection).connect();
-			Mockito.when(httpURLConnection.getURL()).thenReturn(new URL("http://localhost"));
-			Mockito.when(httpURLConnection.getInputStream()).thenReturn(inputStream);
-			BufferedReader bufferedReader = springConfig.bufferedReader();
-			Assert.assertNotNull(bufferedReader);
-		} catch (IOException ioe) {
-			Assert.fail(ioe.getMessage());
 		}
 	}
 }
