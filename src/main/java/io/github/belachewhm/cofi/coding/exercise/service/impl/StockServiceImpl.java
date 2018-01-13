@@ -62,7 +62,7 @@ public class StockServiceImpl implements StockService {
 	public Map<String, Map<String, Map<String, String>>> averageMonthlyOpenAndClose(List<String> tickers) {
 		Map<String, Map<String, Map<String, String>>> resultMap = new LinkedHashMap<String, Map<String, Map<String, String>>>();
 		for (String ticker : tickers) {
-			//Use a TreeMap to preserve insertion order
+			//Use a TreeMap to end up with a map ordered by Key (month, in this case)
 			resultMap.put(ticker, new TreeMap<String, Map<String, String>>() {
 				{
 					stockRecords.stream().filter(record -> record.getTicker().equalsIgnoreCase(ticker))
