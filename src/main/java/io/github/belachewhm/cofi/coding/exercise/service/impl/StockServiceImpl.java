@@ -32,6 +32,7 @@ public class StockServiceImpl implements StockService {
 	 *            a single ticker symbol
 	 * @return
 	 */
+	@SuppressWarnings("serial")
 	public Map<String, Map<String, Map<String, String>>> averageMonthlyOpenAndClose(String ticker) {
 		return averageMonthlyOpenAndClose(new ArrayList<String>() {
 			{
@@ -86,6 +87,7 @@ public class StockServiceImpl implements StockService {
 	 *            a single ticker symbol
 	 * @return
 	 */
+	@SuppressWarnings("serial")
 	public Map<String, Map<String, String>> maxDailyProfit(String ticker) {
 		return maxDailyProfit(new ArrayList<String>() {
 			{
@@ -134,7 +136,7 @@ public class StockServiceImpl implements StockService {
 	 *            an array of ticker symbols ex. {"COF","GOOGL","MSFT"}
 	 * @return
 	 */
-	public Entry<String, Integer> biggestLoser(String[] tickers) {
+	public Map<String, Integer> biggestLoser(String[] tickers) {
 		return biggestLoser(Arrays.asList(tickers));
 	}
 
@@ -144,13 +146,19 @@ public class StockServiceImpl implements StockService {
 	 *            a list of ticker symbols
 	 * @return
 	 */
-	public Entry<String, Integer> biggestLoser(List<String> tickers) {
+	@SuppressWarnings("serial")
+	public Map<String, Integer> biggestLoser(List<String> tickers) {
 		Map<String, Integer> mapOfLoserCount = new LinkedHashMap<String, Integer>();
 		stockRecords.stream().filter(record -> record.isLoser()).collect(Collectors.groupingBy(StockRecord::getTicker))
 				.forEach((k, v) -> {
 					mapOfLoserCount.put(k, v.size());
 				});
-		return Collections.max(mapOfLoserCount.entrySet(), Comparator.comparingInt(Map.Entry::getValue));
+		
+		Entry<String, Integer> biggestLoser = Collections.max(mapOfLoserCount.entrySet(), Comparator.comparingInt(Map.Entry::getValue));
+		Map<String, Integer> biggestLoserMap = new LinkedHashMap<String, Integer>(){{
+			put((String) biggestLoser.getKey(), (Integer) biggestLoser.getValue());
+		}};
+		return biggestLoserMap;
 	}
 
 	/**
@@ -159,6 +167,7 @@ public class StockServiceImpl implements StockService {
 	 *            a single ticker symbol
 	 * @return
 	 */
+	@SuppressWarnings("serial")
 	public Map<String, Map<String, String>> busyDay(String ticker) {
 		return busyDay(new ArrayList<String>() {
 			{

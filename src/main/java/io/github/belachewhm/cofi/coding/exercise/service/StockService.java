@@ -2,7 +2,6 @@ package io.github.belachewhm.cofi.coding.exercise.service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 public interface StockService {
 	Map<String, Map<String, Map<String, String>>> averageMonthlyOpenAndClose(String ticker);
@@ -17,9 +16,9 @@ public interface StockService {
 
 	Map<String, Map<String, String>> maxDailyProfit(List<String> tickers);
 
-	Entry<String, Integer> biggestLoser(String[] tickers);
+	Map<String, Integer> biggestLoser(String[] tickers);
 
-	Entry<String, Integer> biggestLoser(List<String> tickers);
+	Map<String, Integer> biggestLoser(List<String> tickers);
 
 	// double averageVolume(String ticker);
 	// double averageVolume(String[] tickers);

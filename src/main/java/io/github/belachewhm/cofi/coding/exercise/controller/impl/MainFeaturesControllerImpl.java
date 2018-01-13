@@ -1,5 +1,7 @@
 package io.github.belachewhm.cofi.coding.exercise.controller.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +25,13 @@ public class MainFeaturesControllerImpl implements MainFeaturesController
 	@Autowired
 	private StockService stockService;
 
-	private String[] tickers = { "COF", "GOOGL", "MSFT" };
-
+	@SuppressWarnings("serial")
+	private List<String> tickers = new ArrayList<String>(){{
+		add("COF");
+		add("GOOGL");
+		add("MSFT");
+	}};
+	
 	@RequestMapping(value = "/averageMonthlyOpenAndClose", method = RequestMethod.GET)
 	@ApiOperation(value = "Displays the average monthly open and close prices for each security for each month of data in the data set", response = String.class)
 	public Map<String, Map<String, Map<String, String>>> averageMonthlyOpenAndClose() throws JsonProcessingException {

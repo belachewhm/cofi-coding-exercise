@@ -7,8 +7,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -24,32 +22,20 @@ import io.github.belachewhm.cofi.coding.exercise.Application;
 import io.github.belachewhm.cofi.coding.exercise.service.StockService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes=Application.class)
+@ContextConfiguration(classes = Application.class)
 @WebMvcTest(MainFeaturesControllerImpl.class)
-public class MainFeaturesControllerImplTest
-{
+public class MainFeaturesControllerImplTest {
 	@MockBean
 	private StockService mockService;
-	
+
 	@Autowired
 	private MockMvc mockMvc;
-	
+
 	@Test
-	public void testAverageMonthlyOpenAndClose() throws Exception
-	{
-		double testOpen = Double.parseDouble(RandomStringUtils.random(10, false, true));
-		double testClose = Double.parseDouble(RandomStringUtils.random(10, false, true));
-		Map<String, Map<String, Map<String, String>>> testMap = new LinkedHashMap<String, Map<String, Map<String, String>>>(){{
-			this.put("COF", new LinkedHashMap<String, Map<String, String>>()
-			{{
-				this.put("2017-01", new LinkedHashMap<String, String>()
-				{{
-					this.put("average_open", String.valueOf(testOpen));
-					this.put("average_close", String.valueOf(testClose));
-				}});
-			}});
-		}};
+	public void testAverageMonthlyOpenAndClose() throws Exception {
+		Map<String, Map<String, Map<String, String>>> testMap = new LinkedHashMap<String, Map<String, Map<String, String>>>();
 		Mockito.when(mockService.averageMonthlyOpenAndClose(Mockito.anyList())).thenReturn(testMap);
 		MvcResult result = mockMvc.perform(get("/averageMonthlyOpenAndClose")).andDo(print()).andExpect(status().isOk()).andReturn();
+		// TODO: Assert further expectations
 	}
 }
