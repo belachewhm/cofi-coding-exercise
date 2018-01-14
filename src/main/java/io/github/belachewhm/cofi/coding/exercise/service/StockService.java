@@ -16,10 +16,6 @@ public interface StockService {
 
 	Map<String, Map<String, String>> maxDailyProfit(List<String> tickers);
 
-	Map<String, Integer> biggestLoser(String[] tickers);
-
-	Map<String, Integer> biggestLoser(List<String> tickers);
-
 	Map<String, String> averageVolume(String ticker);
 	
 	Map<String, String> averageVolume(String[] tickers);
@@ -31,4 +27,8 @@ public interface StockService {
 	Map<String, Map<String, String>> busyDay(String[] tickers);
 
 	Map<String, Map<String, String>> busyDay(List<String> tickers);
+	
+	Map<String, Integer> biggestLoser(String[] tickers);
+
+	Map<String, Integer> biggestLoser(List<String> tickers);
 }

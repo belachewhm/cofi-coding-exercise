@@ -33,26 +33,34 @@ public class AdditionalFeaturesControllerImpl implements AdditionalFeaturesContr
 	}};
 	
 	@RequestMapping(value = "/maxDailyProfit", method = RequestMethod.GET)
-	@ApiOperation(value = "Which day would provide the highest amount of profit for each security if purchased at the day's low and sold at the day's high", response = String.class)
+	@ApiOperation(value = "Calculates and returns which day would provide the highest amount of profit for each security if purchased at the day's low and sold at the day's high", response = String.class)
 	public Map<String, Map<String, String>> maxDailyProfit()
 	{
-		log.info("***** Request Recieved to " + this.getClass().getName() + " *****");
+		log.info("***** Request Recieved to " + this.getClass().getSimpleName() + " *****");
 		return stockService.maxDailyProfit(tickers);
 	}
 
-	@RequestMapping(value = "/biggestLoser", method = RequestMethod.GET)
-	@ApiOperation(value = "Which security had the most days where the closing price was lower than the opening price", response = String.class)
-	public Map<String, Integer> biggestLoser()
+	@RequestMapping(value = "/averageVolume", method = RequestMethod.GET)
+	@ApiOperation(value = "Calculates and returns the average volumes for each security", response = String.class)
+	public Map<String, String> averageVolume()
 	{
-		log.info("***** Request Recieved to " + this.getClass().getName() + " *****");
-		return stockService.biggestLoser(tickers);
+		log.info("***** Request Recieved to " + this.getClass().getSimpleName() + " *****");
+		return stockService.averageVolume(tickers);
 	}
 	
 	@RequestMapping(value = "/busyDay", method = RequestMethod.GET)
-	@ApiOperation(value = "Which days generated unusually high activity for the securities", response = String.class)
+	@ApiOperation(value = "Calculates and returns which days generated unusually high activity for the securities", response = String.class)
 	public Map<String, Map<String, String>> busyDay()
 	{
-		log.info("***** Request Recieved to " + this.getClass().getName() + " *****");
+		log.info("***** Request Recieved to " + this.getClass().getSimpleName() + " *****");
 		return stockService.busyDay(tickers);
+	}
+	
+	@RequestMapping(value = "/biggestLoser", method = RequestMethod.GET)
+	@ApiOperation(value = "Calculates and returns which security had the most days where the closing price was lower than the opening price", response = String.class)
+	public Map<String, Integer> biggestLoser()
+	{
+		log.info("***** Request Recieved to " + this.getClass().getSimpleName() + " *****");
+		return stockService.biggestLoser(tickers);
 	}
 }

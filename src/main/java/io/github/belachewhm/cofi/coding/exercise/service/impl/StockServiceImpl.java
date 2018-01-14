@@ -277,14 +277,4 @@ public class StockServiceImpl implements StockService {
 	protected Double truncateDoubleToPrice(Double value) {
 		return BigDecimal.valueOf(value).setScale(2, RoundingMode.HALF_UP).doubleValue();
 	}
-	
-	
-	
-
-	
-	
-	
-	
-	
-	
 }
