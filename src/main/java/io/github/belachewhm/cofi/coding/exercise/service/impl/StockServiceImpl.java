@@ -25,37 +25,7 @@ import io.github.belachewhm.cofi.coding.exercise.service.StockService;
 public class StockServiceImpl implements StockService {
 	@Autowired
 	private List<StockRecord> stockRecords;
-
-	/**
-	 * 
-	 * @param ticker
-	 * @return
-	 */
-	protected static Double averageVolume(String ticker, List<StockRecord> stockRecords)
-	{
-		Double sum = 0.0;
-		int count = 0;
-		for(StockRecord record : stockRecords)
-		{
-			if(record.getTicker().equalsIgnoreCase(ticker)){
-				sum = sum + record.getVolume();
-				count++;
-			}
-		}
-		return (sum/count);
-	}
-
-	/**
-	 * important to set scale and round AFTER all calculations have been
-	 * completed, so as not to lose precision
-	 * 
-	 * @param value
-	 * @return
-	 */
-	protected Double truncateDoubleToPrice(Double value) {
-		return BigDecimal.valueOf(value).setScale(2, RoundingMode.HALF_UP).doubleValue();
-	}
-
+		
 	/**
 	 * 
 	 * @param ticker
@@ -189,7 +159,47 @@ public class StockServiceImpl implements StockService {
 		};
 		return biggestLoserMap;
 	}
-
+	
+	/**
+	 * 
+	 * @param ticker
+	 *            a single ticker symbol
+	 * @return
+	 */
+	public Map<String, String> averageVolume(String ticker)
+	{
+		return averageVolume(new String[] { ticker });
+		
+	}
+	
+	/**
+	 * 
+	 * @param tickers
+	 *            an array of ticker symbols ex. {"COF","GOOGL","MSFT"}
+	 * @return
+	 */
+	public Map<String, String> averageVolume(String[] tickers)
+	{
+		return averageVolume(Arrays.asList(tickers));
+		
+	}
+	
+	/**
+	 * 
+	 * @param tickers
+	 *            a list of ticker symbols
+	 * @return
+	 */
+	public Map<String, String> averageVolume(List<String> tickers)
+	{
+		Map<String, String> averageVolumeMap = new LinkedHashMap<String, String>();
+		for(String ticker : tickers)
+		{
+			averageVolumeMap.put(ticker, (new DecimalFormat("#.00")).format(averageVolume(ticker, stockRecords)));
+		}
+		return averageVolumeMap;
+	}
+	
 	/**
 	 * 
 	 * @param ticker
@@ -237,4 +247,44 @@ public class StockServiceImpl implements StockService {
 		}
 		return resultMap;
 	}
+	
+	/**
+	 * 
+	 * @param ticker
+	 * @return
+	 */
+	protected static Double averageVolume(String ticker, List<StockRecord> stockRecords)
+	{
+		Double sum = 0.0;
+		int count = 0;
+		for(StockRecord record : stockRecords)
+		{
+			if(record.getTicker().equalsIgnoreCase(ticker)){
+				sum = sum + record.getVolume();
+				count++;
+			}
+		}
+		return (sum/count);
+	}
+
+	/**
+	 * important to set scale and round AFTER all calculations have been
+	 * completed, so as not to lose precision
+	 * 
+	 * @param value
+	 * @return
+	 */
+	protected Double truncateDoubleToPrice(Double value) {
+		return BigDecimal.valueOf(value).setScale(2, RoundingMode.HALF_UP).doubleValue();
+	}
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
 }
