@@ -1,11 +1,9 @@
 package io.github.belachewhm.cofi.coding.exercise.service.impl;
 
-import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -138,6 +136,7 @@ public class StockServiceImpl implements StockService {
 					Optional<StockRecord> stockRecord = stockRecords.stream()
 							.filter(record -> record.getTicker().equalsIgnoreCase(ticker))
 							.max(Comparator.comparingDouble(StockRecord::calculateMaximumDailyProfit));
+
 					put("date", (new SimpleDateFormat("yyyy-MM-dd")).format(stockRecord.get().getDate()));
 					put("profit", (new DecimalFormat("#.00"))
 							.format(truncateDoubleToPrice(stockRecord.get().calculateMaximumDailyProfit())));
@@ -173,6 +172,7 @@ public class StockServiceImpl implements StockService {
 
 		Entry<String, Integer> biggestLoser = Collections.max(mapOfLoserCount.entrySet(),
 				Comparator.comparingInt(Map.Entry::getValue));
+
 		Map<String, Integer> biggestLoserMap = new LinkedHashMap<String, Integer>() {
 			{
 				put((String) biggestLoser.getKey(), (Integer) biggestLoser.getValue());
@@ -211,7 +211,18 @@ public class StockServiceImpl implements StockService {
 	public Map<String, Map<String, String>> busyDay(List<String> tickers) {
 		Map<String, Map<String, String>> resultMap = new LinkedHashMap<String, Map<String, String>>();
 		for (String ticker : tickers) {
-			// TODO: Add implementation
+			resultMap.put(ticker, new LinkedHashMap<String, String>() {
+				{
+					stockRecords.stream()
+							.filter(record -> record.getTicker().equalsIgnoreCase(ticker)
+									&& record.getVolume() > (averageVolume(ticker) * 1.1))
+							.collect(Collectors.toMap(StockRecord::getDate, record -> record.getVolume()))
+							.forEach((k, v) -> {
+								put(new SimpleDateFormat("YYYY-MM-dd").format(k),
+										(new DecimalFormat("#.00")).format(truncateDoubleToPrice(v)));
+							});
+				}
+			});
 		}
 		return resultMap;
 	}
