@@ -54,9 +54,8 @@ public class StockRecordImpl implements StockRecord {
 	public Double calculateMaximumDailyProfit() {
 		return (high - low);
 	}
-	
-	public Boolean isLoser()
-	{
+
+	public Boolean isLoser() {
 		return (close < open);
 	}
 }

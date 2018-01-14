@@ -5,16 +5,31 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.meanbean.test.BeanTester;
 
 public class StockRecordImplTest {
 	private double DELTA = 0.001;
 
+	private BeanTester beanTester;
+	private StockRecordImpl record;
+	private Double high;
+	private Double low;
+	private Double close;
+	private Double open;
+
+	@Before
+	public void setup() {
+		beanTester = new BeanTester();
+		record = new StockRecordImpl();
+	}
+
 	@Test
 	public void testBean() {
-		new BeanTester().testBean(StockRecordImpl.class);
+		beanTester.testBean(StockRecordImpl.class);
 	}
 
 	@Test
@@ -34,9 +49,9 @@ public class StockRecordImplTest {
 		String TEST_ADJ_LOW = RandomStringUtils.random(10, false, true);
 		String TEST_ADJ_CLOSE = RandomStringUtils.random(10, false, true);
 		String TEST_ADJ_VOLUME = RandomStringUtils.random(10, false, true);
-		StockRecordImpl record = new StockRecordImpl(TEST_TICKER, TEST_DATE, TEST_OPEN, TEST_HIGH, TEST_LOW, TEST_CLOSE,
-				TEST_VOLUME, TEST_EX_DIVIDEND, TEST_SPLIT_RATIO, TEST_ADJ_OPEN, TEST_ADJ_HIGH, TEST_ADJ_LOW,
-				TEST_ADJ_CLOSE, TEST_ADJ_VOLUME);
+		record = new StockRecordImpl(TEST_TICKER, TEST_DATE, TEST_OPEN, TEST_HIGH, TEST_LOW, TEST_CLOSE, TEST_VOLUME,
+				TEST_EX_DIVIDEND, TEST_SPLIT_RATIO, TEST_ADJ_OPEN, TEST_ADJ_HIGH, TEST_ADJ_LOW, TEST_ADJ_CLOSE,
+				TEST_ADJ_VOLUME);
 		Assert.assertEquals(TEST_TICKER, record.getTicker());
 		Assert.assertEquals(sdf.parse(TEST_DATE), record.getDate());
 		Assert.assertEquals(Double.parseDouble(TEST_OPEN), record.getOpen(), DELTA);
@@ -56,50 +71,40 @@ public class StockRecordImplTest {
 	@Test
 	public void testGetMonthAndYear() {
 		Date date = new Date();
-		StockRecordImpl record = new StockRecordImpl() {
-			{
-				setDate(date);
-			}
-		};
+		record.setDate(date);
 		Assert.assertEquals(new SimpleDateFormat("yyyy-MM").format(date), record.getMonthAndYear());
 	}
 
 	@Test
 	public void testCalculateMaximumDailyProfit() {
-		double high = Double.parseDouble(RandomStringUtils.random(10, false, true));
-		double low = Double.parseDouble(RandomStringUtils.random(10, false, true));
-		StockRecordImpl record = new StockRecordImpl() {
-			{
-				setHigh(high);
-				setLow(low);
-			}
-		};
+		high = Double.parseDouble(RandomStringUtils.random(10, false, true));
+		low = Double.parseDouble(RandomStringUtils.random(10, false, true));
+		record.setHigh(high);
+		record.setLow(low);
 		Assert.assertEquals(high - low, record.calculateMaximumDailyProfit(), DELTA);
 	}
 
 	@Test
 	public void testIsLoser_assertTrue() {
-		double close = Double.parseDouble(RandomStringUtils.random(8, false, true));
-		double open = Double.parseDouble(RandomStringUtils.random(10, false, true));
-		StockRecordImpl record = new StockRecordImpl() {
-			{
-				setClose(close);
-				setOpen(open);
-			}
-		};
+		close = Double.parseDouble(RandomStringUtils.random(8, false, true));
+		open = Double.parseDouble(RandomStringUtils.random(10, false, true));
+		record.setClose(close);
+		record.setOpen(open);
 		Assert.assertTrue(record.isLoser());
 	}
 
 	@Test
 	public void testIsLoser_assertFalse() {
-		double close = Double.parseDouble(RandomStringUtils.random(10, false, true));
-		double open = Double.parseDouble(RandomStringUtils.random(8, false, true));
-		StockRecordImpl record = new StockRecordImpl() {
-			{
-				setClose(close);
-				setOpen(open);
-			}
-		};
+		close = Double.parseDouble(RandomStringUtils.random(10, false, true));
+		open = Double.parseDouble(RandomStringUtils.random(8, false, true));
+		record.setClose(close);
+		record.setOpen(open);
 		Assert.assertFalse(record.isLoser());
+	}
+
+	@After
+	public void teardown() {
+		beanTester = null;
+		record = null;
 	}
 }

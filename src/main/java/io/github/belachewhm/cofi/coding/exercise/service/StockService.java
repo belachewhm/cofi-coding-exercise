@@ -20,8 +20,6 @@ public interface StockService {
 
 	Map<String, Integer> biggestLoser(List<String> tickers);
 
-	double averageVolume(String ticker);
-
 	Map<String, Map<String, String>> busyDay(String ticker);
 
 	Map<String, Map<String, String>> busyDay(String[] tickers);

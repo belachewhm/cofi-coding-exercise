@@ -1,5 +1,6 @@
 package io.github.belachewhm.cofi.coding.exercise.service.impl;
 
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -30,16 +31,33 @@ public class StockServiceImpl implements StockService {
 	/**
 	 * 
 	 * @param ticker
+	 * @return
+	 */
+	protected Double averageVolume(String ticker) {
+		return stockRecords.stream().filter(record -> record.getTicker().equalsIgnoreCase(ticker))
+				.mapToDouble(record -> record.getVolume()).average().orElse(0);
+	}
+
+	/**
+	 * important to set scale and round AFTER all calculations have been
+	 * completed, so as not to lose precision
+	 * 
+	 * @param value
+	 * @return
+	 */
+	protected Double truncateDoubleToPrice(Double value) {
+		return BigDecimal.valueOf(value).setScale(2, RoundingMode.HALF_UP).doubleValue();
+	}
+
+	/**
+	 * 
+	 * @param ticker
 	 *            a single ticker symbol
 	 * @return
 	 */
 	@SuppressWarnings("serial")
 	public Map<String, Map<String, Map<String, String>>> averageMonthlyOpenAndClose(String ticker) {
-		return averageMonthlyOpenAndClose(new ArrayList<String>() {
-			{
-				add(ticker);
-			}
-		});
+		return averageMonthlyOpenAndClose(new String[] { ticker });
 	}
 
 	/**
@@ -62,15 +80,18 @@ public class StockServiceImpl implements StockService {
 	public Map<String, Map<String, Map<String, String>>> averageMonthlyOpenAndClose(List<String> tickers) {
 		Map<String, Map<String, Map<String, String>>> resultMap = new LinkedHashMap<String, Map<String, Map<String, String>>>();
 		for (String ticker : tickers) {
-			//Use a TreeMap to end up with a map ordered by Key (month, in this case)
+			// Use a TreeMap to end up with a map ordered by Key (month, in this
+			// case)
 			resultMap.put(ticker, new TreeMap<String, Map<String, String>>() {
 				{
 					stockRecords.stream().filter(record -> record.getTicker().equalsIgnoreCase(ticker))
 							.collect(Collectors.groupingBy(StockRecord::getMonthAndYear))
 							.forEach((k, v) -> put(k, new LinkedHashMap<String, String>() {
 								{
-									String average_open = (new DecimalFormat("#.00")).format(truncateDoubleToPrice(v.stream().collect(Collectors.averagingDouble(StockRecord::getOpen))));
-									String average_close = (new DecimalFormat("#.00")).format(truncateDoubleToPrice(v.stream().collect(Collectors.averagingDouble(StockRecord::getClose))));
+									String average_open = (new DecimalFormat("#.00")).format(truncateDoubleToPrice(
+											v.stream().collect(Collectors.averagingDouble(StockRecord::getOpen))));
+									String average_close = (new DecimalFormat("#.00")).format(truncateDoubleToPrice(
+											v.stream().collect(Collectors.averagingDouble(StockRecord::getClose))));
 									put("average_open", average_open);
 									put("average_close", average_close);
 								}
@@ -89,11 +110,7 @@ public class StockServiceImpl implements StockService {
 	 */
 	@SuppressWarnings("serial")
 	public Map<String, Map<String, String>> maxDailyProfit(String ticker) {
-		return maxDailyProfit(new ArrayList<String>() {
-			{
-				add(ticker);
-			}
-		});
+		return maxDailyProfit(new String[] { ticker });
 	}
 
 	/**
@@ -147,21 +164,23 @@ public class StockServiceImpl implements StockService {
 	 * @return
 	 */
 	@SuppressWarnings("serial")
-	public Map<String, Integer> biggestLoser(List<String> tickers)
-	{
+	public Map<String, Integer> biggestLoser(List<String> tickers) {
 		Map<String, Integer> mapOfLoserCount = new LinkedHashMap<String, Integer>();
 		stockRecords.stream().filter(record -> record.isLoser()).collect(Collectors.groupingBy(StockRecord::getTicker))
 				.forEach((k, v) -> {
 					mapOfLoserCount.put(k, v.size());
 				});
-		
-		Entry<String, Integer> biggestLoser = Collections.max(mapOfLoserCount.entrySet(), Comparator.comparingInt(Map.Entry::getValue));
-		Map<String, Integer> biggestLoserMap = new LinkedHashMap<String, Integer>(){{
-			put((String) biggestLoser.getKey(), (Integer) biggestLoser.getValue());
-		}};
+
+		Entry<String, Integer> biggestLoser = Collections.max(mapOfLoserCount.entrySet(),
+				Comparator.comparingInt(Map.Entry::getValue));
+		Map<String, Integer> biggestLoserMap = new LinkedHashMap<String, Integer>() {
+			{
+				put((String) biggestLoser.getKey(), (Integer) biggestLoser.getValue());
+			}
+		};
 		return biggestLoserMap;
 	}
-	
+
 	/**
 	 * 
 	 * @param ticker
@@ -170,11 +189,7 @@ public class StockServiceImpl implements StockService {
 	 */
 	@SuppressWarnings("serial")
 	public Map<String, Map<String, String>> busyDay(String ticker) {
-		return busyDay(new ArrayList<String>() {
-			{
-				this.add(ticker);
-			}
-		});
+		return busyDay(new String[] { ticker });
 	}
 
 	/**
@@ -193,33 +208,11 @@ public class StockServiceImpl implements StockService {
 	 *            a list of ticker symbols
 	 * @return
 	 */
-	public Map<String, Map<String, String>> busyDay(List<String> tickers)
-	{
+	public Map<String, Map<String, String>> busyDay(List<String> tickers) {
 		Map<String, Map<String, String>> resultMap = new LinkedHashMap<String, Map<String, String>>();
 		for (String ticker : tickers) {
 			// TODO: Add implementation
 		}
 		return resultMap;
-	}
-
-	/**
-	 * 
-	 * @param ticker
-	 * @return
-	 */
-	 public double averageVolume(String ticker)
-	 {
-		 return stockRecords.stream().filter(record -> record.getTicker().equalsIgnoreCase(ticker)).mapToDouble(record -> record.getVolume()).average().orElse(0);
-	 }
-	
-	/**
-	 * important to set scale and round AFTER all calculations have been
-	 * completed, so as not to lose precision
-	 * 
-	 * @param value
-	 * @return
-	 */
-	private Double truncateDoubleToPrice(Double value) {
-		return BigDecimal.valueOf(value).setScale(2, RoundingMode.HALF_UP).doubleValue();
 	}
 }

@@ -1,6 +1,8 @@
 package io.github.belachewhm.cofi.coding.exercise.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -26,111 +28,285 @@ public class StockServiceImplTest {
 	private StockServiceImpl stockServiceImpl;
 
 	private Double DELTA = 0.001;
-	private Double volume_1;
-	private Double volume_2;
-	private Double volume_3;
+	private List<StockRecord> returnRecords;
 
 	@Before
 	public void setup() {
-		volume_1 = Double.parseDouble(RandomStringUtils.random(10, false, true));
-		volume_2 = Double.parseDouble(RandomStringUtils.random(10, false, true));
-		volume_3 = Double.parseDouble(RandomStringUtils.random(10, false, true));
+		returnRecords = new ArrayList<StockRecord>();
+		Mockito.when(mockStockRecords.stream()).thenReturn(returnRecords.stream());
 	}
 
 	@Test
-	public void test_averageVolume_1() {
-		List<StockRecord> mockRecord = new ArrayList<StockRecord>() {
+	public void testAverageVolume_1() {
+		Double volume_1 = Double.parseDouble(RandomStringUtils.random(10, false, true));
+		Double volume_2 = Double.parseDouble(RandomStringUtils.random(10, false, true));
+		Double volume_3 = Double.parseDouble(RandomStringUtils.random(10, false, true));
+		returnRecords.add(new StockRecordImpl() {
 			{
-				add(new StockRecordImpl() {
-					{
-						this.setTicker("COF");
-						this.setVolume(volume_1);
-					}
-				});
-				add(new StockRecordImpl() {
-					{
-						this.setTicker("MSFT");
-						this.setVolume(volume_2);
-					}
-				});
-				add(new StockRecordImpl() {
-					{
-						this.setTicker("GOOGL");
-						this.setVolume(volume_3);
-					}
-				});
+				setTicker("TEST_TICKER_1");
+				setVolume(volume_1);
 			}
-		};
-		Mockito.when(mockStockRecords.stream()).thenReturn(mockRecord.stream());
-		Assert.assertEquals(stockServiceImpl.averageVolume("COF"), volume_1, DELTA);
-
-		Mockito.when(mockStockRecords.stream()).thenReturn(mockRecord.stream());
-		Assert.assertEquals(stockServiceImpl.averageVolume("MSFT"), volume_2, DELTA);
-
-		Mockito.when(mockStockRecords.stream()).thenReturn(mockRecord.stream());
-		Assert.assertEquals(stockServiceImpl.averageVolume("GOOGL"), volume_3, DELTA);
+		});
+		Assert.assertEquals(stockServiceImpl.averageVolume("TEST_TICKER_1"), volume_1, DELTA);
 	}
 
 	@Test
-	public void test_averageVolume_2() {
-		List<StockRecord> mockRecord = new ArrayList<StockRecord>() {
+	public void testAverageVolume_2() {
+		Double volume_1 = Double.parseDouble(RandomStringUtils.random(10, false, true));
+		Double volume_2 = Double.parseDouble(RandomStringUtils.random(10, false, true));
+		Double volume_3 = Double.parseDouble(RandomStringUtils.random(10, false, true));
+		returnRecords.add(new StockRecordImpl() {
 			{
-				add(new StockRecordImpl() {
-					{
-						this.setTicker("COF");
-						this.setVolume(volume_1);
-					}
-				});
-				add(new StockRecordImpl() {
-					{
-						this.setTicker("COF");
-						this.setVolume(volume_2);
-					}
-				});
-				add(new StockRecordImpl() {
-					{
-						this.setTicker("COF");
-						this.setVolume(volume_3);
-					}
-				});
+				setTicker("TEST_TICKER");
+				setVolume(volume_1);
 			}
-		};
-		Mockito.when(mockStockRecords.stream()).thenReturn(mockRecord.stream());
-		Assert.assertEquals(stockServiceImpl.averageVolume("COF"), ((volume_1 + volume_2 + volume_3) / 3), DELTA);
+		});
+		returnRecords.add(new StockRecordImpl() {
+			{
+				setTicker("TEST_TICKER");
+				setVolume(volume_2);
+			}
+		});
+		returnRecords.add(new StockRecordImpl() {
+			{
+				setTicker("TEST_TICKER");
+				setVolume(volume_3);
+			}
+		});
+		Assert.assertEquals(stockServiceImpl.averageVolume("TEST_TICKER"), ((volume_1 + volume_2 + volume_3) / 3),
+				DELTA);
 	}
 
 	@Test
-	public void test_averageVolume_3() {
-		List<StockRecord> mockRecord = new ArrayList<StockRecord>() {
+	public void testAverageVolume_3() {
+		Double volume_1 = Double.parseDouble(RandomStringUtils.random(10, false, true));
+		Double volume_2 = Double.parseDouble(RandomStringUtils.random(10, false, true));
+		Double volume_3 = Double.parseDouble(RandomStringUtils.random(10, false, true));
+		returnRecords.add(new StockRecordImpl() {
 			{
-				add(new StockRecordImpl() {
-					{
-						this.setTicker("COF");
-						this.setVolume(volume_1);
-					}
-				});
-				add(new StockRecordImpl() {
-					{
-						this.setTicker("COF");
-						this.setVolume(volume_2);
-					}
-				});
-				add(new StockRecordImpl() {
-					{
-						this.setTicker("GOOGL");
-						this.setVolume(volume_3);
-					}
-				});
+				setTicker("TEST_TICKER_1");
+				setVolume(volume_1);
 			}
-		};
-		Mockito.when(mockStockRecords.stream()).thenReturn(mockRecord.stream());
-		Assert.assertEquals(stockServiceImpl.averageVolume("COF"), ((volume_1 + volume_2) / 2), DELTA);
+		});
+		returnRecords.add(new StockRecordImpl() {
+			{
+				setTicker("TEST_TICKER_1");
+				setVolume(volume_2);
+			}
+		});
+		returnRecords.add(new StockRecordImpl() {
+			{
+				setTicker("TEST_TICKER_2");
+				setVolume(volume_3);
+			}
+		});
+		Assert.assertEquals(stockServiceImpl.averageVolume("TEST_TICKER_1"), ((volume_1 + volume_2) / 2), DELTA);
+	}
+
+	@Test
+	public void testTruncateDoubleToPrice() {
+		Assert.assertEquals(00.00, stockServiceImpl.truncateDoubleToPrice(00.00012345678), DELTA);
+		Assert.assertEquals(00.00, stockServiceImpl.truncateDoubleToPrice(00.00123456789), DELTA);
+		Assert.assertEquals(00.01, stockServiceImpl.truncateDoubleToPrice(00.01234567890), DELTA);
+		Assert.assertEquals(00.12, stockServiceImpl.truncateDoubleToPrice(00.12345678900), DELTA);
+		Assert.assertEquals(01.23, stockServiceImpl.truncateDoubleToPrice(01.23456789000), DELTA);
+		Assert.assertEquals(12.35, stockServiceImpl.truncateDoubleToPrice(12.34567890000), DELTA);
+		Assert.assertEquals(23.46, stockServiceImpl.truncateDoubleToPrice(23.45678900000), DELTA);
+		Assert.assertEquals(34.57, stockServiceImpl.truncateDoubleToPrice(34.56789000000), DELTA);
+		Assert.assertEquals(45.68, stockServiceImpl.truncateDoubleToPrice(45.67890000000), DELTA);
+		Assert.assertEquals(56.79, stockServiceImpl.truncateDoubleToPrice(56.78900000000), DELTA);
+		Assert.assertEquals(67.89, stockServiceImpl.truncateDoubleToPrice(67.89000000000), DELTA);
+		Assert.assertEquals(78.90, stockServiceImpl.truncateDoubleToPrice(78.90000000000), DELTA);
+		Assert.assertEquals(89.00, stockServiceImpl.truncateDoubleToPrice(89.00000000000), DELTA);
+	}
+
+	@Test
+	public void testAverageMonthlyOpenAndClose_averageOpen() {
+		Double open_1 = Double.parseDouble(RandomStringUtils.random(10, false, true));
+		Double open_2 = Double.parseDouble(RandomStringUtils.random(10, false, true));
+		Double open_3 = Double.parseDouble(RandomStringUtils.random(10, false, true));
+		Double close_1 = Double.parseDouble(RandomStringUtils.random(10, false, true));
+		Double close_2 = Double.parseDouble(RandomStringUtils.random(10, false, true));
+		Double close_3 = Double.parseDouble(RandomStringUtils.random(10, false, true));
+		returnRecords.add(new StockRecordImpl() {
+			{
+				this.setTicker("TEST_TICKER");
+				this.setOpen(open_1);
+				this.setClose(close_1);
+				this.setDate(new Date());
+			}
+		});
+		returnRecords.add(new StockRecordImpl() {
+			{
+				this.setTicker("TEST_TICKER");
+				this.setOpen(open_2);
+				this.setClose(close_2);
+				this.setDate(new Date());
+			}
+		});
+		returnRecords.add(new StockRecordImpl() {
+			{
+				this.setTicker("TEST_TICKER");
+				this.setOpen(open_3);
+				this.setClose(close_3);
+				this.setDate(new Date());
+			}
+		});
+		String average_open = stockServiceImpl.averageMonthlyOpenAndClose("TEST_TICKER").get("TEST_TICKER")
+				.get((new SimpleDateFormat("YYYY-MM").format(new Date()))).get("average_open");
+		Assert.assertEquals((open_1 + open_2 + open_3) / 3, Double.parseDouble(average_open), DELTA * 4);
+	}
+
+	@Test
+	public void testAverageMonthlyOpenAndClose_averageClose() {
+		Double open_1 = Double.parseDouble(RandomStringUtils.random(10, false, true));
+		Double open_2 = Double.parseDouble(RandomStringUtils.random(10, false, true));
+		Double open_3 = Double.parseDouble(RandomStringUtils.random(10, false, true));
+		Double close_1 = Double.parseDouble(RandomStringUtils.random(10, false, true));
+		Double close_2 = Double.parseDouble(RandomStringUtils.random(10, false, true));
+		Double close_3 = Double.parseDouble(RandomStringUtils.random(10, false, true));
+		returnRecords.add(new StockRecordImpl() {
+			{
+				this.setTicker("TEST_TICKER");
+				this.setOpen(open_1);
+				this.setClose(close_1);
+				this.setDate(new Date());
+			}
+		});
+		returnRecords.add(new StockRecordImpl() {
+			{
+				this.setTicker("TEST_TICKER");
+				this.setOpen(open_2);
+				this.setClose(close_2);
+				this.setDate(new Date());
+			}
+		});
+		returnRecords.add(new StockRecordImpl() {
+			{
+				this.setTicker("TEST_TICKER");
+				this.setOpen(open_3);
+				this.setClose(close_3);
+				this.setDate(new Date());
+			}
+		});
+		String average_close = stockServiceImpl.averageMonthlyOpenAndClose("TEST_TICKER").get("TEST_TICKER")
+				.get((new SimpleDateFormat("YYYY-MM").format(new Date()))).get("average_close");
+		Assert.assertEquals((close_1 + close_2 + close_3) / 3, Double.parseDouble(average_close), DELTA * 4);
+	}
+
+	@Test
+	public void testMaxDailyProfit_profit()
+	{
+		Double high_1 = Double.parseDouble(RandomStringUtils.random(10, false, true));
+		Double high_2 = Double.parseDouble(RandomStringUtils.random(10, false, true));
+		Double high_3 = Double.parseDouble(RandomStringUtils.random(10, false, true));
+		
+		Double low_1 = Double.parseDouble(RandomStringUtils.random(10, false, true));
+		Double low_2 = Double.parseDouble(RandomStringUtils.random(10, false, true));
+		Double low_3 = Double.parseDouble(RandomStringUtils.random(10, false, true));
+		
+		returnRecords.add(new StockRecordImpl() {
+			{
+				this.setTicker("TEST_TICKER");
+				this.setHigh(high_1);
+				this.setLow(low_1);
+				this.setDate(new Date());
+			}
+		});
+		returnRecords.add(new StockRecordImpl() {
+			{
+				this.setTicker("TEST_TICKER");
+				this.setHigh(high_2);
+				this.setLow(low_2);
+				this.setDate(new Date());
+			}
+		});
+		returnRecords.add(new StockRecordImpl() {
+			{
+				this.setTicker("TEST_TICKER");
+				this.setHigh(high_3);
+				this.setLow(low_3);
+				this.setDate(new Date());
+			}
+		});
+		Double profit_1 = (high_1 - low_1);
+		Double profit_2 = (high_2 - low_2);
+		Double profit_3 = (high_3 - low_3);
+		Double maxProfit = Math.max(profit_1, Math.max(profit_2, profit_3));
+		Assert.assertEquals(maxProfit,
+				Double.parseDouble(stockServiceImpl.maxDailyProfit("TEST_TICKER").get("TEST_TICKER").get("profit")),
+				DELTA);
+	}
+
+	@Test
+	public void testMaxDailyProfit_date()
+	{
+		Date date = new Date(0);
+		returnRecords.add(new StockRecordImpl() {
+			{
+				setTicker("TEST_TICKER");
+				setHigh(Double.parseDouble("100"));
+				setLow(Double.parseDouble("50"));
+				setDate(new Date());
+			}
+		});
+		returnRecords.add(new StockRecordImpl() {
+			{
+				setTicker("TEST_TICKER");
+				setHigh(Double.parseDouble("100"));
+				setLow(Double.parseDouble("95"));
+				setDate(new Date());
+			}
+		});
+		returnRecords.add(new StockRecordImpl() {
+			{
+				setTicker("TEST_TICKER");
+				setHigh(Double.parseDouble("100"));
+				setLow(Double.parseDouble("10"));
+				setDate(date);
+			}
+		});
+
+		Assert.assertEquals((new SimpleDateFormat("yyyy-MM-dd")).format(date),
+				stockServiceImpl.maxDailyProfit("TEST_TICKER").get("TEST_TICKER").get("date"));
+	}
+
+	@Test
+	public void testBiggestLoser() {
+		returnRecords.add(new StockRecordImpl() {
+			{
+				this.setTicker("TEST_TICKER_1");
+				this.setOpen(Double.parseDouble("100"));
+				this.setClose(Double.parseDouble("95"));
+			}
+		});
+		returnRecords.add(new StockRecordImpl() {
+			{
+				this.setTicker("TEST_TICKER_1");
+				this.setOpen(Double.parseDouble("100"));
+				this.setClose(Double.parseDouble("10"));
+			}
+		});
+		returnRecords.add(new StockRecordImpl() {
+			{
+				this.setTicker("TEST_TICKER_2");
+				this.setOpen(Double.parseDouble("100"));
+				this.setClose(Double.parseDouble("5"));
+			}
+		});
+		returnRecords.add(new StockRecordImpl() {
+			{
+				this.setTicker("TEST_TICKER_3");
+				this.setOpen(Double.parseDouble("100"));
+				this.setClose(Double.parseDouble("100"));
+			}
+		});
+		Assert.assertEquals("2",
+				stockServiceImpl.biggestLoser(new String[] { "TEST" }).get("TEST_TICKER_1").toString());
 	}
 
 	@After
 	public void teardown() {
-		volume_1 = null;
-		volume_2 = null;
-		volume_3 = null;
+		returnRecords = null;
 	}
 }
