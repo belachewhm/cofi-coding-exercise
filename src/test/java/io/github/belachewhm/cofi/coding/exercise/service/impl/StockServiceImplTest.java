@@ -39,15 +39,13 @@ public class StockServiceImplTest {
 	@Test
 	public void testAverageVolume_1() {
 		Double volume_1 = Double.parseDouble(RandomStringUtils.random(10, false, true));
-		Double volume_2 = Double.parseDouble(RandomStringUtils.random(10, false, true));
-		Double volume_3 = Double.parseDouble(RandomStringUtils.random(10, false, true));
 		returnRecords.add(new StockRecordImpl() {
 			{
 				setTicker("TEST_TICKER_1");
 				setVolume(volume_1);
 			}
 		});
-		Assert.assertEquals(stockServiceImpl.averageVolume("TEST_TICKER_1"), volume_1, DELTA);
+		Assert.assertEquals(stockServiceImpl.averageVolume("TEST_TICKER_1", returnRecords), volume_1, DELTA);
 	}
 
 	@Test
@@ -73,8 +71,8 @@ public class StockServiceImplTest {
 				setVolume(volume_3);
 			}
 		});
-		Assert.assertEquals(stockServiceImpl.averageVolume("TEST_TICKER"), ((volume_1 + volume_2 + volume_3) / 3),
-				DELTA);
+		Assert.assertEquals(stockServiceImpl.averageVolume("TEST_TICKER", returnRecords),
+				((volume_1 + volume_2 + volume_3) / 3), DELTA);
 	}
 
 	@Test
@@ -100,7 +98,8 @@ public class StockServiceImplTest {
 				setVolume(volume_3);
 			}
 		});
-		Assert.assertEquals(stockServiceImpl.averageVolume("TEST_TICKER_1"), ((volume_1 + volume_2) / 2), DELTA);
+		Assert.assertEquals(stockServiceImpl.averageVolume("TEST_TICKER_1", returnRecords), ((volume_1 + volume_2) / 2),
+				DELTA);
 	}
 
 	@Test
@@ -241,24 +240,24 @@ public class StockServiceImplTest {
 		returnRecords.add(new StockRecordImpl() {
 			{
 				setTicker("TEST_TICKER");
-				setHigh(Double.parseDouble("100"));
-				setLow(Double.parseDouble("50"));
+				setHigh(100.0);
+				setLow(50.0);
 				setDate(new Date());
 			}
 		});
 		returnRecords.add(new StockRecordImpl() {
 			{
 				setTicker("TEST_TICKER");
-				setHigh(Double.parseDouble("100"));
-				setLow(Double.parseDouble("95"));
+				setHigh(100.0);
+				setLow(95.0);
 				setDate(new Date());
 			}
 		});
 		returnRecords.add(new StockRecordImpl() {
 			{
 				setTicker("TEST_TICKER");
-				setHigh(Double.parseDouble("100"));
-				setLow(Double.parseDouble("10"));
+				setHigh(100.0);
+				setLow(10.0);
 				setDate(date);
 			}
 		});
@@ -271,35 +270,35 @@ public class StockServiceImplTest {
 		returnRecords.add(new StockRecordImpl() {
 			{
 				this.setTicker("TEST_TICKER_1");
-				this.setOpen(Double.parseDouble("100"));
-				this.setClose(Double.parseDouble("95"));
+				this.setOpen(100.0);
+				this.setClose(95.0);
 			}
 		});
 		returnRecords.add(new StockRecordImpl() {
 			{
 				this.setTicker("TEST_TICKER_1");
-				this.setOpen(Double.parseDouble("100"));
-				this.setClose(Double.parseDouble("10"));
+				this.setOpen(100.0);
+				this.setClose(10.0);
 			}
 		});
 		returnRecords.add(new StockRecordImpl() {
 			{
 				this.setTicker("TEST_TICKER_2");
-				this.setOpen(Double.parseDouble("100"));
-				this.setClose(Double.parseDouble("5"));
+				this.setOpen(100.0);
+				this.setClose(5.0);
 			}
 		});
 		returnRecords.add(new StockRecordImpl() {
 			{
 				this.setTicker("TEST_TICKER_3");
-				this.setOpen(Double.parseDouble("100"));
-				this.setClose(Double.parseDouble("100"));
+				this.setOpen(100.0);
+				this.setClose(100.0);
 			}
 		});
 		Assert.assertEquals("2",
-				stockServiceImpl.biggestLoser(new String[] { "TEST" }).get("TEST_TICKER_1").toString());
+				stockServiceImpl.biggestLoser(new String[] { "TEST_TICKER_1" }).get("TEST_TICKER_1").toString());
 	}
-
+	
 	@After
 	public void teardown() {
 		returnRecords = null;

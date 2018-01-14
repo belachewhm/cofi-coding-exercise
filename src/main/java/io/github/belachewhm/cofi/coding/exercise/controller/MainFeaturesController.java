@@ -6,5 +6,5 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 public interface MainFeaturesController
 {
-	Map<String, Map<String, Map<String, String>>> averageMonthlyOpenAndClose() throws JsonProcessingException;
+	Map<String, Map<String, Map<String, String>>> averageMonthlyOpenAndClose();
 }

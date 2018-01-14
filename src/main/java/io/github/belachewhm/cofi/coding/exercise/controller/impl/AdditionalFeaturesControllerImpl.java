@@ -3,7 +3,6 @@ package io.github.belachewhm.cofi.coding.exercise.controller.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +34,7 @@ public class AdditionalFeaturesControllerImpl implements AdditionalFeaturesContr
 	
 	@RequestMapping(value = "/maxDailyProfit", method = RequestMethod.GET)
 	@ApiOperation(value = "Which day would provide the highest amount of profit for each security if purchased at the day's low and sold at the day's high", response = String.class)
-	public Map<String, Map<String, String>> maxDailyProfit() throws JsonProcessingException
+	public Map<String, Map<String, String>> maxDailyProfit()
 	{
 		log.info("***** Request Recieved to " + this.getClass().getName() + " *****");
 		return stockService.maxDailyProfit(tickers);
@@ -43,7 +42,7 @@ public class AdditionalFeaturesControllerImpl implements AdditionalFeaturesContr
 
 	@RequestMapping(value = "/biggestLoser", method = RequestMethod.GET)
 	@ApiOperation(value = "Which security had the most days where the closing price was lower than the opening price", response = String.class)
-	public Map<String, Integer> biggestLoser() throws JsonProcessingException
+	public Map<String, Integer> biggestLoser()
 	{
 		log.info("***** Request Recieved to " + this.getClass().getName() + " *****");
 		return stockService.biggestLoser(tickers);
@@ -51,7 +50,7 @@ public class AdditionalFeaturesControllerImpl implements AdditionalFeaturesContr
 	
 	@RequestMapping(value = "/busyDay", method = RequestMethod.GET)
 	@ApiOperation(value = "Which days generated unusually high activity for the securities", response = String.class)
-	public Map<String, Map<String, String>> busyDay() throws JsonProcessingException
+	public Map<String, Map<String, String>> busyDay()
 	{
 		log.info("***** Request Recieved to " + this.getClass().getName() + " *****");
 		return stockService.busyDay(tickers);

@@ -34,7 +34,8 @@ public class MainFeaturesControllerImpl implements MainFeaturesController
 	
 	@RequestMapping(value = "/averageMonthlyOpenAndClose", method = RequestMethod.GET)
 	@ApiOperation(value = "Displays the average monthly open and close prices for each security for each month of data in the data set", response = String.class)
-	public Map<String, Map<String, Map<String, String>>> averageMonthlyOpenAndClose() throws JsonProcessingException {
+	public Map<String, Map<String, Map<String, String>>> averageMonthlyOpenAndClose()
+	{
 		log.info("***** Request Recieved to " + this.getClass().getName() + " *****");
 		return stockService.averageMonthlyOpenAndClose(tickers);
 	}

@@ -31,9 +31,18 @@ public class StockServiceImpl implements StockService {
 	 * @param ticker
 	 * @return
 	 */
-	protected Double averageVolume(String ticker) {
-		return stockRecords.stream().filter(record -> record.getTicker().equalsIgnoreCase(ticker))
-				.mapToDouble(record -> record.getVolume()).average().orElse(0);
+	protected static Double averageVolume(String ticker, List<StockRecord> stockRecords)
+	{
+		Double sum = 0.0;
+		int count = 0;
+		for(StockRecord record : stockRecords)
+		{
+			if(record.getTicker().equalsIgnoreCase(ticker)){
+				sum = sum + record.getVolume();
+				count++;
+			}
+		}
+		return (sum/count);
 	}
 
 	/**
@@ -210,12 +219,14 @@ public class StockServiceImpl implements StockService {
 	 */
 	public Map<String, Map<String, String>> busyDay(List<String> tickers) {
 		Map<String, Map<String, String>> resultMap = new LinkedHashMap<String, Map<String, String>>();
-		for (String ticker : tickers) {
+		for (String ticker : tickers)
+		{
+			Double averageVolume = averageVolume(ticker, stockRecords);
 			resultMap.put(ticker, new LinkedHashMap<String, String>() {
 				{
 					stockRecords.stream()
 							.filter(record -> record.getTicker().equalsIgnoreCase(ticker)
-									&& record.getVolume() > (averageVolume(ticker) * 1.1))
+									&& record.getVolume() > (averageVolume * 1.1))
 							.collect(Collectors.toMap(StockRecord::getDate, record -> record.getVolume()))
 							.forEach((k, v) -> {
 								put(new SimpleDateFormat("YYYY-MM-dd").format(k),
