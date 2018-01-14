@@ -15,18 +15,18 @@ import lombok.Setter;
 public class StockRecordImpl implements StockRecord {
 	private String ticker;
 	private Date date;
-	private double open;
-	private double high;
-	private double low;
-	private double close;
-	private double volume;
-	private double ex_dividend;
-	private double split_ratio;
-	private double adj_open;
-	private double adj_high;
-	private double adj_low;
-	private double adj_close;
-	private double adj_volume;
+	private Double open;
+	private Double high;
+	private Double low;
+	private Double close;
+	private Double volume;
+	private Double ex_dividend;
+	private Double split_ratio;
+	private Double adj_open;
+	private Double adj_high;
+	private Double adj_low;
+	private Double adj_close;
+	private Double adj_volume;
 
 	public StockRecordImpl(String ticker, String date, String open, String high, String low, String close,
 			String volume, String ex_dividend, String split_ratio, String adj_open, String adj_high, String adj_low,
@@ -51,11 +51,11 @@ public class StockRecordImpl implements StockRecord {
 		return (new SimpleDateFormat("yyyy-MM")).format(date);
 	}
 
-	public double calculateMaximumDailyProfit() {
+	public Double calculateMaximumDailyProfit() {
 		return (high - low);
 	}
 	
-	public boolean isLoser()
+	public Boolean isLoser()
 	{
 		return (close < open);
 	}

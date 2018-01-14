@@ -161,7 +161,7 @@ public class StockServiceImpl implements StockService {
 		}};
 		return biggestLoserMap;
 	}
-
+	
 	/**
 	 * 
 	 * @param ticker
@@ -193,7 +193,8 @@ public class StockServiceImpl implements StockService {
 	 *            a list of ticker symbols
 	 * @return
 	 */
-	public Map<String, Map<String, String>> busyDay(List<String> tickers) {
+	public Map<String, Map<String, String>> busyDay(List<String> tickers)
+	{
 		Map<String, Map<String, String>> resultMap = new LinkedHashMap<String, Map<String, String>>();
 		for (String ticker : tickers) {
 			// TODO: Add implementation
@@ -201,6 +202,16 @@ public class StockServiceImpl implements StockService {
 		return resultMap;
 	}
 
+	/**
+	 * 
+	 * @param ticker
+	 * @return
+	 */
+	 public double averageVolume(String ticker)
+	 {
+		 return stockRecords.stream().filter(record -> record.getTicker().equalsIgnoreCase(ticker)).mapToDouble(record -> record.getVolume()).average().orElse(0);
+	 }
+	
 	/**
 	 * important to set scale and round AFTER all calculations have been
 	 * completed, so as not to lose precision

@@ -5,15 +5,17 @@ import java.util.Date;
 public interface StockRecord {
 	String getMonthAndYear();
 
-	double calculateMaximumDailyProfit();
+	Double calculateMaximumDailyProfit();
 
 	String getTicker();
 
-	double getOpen();
+	Double getOpen();
 
-	double getClose();
+	Double getClose();
 
 	Date getDate();
 	
-	boolean isLoser();
+	Boolean isLoser();
+	
+	Double getVolume();
 }

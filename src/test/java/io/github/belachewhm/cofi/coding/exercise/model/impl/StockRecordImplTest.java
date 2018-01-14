@@ -10,7 +10,7 @@ import org.junit.Test;
 import org.meanbean.test.BeanTester;
 
 public class StockRecordImplTest {
-	double DELTA = 0.001;
+	private double DELTA = 0.001;
 
 	@Test
 	public void testBean() {
