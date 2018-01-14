@@ -195,16 +195,13 @@ public class StockServiceImplTest {
 	}
 
 	@Test
-	public void testMaxDailyProfit_profit()
-	{
+	public void testMaxDailyProfit_profit() {
 		Double high_1 = Double.parseDouble(RandomStringUtils.random(10, false, true));
 		Double high_2 = Double.parseDouble(RandomStringUtils.random(10, false, true));
 		Double high_3 = Double.parseDouble(RandomStringUtils.random(10, false, true));
-		
 		Double low_1 = Double.parseDouble(RandomStringUtils.random(10, false, true));
 		Double low_2 = Double.parseDouble(RandomStringUtils.random(10, false, true));
 		Double low_3 = Double.parseDouble(RandomStringUtils.random(10, false, true));
-		
 		returnRecords.add(new StockRecordImpl() {
 			{
 				this.setTicker("TEST_TICKER");
@@ -239,8 +236,7 @@ public class StockServiceImplTest {
 	}
 
 	@Test
-	public void testMaxDailyProfit_date()
-	{
+	public void testMaxDailyProfit_date() {
 		Date date = new Date(0);
 		returnRecords.add(new StockRecordImpl() {
 			{
@@ -266,7 +262,6 @@ public class StockServiceImplTest {
 				setDate(date);
 			}
 		});
-
 		Assert.assertEquals((new SimpleDateFormat("yyyy-MM-dd")).format(date),
 				stockServiceImpl.maxDailyProfit("TEST_TICKER").get("TEST_TICKER").get("date"));
 	}
