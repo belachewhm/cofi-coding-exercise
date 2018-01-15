@@ -8,7 +8,6 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-// @EnableCircuitBreaker
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer implements CommandLineRunner {
 	public static void main(String[] args) {

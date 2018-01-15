@@ -35,7 +35,8 @@ public class MainFeaturesControllerImplTest {
 	public void testAverageMonthlyOpenAndClose() throws Exception {
 		Map<String, Map<String, Map<String, String>>> testMap = new LinkedHashMap<String, Map<String, Map<String, String>>>();
 		Mockito.when(mockService.averageMonthlyOpenAndClose(Mockito.anyList())).thenReturn(testMap);
-		MvcResult result = mockMvc.perform(get("/averageMonthlyOpenAndClose")).andDo(print()).andExpect(status().isOk()).andReturn();
+		MvcResult result = mockMvc.perform(get("/averageMonthlyOpenAndClose")).andDo(print()).andExpect(status().isOk())
+				.andReturn();
 		// TODO: Assert further expectations
 	}
 }

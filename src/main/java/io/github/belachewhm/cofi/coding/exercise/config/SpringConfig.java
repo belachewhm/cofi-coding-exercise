@@ -25,16 +25,15 @@ public class SpringConfig {
 	@Autowired
 	private Environment environment;
 
-	@Autowired 
+	@Autowired
 	private BufferedReader bufferedReader;
-	
+
 	private URL url;
-	
+
 	private HttpURLConnection httpURLConnection;
-	
+
 	@Bean
-	public BufferedReader bufferedReader() throws IOException
-	{
+	public BufferedReader bufferedReader() throws IOException {
 		url = new URL(environment.getProperty("quandl.api.endpoint"));
 		httpURLConnection = (HttpURLConnection) url.openConnection();
 		httpURLConnection.setRequestMethod("GET");
@@ -45,7 +44,7 @@ public class SpringConfig {
 		log.info("Connection Successful!");
 		return new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
 	}
-	
+
 	@Bean
 	public List<StockRecord> stockRecords() throws IOException {
 		log.info("Injesting Records...");
@@ -64,8 +63,7 @@ public class SpringConfig {
 			}).collect(Collectors.toList());
 			log.info("Record Injestion Successful!");
 			log.info("Number of Records Injested: " + stockRecords.size());
-		}
-		finally{
+		} finally {
 			bufferedReader.close();
 		}
 		return stockRecords;

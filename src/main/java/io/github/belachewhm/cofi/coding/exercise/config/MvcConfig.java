@@ -10,11 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Configuration
 @Import(Swagger2Config.class)
-public class MvcConfig extends WebMvcConfigurerAdapter
-{
+public class MvcConfig extends WebMvcConfigurerAdapter {
 	@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry)
-	{
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		log.info("Adding resource handlers...");
 		registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
 		registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");

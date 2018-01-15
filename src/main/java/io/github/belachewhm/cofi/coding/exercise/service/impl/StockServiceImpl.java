@@ -25,7 +25,7 @@ import io.github.belachewhm.cofi.coding.exercise.service.StockService;
 public class StockServiceImpl implements StockService {
 	@Autowired
 	private List<StockRecord> stockRecords;
-		
+
 	/**
 	 * 
 	 * @param ticker
@@ -159,47 +159,43 @@ public class StockServiceImpl implements StockService {
 		};
 		return biggestLoserMap;
 	}
-	
+
 	/**
 	 * 
 	 * @param ticker
 	 *            a single ticker symbol
 	 * @return
 	 */
-	public Map<String, String> averageVolume(String ticker)
-	{
+	public Map<String, String> averageVolume(String ticker) {
 		return averageVolume(new String[] { ticker });
-		
+
 	}
-	
+
 	/**
 	 * 
 	 * @param tickers
 	 *            an array of ticker symbols ex. {"COF","GOOGL","MSFT"}
 	 * @return
 	 */
-	public Map<String, String> averageVolume(String[] tickers)
-	{
+	public Map<String, String> averageVolume(String[] tickers) {
 		return averageVolume(Arrays.asList(tickers));
-		
+
 	}
-	
+
 	/**
 	 * 
 	 * @param tickers
 	 *            a list of ticker symbols
 	 * @return
 	 */
-	public Map<String, String> averageVolume(List<String> tickers)
-	{
+	public Map<String, String> averageVolume(List<String> tickers) {
 		Map<String, String> averageVolumeMap = new LinkedHashMap<String, String>();
-		for(String ticker : tickers)
-		{
+		for (String ticker : tickers) {
 			averageVolumeMap.put(ticker, (new DecimalFormat("#.00")).format(averageVolume(ticker, stockRecords)));
 		}
 		return averageVolumeMap;
 	}
-	
+
 	/**
 	 * 
 	 * @param ticker
@@ -229,8 +225,7 @@ public class StockServiceImpl implements StockService {
 	 */
 	public Map<String, Map<String, String>> busyDay(List<String> tickers) {
 		Map<String, Map<String, String>> resultMap = new LinkedHashMap<String, Map<String, String>>();
-		for (String ticker : tickers)
-		{
+		for (String ticker : tickers) {
 			Double averageVolume = averageVolume(ticker, stockRecords);
 			resultMap.put(ticker, new LinkedHashMap<String, String>() {
 				{
@@ -247,24 +242,23 @@ public class StockServiceImpl implements StockService {
 		}
 		return resultMap;
 	}
-	
+
 	/**
 	 * 
 	 * @param ticker
 	 * @return
 	 */
-	protected static Double averageVolume(String ticker, List<StockRecord> stockRecords)
-	{
+	protected static Double averageVolume(String ticker, List<StockRecord> stockRecords) {
 		Double sum = 0.0;
 		int count = 0;
-		for(StockRecord record : stockRecords)
-		{
-			if(record.getTicker().equalsIgnoreCase(ticker)){
+		for (StockRecord record : stockRecords) {
+			if (record.getTicker().equalsIgnoreCase(ticker)) {
 				sum = sum + record.getVolume();
-				count++;
+				count = count + 1;
 			}
 		}
-		return (sum/count);
+		Double averageVolume = sum / count;
+		return averageVolume;
 	}
 
 	/**

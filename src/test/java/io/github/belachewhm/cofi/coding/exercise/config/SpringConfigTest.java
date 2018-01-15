@@ -7,7 +7,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.List;
 
 import org.junit.Assert;
@@ -28,13 +27,13 @@ public class SpringConfigTest {
 
 	@Mock
 	private BufferedReader bufferedReader;
-	
+
 	@Mock
 	private HttpURLConnection httpURLConnection;
 
 	@Mock
 	private InputStream inputStream;
-	
+
 	@InjectMocks
 	SpringConfig springConfig;
 

@@ -1,5 +1,6 @@
 package io.github.belachewhm.cofi.coding.exercise.controller.impl;
 
+import static org.mockito.Matchers.anyList;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -30,27 +31,36 @@ public class AdditionalFeaturesControllerImplTest {
 
 	@Autowired
 	private MockMvc mockMvc;
-	
+
 	@Test
 	public void testMaxDailyProfit() throws Exception {
 		Map<String, Map<String, String>> testMap = new LinkedHashMap<String, Map<String, String>>();
-		Mockito.when(mockService.maxDailyProfit(Mockito.anyList())).thenReturn(testMap);
-		MvcResult result = mockMvc.perform(get("/maxDailyProfit")).andDo(print()).andExpect(status().isOk()).andReturn();
+		Mockito.when(mockService.maxDailyProfit(anyList())).thenReturn(testMap);
+		MvcResult result = mockMvc.perform(get("/maxDailyProfit")).andDo(print()).andExpect(status().isOk())
+				.andReturn();
 		// TODO: Assert further expectations
 	}
 
 	@Test
-	public void testBiggestLoser() throws Exception
-	{
-		Map<String, Integer> testMap = new LinkedHashMap<String, Integer>();
-		Mockito.when(mockService.biggestLoser(Mockito.anyList())).thenReturn(testMap);
-		MvcResult result = mockMvc.perform(get("/biggestLoser")).andDo(print()).andExpect(status().isOk()).andReturn();
-		// TODO: Assert further expectations
+	public void testAverageVolume() throws Exception {
+		Map<String, String> testMap = new LinkedHashMap<String, String>();
+		Mockito.when(mockService.averageVolume(anyList())).thenReturn(testMap);
+		MvcResult result = mockMvc.perform(get("/averageVolume")).andDo(print()).andExpect(status().isOk()).andReturn();
 	}
 
 	@Test
 	public void testBusyDay() throws Exception {
+		Map<String, Map<String, String>> testMap = new LinkedHashMap<String, Map<String, String>>();
+		Mockito.when(mockService.busyDay(anyList())).thenReturn(testMap);
 		MvcResult result = mockMvc.perform(get("/busyDay")).andDo(print()).andExpect(status().isOk()).andReturn();
+		// TODO: Assert further expectations
+	}
+
+	@Test
+	public void testBiggestLoser() throws Exception {
+		Map<String, Integer> testMap = new LinkedHashMap<String, Integer>();
+		Mockito.when(mockService.biggestLoser(anyList())).thenReturn(testMap);
+		MvcResult result = mockMvc.perform(get("/biggestLoser")).andDo(print()).andExpect(status().isOk()).andReturn();
 		// TODO: Assert further expectations
 	}
 }

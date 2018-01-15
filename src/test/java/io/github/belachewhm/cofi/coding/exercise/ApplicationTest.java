@@ -1,11 +1,10 @@
 package io.github.belachewhm.cofi.coding.exercise;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import org.junit.Assert;
 
 @SpringBootTest(classes = Application.class)
 public class ApplicationTest {

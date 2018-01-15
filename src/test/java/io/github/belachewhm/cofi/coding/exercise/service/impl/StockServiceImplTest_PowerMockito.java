@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -38,17 +39,19 @@ import io.github.belachewhm.cofi.coding.exercise.model.impl.StockRecordImpl;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(StockServiceImpl.class)
-public class StockServiceImplTest_busyDay {
+public class StockServiceImplTest_PowerMockito {
 	@Mock
 	private List<StockRecord> mockStockRecords;
 
 	@InjectMocks
 	private StockServiceImpl stockServiceImpl;
 
+	private Double DELTA = 0.001;
 	private List<StockRecord> returnRecords;
 
 	@Before
 	public void setup() {
+		PowerMockito.mockStatic(StockServiceImpl.class);
 		returnRecords = new ArrayList<StockRecord>();
 		Mockito.when(mockStockRecords.stream()).thenReturn(returnRecords.stream());
 	}
@@ -58,24 +61,51 @@ public class StockServiceImplTest_busyDay {
 		Date date = new Date();
 		returnRecords.add(new StockRecordImpl() {
 			{
-				this.setTicker("TEST_TICKER");
-				this.setVolume(100.0);
-				this.setDate(date);
+				setTicker("TEST_TICKER");
+				setVolume(100.0);
+				setDate(date);
 			}
 		});
 		returnRecords.add(new StockRecordImpl() {
 			{
-				this.setTicker("TEST_TICKER");
-				this.setVolume(0.0);
-				this.setDate(new Date(0));
+				setTicker("TEST_TICKER");
+				setVolume(0.0);
+				setDate(new Date(0));
 			}
 		});
-
-		PowerMockito.mockStatic(StockServiceImpl.class);
 		PowerMockito.when(StockServiceImpl.averageVolume(anyString(), anyObject())).thenReturn(50.0);
 		Map<String, Map<String, String>> busyDayMap = stockServiceImpl.busyDay("TEST_TICKER");
 		Assert.assertEquals("100.00",
 				busyDayMap.get("TEST_TICKER").get(new SimpleDateFormat("YYYY-MM-dd").format(date)));
+	}
+
+	@Test
+	public void testAverageVolume() {
+		Double volume_1 = Double.parseDouble(RandomStringUtils.random(10, false, true));
+		Double volume_2 = Double.parseDouble(RandomStringUtils.random(10, false, true));
+		Double volume_3 = Double.parseDouble(RandomStringUtils.random(10, false, true));
+		Double averageVolume = (volume_1 + volume_2 + volume_3) / 3;
+		mockStockRecords.add(new StockRecordImpl() {
+			{
+				setTicker("TEST_TICKER");
+				setVolume(volume_1);
+			}
+		});
+		mockStockRecords.add(new StockRecordImpl() {
+			{
+				setTicker("TEST_TICKER");
+				setVolume(volume_2);
+			}
+		});
+		mockStockRecords.add(new StockRecordImpl() {
+			{
+				setTicker("TEST_TICKER");
+				setVolume(volume_3);
+			}
+		});
+		PowerMockito.when(StockServiceImpl.averageVolume(anyString(), anyObject())).thenReturn(averageVolume);
+		Assert.assertEquals(averageVolume,
+				Double.parseDouble(stockServiceImpl.averageVolume("TEST_TICKER").get("TEST_TICKER")), DELTA * 4);
 	}
 
 	@After
