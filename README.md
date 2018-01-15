@@ -1,14 +1,15 @@
-# COFI_Coding_Exercise
-
-This application retrieves pricing data from the Quandl WIKI Stock Price API for a given date range and set of securities, exposes APIs with Metadata about the securities data, and provides a customized Swagger Page as a user interface
+# COFI Coding Exercise
 
 * [Summary](#summary)
 * [Tech-Stack](#tech-stack)
 * [Build](#build)
 * [Run](#run)
+* [Swagger-Page](#swagger-page)
 * [Contributors](#contributors)
 
 ## Summary
+
+This application retrieves pricing data from the Quandl WIKI Stock Price API for a given date range and set of securities, exposes APIs with Metadata about the securities data, and provides a customized Swagger Page as a user interface
 
 ## Tech Stack
 
@@ -62,6 +63,12 @@ OR
 From the root folder, run the following command
 
 	mvn spring-boot:run
+	
+## Swagger Page
+
+Once the application is up and running, you can view the swagger page by navigating to the following link in your browser window
+
+	http://localhost:8080/cofi-coding-exercise/swagger-ui.html#/
 
 ## Contributors
 
