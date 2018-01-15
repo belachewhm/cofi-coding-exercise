@@ -4,7 +4,7 @@
 * [Tech-Stack](#tech-stack)
 * [Build](#build)
 * [Run](#run)
-* [Swagger-Page](#swagger-page)
+* [Swagger Page](#swagger-page)
 * [Contributors](#contributors)
 
 ## Summary
