@@ -3,8 +3,10 @@ project:
   name: @project.name@
   version: @project.version@
   description: @project.description@
+spring:
+  profiles:
+    active: "dev"
 server:
-  context-path: /cofi-coding-exercise
   port: 8080
 endpoints:
   shutdown:
@@ -17,3 +19,13 @@ management:
 quandl:
   api:
     endpoint: 'https://www.quandl.com/api/v3/datatables/WIKI/PRICES.csv?ticker=COF,GOOGL,MSFT&date.gte=2017-01-01&date.lte=2017-06-30&api_key=s-GMZ_xkw6CrkGYUWs1p'
+---
+spring:
+  profiles: "dev"
+server:
+  context-path: /cofi-coding-exercise
+---
+spring:
+  profiles: prod
+server:
+  context-path: /
