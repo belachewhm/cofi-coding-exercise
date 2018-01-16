@@ -25,12 +25,9 @@ This application retrieves pricing data from the Quandl WIKI Stock Price API for
 
 ## Build
 
-In order to build this application, you must have JDK8 (1.8.0_111 or greater) and Maven (3.3.9 or greater) installed onto your machine.  
-The following are maven build goals that, when invoked from the project's root folder, will build the application.
+In order to build this application, you must have JDK8 (1.8.0_111 or greater) and Maven (3.3.9 or greater) installed onto your machine. The following are maven build goals that, when invoked from the project's root folder, will build the application.
 
-<br>
-
-* Delete the target folder  
+Delete the target folder  
 
 	mvn clean
 	
