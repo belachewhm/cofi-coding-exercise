@@ -8,6 +8,7 @@
 * [Run](#run)
 * [Swagger Page](#swagger-page)
 * [Troubleshooting](#troubleshooting)
+* [CICD](#cicd)
 * [Contributors](#contributors)
 
 ## Summary
@@ -115,8 +116,6 @@ From the root folder, use the following command:
 
 	mvn spring-boot:run
 
-**Note:** Using the "*mvn spring-boot:run*" command above does not require a project build, and is generally the preferred way of running the application.
-
 ## Troubleshooting
 
 This application connects to the Quandl WIKI Stock Price API to retrieve data. Connection to this API may be blocked from some firewalled networks (such as a work or school network). If you experience any issues connecting to the API, try to switch onto a different network and try again.
@@ -126,6 +125,13 @@ This application connects to the Quandl WIKI Stock Price API to retrieve data. C
 Once the application is up and running, you can view the swagger page by navigating to the following link in your browser window:
 
 	http://localhost:8080/cofi-coding-exercise/swagger-ui.html#/
+
+## CICD
+
+I took the liberty of hooking the application up to a (basic) CICD pipeline with Travis CI and Heroku.
+
+* [Travis CI Build](https://travis-ci.org/belachewhm/cofi-coding-exercise)  
+* [Heroku Application](https://cofi-coding-exercise.herokuapp.com/cofi-coding-exercise/swagger-ui.html)
 
 ## Contributors
 
