@@ -20,28 +20,28 @@ This application retrieves pricing data from the Quandl WIKI Stock Price API for
 			<th>Description</th>
 		</tr>
 		<tr style="background: #D0E4F5;">
-			<td style="padding: 10px;font-weight:bold;">Average Monthly Open and Close</td>
-			<td style="padding: 10px;">{base_url}:8080/cofi-coding-exercise/<b>averageMonthlyOpenAndClose</b></td>
+			<td style="padding: 10px;">Average Monthly Open and Close</td>
+			<td style="padding: 10px;">/<b>averageMonthlyOpenAndClose</b></td>
 			<td style="padding: 10px;">Calculates the average monthly open and close prices for each security for each month of data in the data set</td>
 		</tr>
 		<tr>
-			<td style="padding: 10px;font-weight:bold;">Average Volume</td>
-			<td style="padding: 10px;">{base_url}:8080/cofi-coding-exercise/<b>averageVolume</b></td>
+			<td style="padding: 10px;">Average Volume</td>
+			<td style="padding: 10px;">/<b>averageVolume</b></td>
 			<td style="padding: 10px;">Calculates and returns the average volumes for each security</td>
 		</tr>
 		<tr style="background: #D0E4F5;">
-			<td style="padding: 10px;font-weight:bold;">Biggest Loser</td>
-			<td style="padding: 10px;">{base_url}:8080/cofi-coding-exercise/<b>biggestLoser</b></td>
+			<td style="padding: 10px;">Biggest Loser</td>
+			<td style="padding: 10px;">/<b>biggestLoser</b></td>
 			<td style="padding: 10px;">Calculates and returns which security had the most days where the closing price was lower than the opening price</td>
 		</tr>
 		<tr>
-			<td style="padding: 10px;font-weight:bold;">Busy Day</td>
-			<td style="padding: 10px;">{base_url}:8080/cofi-coding-exercise/<b>busyDay</b></td>
+			<td style="padding: 10px;">Busy Day</td>
+			<td style="padding: 10px;">/<b>busyDay</b></td>
 			<td style="padding: 10px;">Calculates and returns which days generated unusually high activity for the securities</td>
 		</tr>
 		<tr style="background: #D0E4F5;">
-			<td style="padding: 10px;font-weight:bold;">Max Daily Profit</td>
-			<td style="padding: 10px;">{base_url}:8080/cofi-coding-exercise/<b>maxDailyProfit</b></td>
+			<td style="padding: 10px;">Max Daily Profit</td>
+			<td style="padding: 10px;">/<b>maxDailyProfit</b></td>
 			<td style="padding: 10px;">Calculates and returns which day would provide the highest amount of profit for each security if purchased at the day's low and sold at the day's high</td>
 		</tr>
 	</tbody>
@@ -58,9 +58,16 @@ This application also generates a customized Swagger Page that serves as a user 
 	<img height="200" width="189" src="src/main/resources/images/java8-logo.png" title="Java 8">
 	<img height="100" width="375" src="src/main/resources/images/spring-boot-logo.png" title="Spring/Spring Boot">
 	<img height="130" width="375" src="src/main/resources/images/maven-logo.png" title="Apache Maven">
-	<!-- <img height="130" width="155" src="src/main/resources/images/docker-logo.png" title="Docker"> -->
 	<img height="100" width="330" src="src/main/resources/images/swagger-logo.png" title="Swagger 2">
 </p>
+
+The following technologies were used to build this application:  
+
+* Java (jdk1.8.0_111)
+* Spring Boot (v1.5.2.RELEASE)
+* Apache Maven (v3.3.9)
+* Swagger/Swagger-UI (v2.7.0)
+* Git (v2.10.0.windows.1)
 
 ## Build
 
@@ -106,7 +113,7 @@ From the root folder, use the following command:
 
 	mvn spring-boot:run
 
-**Note:** Using the "mvn spring-boot:run" command above does not require a project build, and is generally the preferred way of running the application.
+**Note:** Using the "*mvn spring-boot:run*" command above does not require a project build, and is generally the preferred way of running the application.
 
 ## Troubleshooting
 
