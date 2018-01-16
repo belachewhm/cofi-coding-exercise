@@ -1,5 +1,7 @@
 # COFI Coding Exercise
 
+[![Build Status](https://travis-ci.org/belachewhm/cofi-coding-exercise.svg?branch=master)](https://travis-ci.org/belachewhm/cofi-coding-exercise)
+
 * [Summary](#summary)
 * [Tech-Stack](#tech-stack)
 * [Build](#build)
