@@ -1,8 +1,6 @@
 # COFI Coding Exercise
 
-[![Build Status](https://travis-ci.org/belachewhm/cofi-coding-exercise.svg?branch=master)](https://travis-ci.org/belachewhm/cofi-coding-exercise)
-
-[![Coverage Status](https://coveralls.io/repos/github/belachewhm/cofi-coding-exercise/badge.svg?branch=master)](https://coveralls.io/github/belachewhm/cofi-coding-exercise?branch=master)
+[![Build Status](https://travis-ci.org/belachewhm/cofi-coding-exercise.svg?branch=master)](https://travis-ci.org/belachewhm/cofi-coding-exercise)[![Coverage Status](https://coveralls.io/repos/github/belachewhm/cofi-coding-exercise/badge.svg?branch=master)](https://coveralls.io/github/belachewhm/cofi-coding-exercise?branch=master)
 
 * [Summary](#summary)
 * [Tech-Stack](#tech-stack)
