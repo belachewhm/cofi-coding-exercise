@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/belachewhm/cofi-coding-exercise.svg?branch=master)](https://travis-ci.org/belachewhm/cofi-coding-exercise)
 
+[![Coverage Status](https://coveralls.io/repos/github/belachewhm/cofi-coding-exercise/badge.svg?branch=master)](https://coveralls.io/github/belachewhm/cofi-coding-exercise?branch=master)
+
 * [Summary](#summary)
 * [Tech-Stack](#tech-stack)
 * [Build](#build)
@@ -128,9 +130,10 @@ Once the application is up and running, you can view the swagger page by navigat
 
 ## CICD
 
-I took the liberty of hooking the application up to a (basic) CICD pipeline with Travis CI and Heroku.
+I took the liberty of hooking the application up to a (basic) CICD pipeline with Travis CI, Coveralls, and Heroku.
 
-* [Travis CI Build](https://travis-ci.org/belachewhm/cofi-coding-exercise)  
+* [Travis CI Build](https://travis-ci.org/belachewhm/cofi-coding-exercise)
+* [Coveralls Code Coverage](https://coveralls.io/github/belachewhm/cofi-coding-exercise?branch=master) 
 * [Heroku Application](https://cofi-coding-exercise.herokuapp.com/cofi-coding-exercise/swagger-ui.html)
 
 ## Contributors
