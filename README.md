@@ -30,7 +30,7 @@ The following are maven build goals that, when invoked from the project's root f
 
 <br>
 
-* Delete the target folder
+* Delete the target folder  
 
 	mvn clean
 	
