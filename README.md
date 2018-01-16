@@ -5,6 +5,7 @@
 * [Build](#build)
 * [Run](#run)
 * [Swagger Page](#swagger-page)
+* [Troubleshooting](#troubleshooting)
 * [Contributors](#contributors)
 
 ## Summary
@@ -24,7 +25,12 @@ This application retrieves pricing data from the Quandl WIKI Stock Price API for
 
 ## Build
 
-Delete the target folder
+In order to build this application, you must have JDK8 (1.8.0_111 or greater) and Maven (3.3.9 or greater) installed onto your machine.  
+The following are maven build goals that, when invoked from the project's root folder, will build the application.
+
+<br>
+
+* Delete the target folder
 
 	mvn clean
 	
@@ -63,7 +69,12 @@ OR
 From the root folder, run the following command
 
 	mvn spring-boot:run
-	
+
+## Troubleshooting
+
+This application connects to the Quandl WIKI Stock Price API to retrieve data. Connection to this API may be blocked from some firewalled networks (such as a work or school network).  
+If you experience any issues connecting to the API, switch networks and try again.
+
 ## Swagger Page
 
 Once the application is up and running, you can view the swagger page by navigating to the following link in your browser window
