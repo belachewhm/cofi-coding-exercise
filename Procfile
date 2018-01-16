@@ -1,0 +1,1 @@
+web: java $JAVA_OPTS -Dserver.port=$PORT -jar target/cofi-coding-exercise.jar -Dspring.profiles.active=prod
