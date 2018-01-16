@@ -25,14 +25,14 @@ This application retrieves pricing data from the Quandl WIKI Stock Price API for
 			<td style="padding: 10px;">Calculates the average monthly open and close prices for each security for each month of data in the data set</td>
 		</tr>
 		<tr>
-			<td style="padding: 10px;font-weight:bold;">Max Daily Profit</td>
-			<td style="padding: 10px;">{base_url}:8080/cofi-coding-exercise/<b>maxDailyProfit</b></td>
-			<td style="padding: 10px;">Calculates and returns which day would provide the highest amount of profit for each security if purchased at the day's low and sold at the day's high</td>
-		</tr>
-		<tr style="background: #D0E4F5;">
 			<td style="padding: 10px;font-weight:bold;">Average Volume</td>
 			<td style="padding: 10px;">{base_url}:8080/cofi-coding-exercise/<b>averageVolume</b></td>
 			<td style="padding: 10px;">Calculates and returns the average volumes for each security</td>
+		</tr>
+		<tr style="background: #D0E4F5;">
+			<td style="padding: 10px;font-weight:bold;">Biggest Loser</td>
+			<td style="padding: 10px;">{base_url}:8080/cofi-coding-exercise/<b>biggestLoser</b></td>
+			<td style="padding: 10px;">Calculates and returns which security had the most days where the closing price was lower than the opening price</td>
 		</tr>
 		<tr>
 			<td style="padding: 10px;font-weight:bold;">Busy Day</td>
@@ -40,15 +40,17 @@ This application retrieves pricing data from the Quandl WIKI Stock Price API for
 			<td style="padding: 10px;">Calculates and returns which days generated unusually high activity for the securities</td>
 		</tr>
 		<tr style="background: #D0E4F5;">
-			<td style="padding: 10px;font-weight:bold;">Biggest Loser</td>
-			<td style="padding: 10px;">{base_url}:8080/cofi-coding-exercise/<b>biggestLoser</b></td>
-			<td style="padding: 10px;">Calculates and returns which security had the most days where the closing price was lower than the opening price</td>
+			<td style="padding: 10px;font-weight:bold;">Max Daily Profit</td>
+			<td style="padding: 10px;">{base_url}:8080/cofi-coding-exercise/<b>maxDailyProfit</b></td>
+			<td style="padding: 10px;">Calculates and returns which day would provide the highest amount of profit for each security if purchased at the day's low and sold at the day's high</td>
 		</tr>
 	</tbody>
-</table>
-  
+</table>  
+
 This application also generates a customized Swagger Page that serves as a user interface for the above APIs.
-  
+
+<img width="888px" src="src/main/resources/images/swagger-screenshot.png" title="COFI Coding Exercise Swagger Page" align="center">
+
 ## Tech Stack
 
 <p>
