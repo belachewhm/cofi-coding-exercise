@@ -7,6 +7,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.List;
 
 import org.junit.Assert;
@@ -36,6 +38,32 @@ public class SpringConfigTest {
 
 	@InjectMocks
 	SpringConfig springConfig;
+
+	@Test
+	public void testSetConnectionProperties() {
+		try
+		{
+			Mockito.doNothing().when(httpURLConnection).setRequestMethod(Mockito.anyString());
+			Mockito.doNothing().when(httpURLConnection).setConnectTimeout(Mockito.anyInt());
+			Mockito.doNothing().when(httpURLConnection).setRequestProperty(Mockito.anyString(), Mockito.anyString());
+			springConfig.setConnectionProperties(httpURLConnection);
+		} catch (ProtocolException pe) {
+			Assert.fail(pe.getMessage());
+		}
+	}
+
+	@Test
+	public void testConnect() {
+		try
+		{
+			URL url = new URL("http://localhost");
+			Mockito.when(httpURLConnection.getURL()).thenReturn(url);
+			Mockito.doNothing().when(httpURLConnection).connect();
+			springConfig.connect(httpURLConnection);
+		} catch (IOException ioe) {
+			Assert.fail(ioe.getMessage());
+		}
+	}
 
 	@Test
 	public void testStockRecords_10000() throws IOException {
