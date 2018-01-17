@@ -106,9 +106,9 @@ In order to build this application, you must have JDK8 (1.8.0_111 or greater) an
 
 ## Run
 
-Build the project, navigate to the target folder (or wherever the runnable jar file is located), and use the following command:
+Build the project, and use the following command:
 
-	java -jar cofi-coding-exercise.jar
+	java -jar target/cofi-coding-exercise.jar
 	
 OR
 
