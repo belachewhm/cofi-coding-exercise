@@ -32,7 +32,6 @@ public final class Util {
 				count = count + 1;
 			}
 		}
-		Double averageVolume = sum / count;
-		return averageVolume;
+		return (sum/count);
 	}
 }

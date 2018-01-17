@@ -109,6 +109,10 @@ public class AdditionalFeaturesServiceImplTest {
 				additionalFeaturesServiceImpl.maxDailyProfit("TEST_TICKER").get("TEST_TICKER").get("date"));
 	}
 
+	//TODO: add test cases for averageVolume
+	
+	//TODO: add test cases for busyDay
+	
 	@Test
 	public void testBiggestLoser() {
 		returnRecords.add(new StockRecord() {
