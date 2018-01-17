@@ -1,20 +1,21 @@
 package io.github.belachewhm.cofi.coding.exercise.config;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.ProtocolException;
-import java.net.URL;
 import java.text.ParseException;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.web.client.RestTemplate;
 
 import io.github.belachewhm.cofi.coding.exercise.model.StockRecord;
 import lombok.extern.slf4j.Slf4j;
@@ -26,31 +27,25 @@ public class SpringConfig {
 	private Environment environment;
 
 	@Autowired
+	private RestTemplate restTemplate;
+
+	@Autowired
 	private BufferedReader bufferedReader;
-	
+
 	@Bean
-	public BufferedReader bufferedReader() throws IOException {
-		URL url = new URL(environment.getProperty("quandl.api.endpoint"));
-		HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-		setConnectionProperties(httpURLConnection);
-		connect(httpURLConnection);
-		return new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
+	public RestTemplate restTemplate(RestTemplateBuilder builder) {
+		return builder.build();
 	}
 
-	protected void setConnectionProperties(HttpURLConnection httpURLConnection) throws ProtocolException
-	{
-		httpURLConnection.setRequestMethod("GET");
-		httpURLConnection.setConnectTimeout(60 * 1000);
-		httpURLConnection.setRequestProperty("User-Agent", "Mozilla/5.0");
+	@Bean
+	public BufferedReader bufferedReader() {
+		String endpoint = environment.getProperty("quandl.api.endpoint");
+		String result = restTemplate.getForObject(endpoint, String.class);
+		InputStream inputStream = new ByteArrayInputStream(result.getBytes());
+		InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+		return new BufferedReader(inputStreamReader);
 	}
-	
-	protected void connect(HttpURLConnection httpURLConnection) throws IOException
-	{
-		log.info("Connecting to " + httpURLConnection.getURL().toExternalForm() + "...");
-		httpURLConnection.connect();
-		log.info("Connection Successful!");
-	}
-	
+
 	@Bean
 	public List<StockRecord> stockRecords() throws IOException {
 		log.info("Injesting Records...");

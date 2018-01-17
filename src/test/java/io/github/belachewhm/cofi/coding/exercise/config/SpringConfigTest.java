@@ -5,10 +5,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.ProtocolException;
-import java.net.URL;
 import java.util.List;
 
 import org.junit.Assert;
@@ -18,7 +14,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.env.Environment;
+import org.springframework.web.client.RestTemplate;
 
 import io.github.belachewhm.cofi.coding.exercise.model.StockRecord;
 
@@ -28,41 +26,29 @@ public class SpringConfigTest {
 	private Environment environment;
 
 	@Mock
+	RestTemplateBuilder builder;
+
+	@Mock
+	private RestTemplate restTemplate;
+
+	@Mock
 	private BufferedReader bufferedReader;
-
-	@Mock
-	private HttpURLConnection httpURLConnection;
-
-	@Mock
-	private InputStream inputStream;
 
 	@InjectMocks
 	SpringConfig springConfig;
 
 	@Test
-	public void testSetConnectionProperties() {
-		try
-		{
-			Mockito.doNothing().when(httpURLConnection).setRequestMethod(Mockito.anyString());
-			Mockito.doNothing().when(httpURLConnection).setConnectTimeout(Mockito.anyInt());
-			Mockito.doNothing().when(httpURLConnection).setRequestProperty(Mockito.anyString(), Mockito.anyString());
-			springConfig.setConnectionProperties(httpURLConnection);
-		} catch (ProtocolException pe) {
-			Assert.fail(pe.getMessage());
-		}
+	public void testRestTemplate() {
+		Mockito.when(builder.build()).thenReturn(restTemplate);
+		Assert.assertEquals(restTemplate, springConfig.restTemplate(builder));
 	}
 
 	@Test
-	public void testConnect() {
-		try
-		{
-			URL url = new URL("http://localhost");
-			Mockito.when(httpURLConnection.getURL()).thenReturn(url);
-			Mockito.doNothing().when(httpURLConnection).connect();
-			springConfig.connect(httpURLConnection);
-		} catch (IOException ioe) {
-			Assert.fail(ioe.getMessage());
-		}
+	public void testBufferedReader() {
+		Mockito.when(environment.getProperty(Mockito.anyString())).thenReturn("TEST");
+		Mockito.when(restTemplate.getForObject(Mockito.anyString(), Mockito.any())).thenReturn("");
+		BufferedReader bufferedReader = springConfig.bufferedReader();
+		Assert.assertNotNull(bufferedReader);
 	}
 
 	@Test
