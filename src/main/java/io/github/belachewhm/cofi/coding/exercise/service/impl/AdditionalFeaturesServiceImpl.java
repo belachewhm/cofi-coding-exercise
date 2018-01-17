@@ -20,11 +20,10 @@ import io.github.belachewhm.cofi.coding.exercise.service.AdditionalFeaturesServi
 import io.github.belachewhm.cofi.coding.exercise.util.Util;
 
 @Service
-public class AdditionalFeaturesServiceImpl implements AdditionalFeaturesService
-{
+public class AdditionalFeaturesServiceImpl implements AdditionalFeaturesService {
 	@Autowired
 	private List<StockRecord> stockRecords;
-	
+
 	@Override
 	public Map<String, Map<String, String>> maxDailyProfit(String ticker) {
 		return maxDailyProfit(new String[] { ticker });

@@ -19,14 +19,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import io.github.belachewhm.cofi.coding.exercise.Application;
-import io.github.belachewhm.cofi.coding.exercise.service.StockService;
+import io.github.belachewhm.cofi.coding.exercise.service.MainFeaturesService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = Application.class)
 @WebMvcTest(MainFeaturesControllerImpl.class)
 public class MainFeaturesControllerImplTest {
 	@MockBean
-	private StockService mockService;
+	private MainFeaturesService mockService;
 
 	@Autowired
 	private MockMvc mockMvc;

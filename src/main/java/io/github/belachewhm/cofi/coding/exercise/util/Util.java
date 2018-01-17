@@ -6,12 +6,18 @@ import java.util.List;
 
 import io.github.belachewhm.cofi.coding.exercise.model.StockRecord;
 
-public final class Util
-{
-	private Util(){
-		
-	};
-	
+public final class Util {
+	/**
+	 * important to set scale and round AFTER all calculations have been
+	 * completed, so as not to lose precision
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public static Double truncateDoubleToPrice(Double value) {
+		return BigDecimal.valueOf(value).setScale(2, RoundingMode.HALF_UP).doubleValue();
+	}
+
 	/**
 	 * 
 	 * @param ticker
@@ -28,16 +34,5 @@ public final class Util
 		}
 		Double averageVolume = sum / count;
 		return averageVolume;
-	}
-
-	/**
-	 * important to set scale and round AFTER all calculations have been
-	 * completed, so as not to lose precision
-	 * 
-	 * @param value
-	 * @return
-	 */
-	public static Double truncateDoubleToPrice(Double value) {
-		return BigDecimal.valueOf(value).setScale(2, RoundingMode.HALF_UP).doubleValue();
 	}
 }
