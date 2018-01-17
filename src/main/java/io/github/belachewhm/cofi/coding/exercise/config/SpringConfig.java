@@ -17,7 +17,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
 import io.github.belachewhm.cofi.coding.exercise.model.StockRecord;
-import io.github.belachewhm.cofi.coding.exercise.model.impl.StockRecordImpl;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -61,7 +60,7 @@ public class SpringConfig {
 				String[] x = Pattern.compile(",").split(line);
 				StockRecord stockRecord = null;
 				try {
-					stockRecord = new StockRecordImpl(x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], x[8], x[9], x[10],
+					stockRecord = new StockRecord(x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], x[8], x[9], x[10],
 							x[11], x[12], x[13]);
 				} catch (ParseException e) {
 					log.error(e.getMessage());

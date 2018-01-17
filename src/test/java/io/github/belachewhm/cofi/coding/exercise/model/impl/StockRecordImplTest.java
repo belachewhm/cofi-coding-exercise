@@ -11,11 +11,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.meanbean.test.BeanTester;
 
+import io.github.belachewhm.cofi.coding.exercise.model.StockRecord;
+
 public class StockRecordImplTest {
 	private double DELTA = 0.001;
 
 	private BeanTester beanTester;
-	private StockRecordImpl record;
+	private StockRecord record;
 	private Double high;
 	private Double low;
 	private Double close;
@@ -24,12 +26,12 @@ public class StockRecordImplTest {
 	@Before
 	public void setup() {
 		beanTester = new BeanTester();
-		record = new StockRecordImpl();
+		record = new StockRecord();
 	}
 
 	@Test
 	public void testBean() {
-		beanTester.testBean(StockRecordImpl.class);
+		beanTester.testBean(StockRecord.class);
 	}
 
 	@Test
@@ -49,7 +51,7 @@ public class StockRecordImplTest {
 		String TEST_ADJ_LOW = RandomStringUtils.random(10, false, true);
 		String TEST_ADJ_CLOSE = RandomStringUtils.random(10, false, true);
 		String TEST_ADJ_VOLUME = RandomStringUtils.random(10, false, true);
-		record = new StockRecordImpl(TEST_TICKER, TEST_DATE, TEST_OPEN, TEST_HIGH, TEST_LOW, TEST_CLOSE, TEST_VOLUME,
+		record = new StockRecord(TEST_TICKER, TEST_DATE, TEST_OPEN, TEST_HIGH, TEST_LOW, TEST_CLOSE, TEST_VOLUME,
 				TEST_EX_DIVIDEND, TEST_SPLIT_RATIO, TEST_ADJ_OPEN, TEST_ADJ_HIGH, TEST_ADJ_LOW, TEST_ADJ_CLOSE,
 				TEST_ADJ_VOLUME);
 		Assert.assertEquals(TEST_TICKER, record.getTicker());

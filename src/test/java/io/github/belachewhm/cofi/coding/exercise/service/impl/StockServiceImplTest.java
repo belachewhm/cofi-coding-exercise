@@ -17,7 +17,6 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import io.github.belachewhm.cofi.coding.exercise.model.StockRecord;
-import io.github.belachewhm.cofi.coding.exercise.model.impl.StockRecordImpl;
 
 @RunWith(MockitoJUnitRunner.class)
 public class StockServiceImplTest {
@@ -44,7 +43,7 @@ public class StockServiceImplTest {
 		Double close_1 = Double.parseDouble(RandomStringUtils.random(10, false, true));
 		Double close_2 = Double.parseDouble(RandomStringUtils.random(10, false, true));
 		Double close_3 = Double.parseDouble(RandomStringUtils.random(10, false, true));
-		returnRecords.add(new StockRecordImpl() {
+		returnRecords.add(new StockRecord() {
 			{
 				setTicker("TEST_TICKER");
 				setOpen(open_1);
@@ -52,7 +51,7 @@ public class StockServiceImplTest {
 				setDate(new Date());
 			}
 		});
-		returnRecords.add(new StockRecordImpl() {
+		returnRecords.add(new StockRecord() {
 			{
 				setTicker("TEST_TICKER");
 				setOpen(open_2);
@@ -60,7 +59,7 @@ public class StockServiceImplTest {
 				setDate(new Date());
 			}
 		});
-		returnRecords.add(new StockRecordImpl() {
+		returnRecords.add(new StockRecord() {
 			{
 				setTicker("TEST_TICKER");
 				setOpen(open_3);
@@ -81,7 +80,7 @@ public class StockServiceImplTest {
 		Double close_1 = Double.parseDouble(RandomStringUtils.random(10, false, true));
 		Double close_2 = Double.parseDouble(RandomStringUtils.random(10, false, true));
 		Double close_3 = Double.parseDouble(RandomStringUtils.random(10, false, true));
-		returnRecords.add(new StockRecordImpl() {
+		returnRecords.add(new StockRecord() {
 			{
 				setTicker("TEST_TICKER");
 				setOpen(open_1);
@@ -89,7 +88,7 @@ public class StockServiceImplTest {
 				setDate(new Date());
 			}
 		});
-		returnRecords.add(new StockRecordImpl() {
+		returnRecords.add(new StockRecord() {
 			{
 				setTicker("TEST_TICKER");
 				setOpen(open_2);
@@ -97,7 +96,7 @@ public class StockServiceImplTest {
 				setDate(new Date());
 			}
 		});
-		returnRecords.add(new StockRecordImpl() {
+		returnRecords.add(new StockRecord() {
 			{
 				setTicker("TEST_TICKER");
 				setOpen(open_3);
@@ -118,7 +117,7 @@ public class StockServiceImplTest {
 		Double low_1 = Double.parseDouble(RandomStringUtils.random(10, false, true));
 		Double low_2 = Double.parseDouble(RandomStringUtils.random(10, false, true));
 		Double low_3 = Double.parseDouble(RandomStringUtils.random(10, false, true));
-		returnRecords.add(new StockRecordImpl() {
+		returnRecords.add(new StockRecord() {
 			{
 				setTicker("TEST_TICKER");
 				setHigh(high_1);
@@ -126,7 +125,7 @@ public class StockServiceImplTest {
 				setDate(new Date());
 			}
 		});
-		returnRecords.add(new StockRecordImpl() {
+		returnRecords.add(new StockRecord() {
 			{
 				setTicker("TEST_TICKER");
 				setHigh(high_2);
@@ -134,7 +133,7 @@ public class StockServiceImplTest {
 				setDate(new Date());
 			}
 		});
-		returnRecords.add(new StockRecordImpl() {
+		returnRecords.add(new StockRecord() {
 			{
 				setTicker("TEST_TICKER");
 				setHigh(high_3);
@@ -154,7 +153,7 @@ public class StockServiceImplTest {
 	@Test
 	public void testMaxDailyProfit_date() {
 		Date date = new Date(0);
-		returnRecords.add(new StockRecordImpl() {
+		returnRecords.add(new StockRecord() {
 			{
 				setTicker("TEST_TICKER");
 				setHigh(100.0);
@@ -162,7 +161,7 @@ public class StockServiceImplTest {
 				setDate(new Date());
 			}
 		});
-		returnRecords.add(new StockRecordImpl() {
+		returnRecords.add(new StockRecord() {
 			{
 				setTicker("TEST_TICKER");
 				setHigh(100.0);
@@ -170,7 +169,7 @@ public class StockServiceImplTest {
 				setDate(new Date());
 			}
 		});
-		returnRecords.add(new StockRecordImpl() {
+		returnRecords.add(new StockRecord() {
 			{
 				setTicker("TEST_TICKER");
 				setHigh(100.0);
@@ -184,28 +183,28 @@ public class StockServiceImplTest {
 
 	@Test
 	public void testBiggestLoser() {
-		returnRecords.add(new StockRecordImpl() {
+		returnRecords.add(new StockRecord() {
 			{
 				setTicker("TEST_TICKER_1");
 				setOpen(100.0);
 				setClose(95.0);
 			}
 		});
-		returnRecords.add(new StockRecordImpl() {
+		returnRecords.add(new StockRecord() {
 			{
 				setTicker("TEST_TICKER_1");
 				setOpen(100.0);
 				setClose(10.0);
 			}
 		});
-		returnRecords.add(new StockRecordImpl() {
+		returnRecords.add(new StockRecord() {
 			{
 				setTicker("TEST_TICKER_2");
 				setOpen(100.0);
 				setClose(5.0);
 			}
 		});
-		returnRecords.add(new StockRecordImpl() {
+		returnRecords.add(new StockRecord() {
 			{
 				setTicker("TEST_TICKER_3");
 				setOpen(100.0);
@@ -219,7 +218,7 @@ public class StockServiceImplTest {
 	@Test
 	public void testAverageVolume_1() {
 		Double volume_1 = Double.parseDouble(RandomStringUtils.random(10, false, true));
-		returnRecords.add(new StockRecordImpl() {
+		returnRecords.add(new StockRecord() {
 			{
 				setTicker("TEST_TICKER_1");
 				setVolume(volume_1);
@@ -233,19 +232,19 @@ public class StockServiceImplTest {
 		Double volume_1 = Double.parseDouble(RandomStringUtils.random(10, false, true));
 		Double volume_2 = Double.parseDouble(RandomStringUtils.random(10, false, true));
 		Double volume_3 = Double.parseDouble(RandomStringUtils.random(10, false, true));
-		returnRecords.add(new StockRecordImpl() {
+		returnRecords.add(new StockRecord() {
 			{
 				setTicker("TEST_TICKER");
 				setVolume(volume_1);
 			}
 		});
-		returnRecords.add(new StockRecordImpl() {
+		returnRecords.add(new StockRecord() {
 			{
 				setTicker("TEST_TICKER");
 				setVolume(volume_2);
 			}
 		});
-		returnRecords.add(new StockRecordImpl() {
+		returnRecords.add(new StockRecord() {
 			{
 				setTicker("TEST_TICKER");
 				setVolume(volume_3);
@@ -260,19 +259,19 @@ public class StockServiceImplTest {
 		Double volume_1 = Double.parseDouble(RandomStringUtils.random(10, false, true));
 		Double volume_2 = Double.parseDouble(RandomStringUtils.random(10, false, true));
 		Double volume_3 = Double.parseDouble(RandomStringUtils.random(10, false, true));
-		returnRecords.add(new StockRecordImpl() {
+		returnRecords.add(new StockRecord() {
 			{
 				setTicker("TEST_TICKER_1");
 				setVolume(volume_1);
 			}
 		});
-		returnRecords.add(new StockRecordImpl() {
+		returnRecords.add(new StockRecord() {
 			{
 				setTicker("TEST_TICKER_1");
 				setVolume(volume_2);
 			}
 		});
-		returnRecords.add(new StockRecordImpl() {
+		returnRecords.add(new StockRecord() {
 			{
 				setTicker("TEST_TICKER_2");
 				setVolume(volume_3);

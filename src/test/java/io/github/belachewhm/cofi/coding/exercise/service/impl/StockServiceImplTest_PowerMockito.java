@@ -35,7 +35,6 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import io.github.belachewhm.cofi.coding.exercise.model.StockRecord;
-import io.github.belachewhm.cofi.coding.exercise.model.impl.StockRecordImpl;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(StockServiceImpl.class)
@@ -59,14 +58,14 @@ public class StockServiceImplTest_PowerMockito {
 	@Test
 	public void testBusyDay() {
 		Date date = new Date();
-		returnRecords.add(new StockRecordImpl() {
+		returnRecords.add(new StockRecord() {
 			{
 				setTicker("TEST_TICKER");
 				setVolume(100.0);
 				setDate(date);
 			}
 		});
-		returnRecords.add(new StockRecordImpl() {
+		returnRecords.add(new StockRecord() {
 			{
 				setTicker("TEST_TICKER");
 				setVolume(0.0);
@@ -85,19 +84,19 @@ public class StockServiceImplTest_PowerMockito {
 		Double volume_2 = Double.parseDouble(RandomStringUtils.random(10, false, true));
 		Double volume_3 = Double.parseDouble(RandomStringUtils.random(10, false, true));
 		Double averageVolume = (volume_1 + volume_2 + volume_3) / 3;
-		mockStockRecords.add(new StockRecordImpl() {
+		mockStockRecords.add(new StockRecord() {
 			{
 				setTicker("TEST_TICKER");
 				setVolume(volume_1);
 			}
 		});
-		mockStockRecords.add(new StockRecordImpl() {
+		mockStockRecords.add(new StockRecord() {
 			{
 				setTicker("TEST_TICKER");
 				setVolume(volume_2);
 			}
 		});
-		mockStockRecords.add(new StockRecordImpl() {
+		mockStockRecords.add(new StockRecord() {
 			{
 				setTicker("TEST_TICKER");
 				setVolume(volume_3);
