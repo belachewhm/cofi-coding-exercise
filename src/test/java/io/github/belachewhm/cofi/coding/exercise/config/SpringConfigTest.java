@@ -22,8 +22,8 @@ import io.github.belachewhm.cofi.coding.exercise.model.StockRecord;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SpringConfigTest {
-	@Mock
-	private Environment environment;
+//	@Mock
+//	private Environment environment;
 
 	@Mock
 	RestTemplateBuilder builder;
@@ -31,8 +31,8 @@ public class SpringConfigTest {
 	@Mock
 	private RestTemplate restTemplate;
 
-	@Mock
-	private BufferedReader bufferedReader;
+//	@Mock
+//	private BufferedReader bufferedReader;
 
 	@InjectMocks
 	SpringConfig springConfig;
@@ -43,43 +43,43 @@ public class SpringConfigTest {
 		Assert.assertEquals(restTemplate, springConfig.restTemplate(builder));
 	}
 
-	@Test
-	public void testBufferedReader() {
-		Mockito.when(environment.getProperty(Mockito.anyString())).thenReturn("TEST");
-		Mockito.when(restTemplate.getForObject(Mockito.anyString(), Mockito.any())).thenReturn("");
-		BufferedReader bufferedReader = springConfig.bufferedReader();
-		Assert.assertNotNull(bufferedReader);
-	}
+//	@Test
+//	public void testBufferedReader() {
+//		Mockito.when(environment.getProperty(Mockito.anyString())).thenReturn("TEST");
+//		Mockito.when(restTemplate.getForObject(Mockito.anyString(), Mockito.any())).thenReturn("");
+//		BufferedReader bufferedReader = springConfig.bufferedReader();
+//		Assert.assertNotNull(bufferedReader);
+//	}
 
-	@Test
-	public void testStockRecords_10000() throws IOException {
-		File testFile = new File("src/test/resources/WIKI-PRICES_10000.csv");
-		BufferedReader br = new BufferedReader(new FileReader(testFile));
-		try {
-			Mockito.when(bufferedReader.lines()).thenReturn(br.lines());
-			List<StockRecord> records = springConfig.stockRecords();
-			Assert.assertEquals(10000, records.size());
-
-		} catch (FileNotFoundException fnfe) {
-			Assert.fail(fnfe.getMessage());
-		} finally {
-			br.close();
-		}
-	}
-
-	@Test
-	public void testStockRecords_375() throws IOException {
-		File testFile = new File("src/test/resources/WIKI-PRICES_375.csv");
-		BufferedReader br = new BufferedReader(new FileReader(testFile));
-		try {
-			Mockito.when(bufferedReader.lines()).thenReturn(br.lines());
-			List<StockRecord> records = springConfig.stockRecords();
-			Assert.assertEquals(375, records.size());
-
-		} catch (FileNotFoundException fnfe) {
-			Assert.fail(fnfe.getMessage());
-		} finally {
-			br.close();
-		}
-	}
+//	@Test
+//	public void testStockRecords_10000() throws IOException {
+//		File testFile = new File("src/test/resources/WIKI-PRICES_10000.csv");
+//		BufferedReader br = new BufferedReader(new FileReader(testFile));
+//		try {
+//			Mockito.when(bufferedReader.lines()).thenReturn(br.lines());
+//			List<StockRecord> records = springConfig.stockRecords();
+//			Assert.assertEquals(10000, records.size());
+//
+//		} catch (FileNotFoundException fnfe) {
+//			Assert.fail(fnfe.getMessage());
+//		} finally {
+//			br.close();
+//		}
+//	}
+//
+//	@Test
+//	public void testStockRecords_375() throws IOException {
+//		File testFile = new File("src/test/resources/WIKI-PRICES_375.csv");
+//		BufferedReader br = new BufferedReader(new FileReader(testFile));
+//		try {
+//			Mockito.when(bufferedReader.lines()).thenReturn(br.lines());
+//			List<StockRecord> records = springConfig.stockRecords();
+//			Assert.assertEquals(375, records.size());
+//
+//		} catch (FileNotFoundException fnfe) {
+//			Assert.fail(fnfe.getMessage());
+//		} finally {
+//			br.close();
+//		}
+//	}
 }
