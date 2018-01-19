@@ -18,12 +18,13 @@ import org.springframework.stereotype.Service;
 
 import io.github.belachewhm.cofi.coding.exercise.model.StockRecord;
 import io.github.belachewhm.cofi.coding.exercise.service.AdditionalFeaturesService;
+import io.github.belachewhm.cofi.coding.exercise.service.DataRetrievalService;
 import io.github.belachewhm.cofi.coding.exercise.util.Util;
 
 @Service
 public class AdditionalFeaturesServiceImpl implements AdditionalFeaturesService {
-	@Autowired
-	private List<StockRecord> stockRecords;
+	 @Autowired
+	 private DataRetrievalService dataRetrievalService;
 
 	@Override
 	public Map<String, Map<String, String>> getAllMaxDailyProfits()
@@ -49,7 +50,10 @@ public class AdditionalFeaturesServiceImpl implements AdditionalFeaturesService 
 	}
 
 	@Override
-	public Map<String, Map<String, String>> getMaxDailyProfit(List<String> tickers) {
+	public Map<String, Map<String, String>> getMaxDailyProfit(List<String> tickers)
+	{
+		List<StockRecord> stockRecords = dataRetrievalService.getStockRecords();
+		
 		Map<String, Map<String, String>> resultMap = new LinkedHashMap<String, Map<String, String>>();
 		
 		if(!tickers.stream().allMatch(ticker -> stockRecords.stream().anyMatch(record -> record.getTicker().equals(ticker))))
@@ -78,7 +82,7 @@ public class AdditionalFeaturesServiceImpl implements AdditionalFeaturesService 
 	{
 		List<String> tickers = new ArrayList<String>() {
 			{
-				add("j");
+				add("COF");
 				add("GOOGL");
 				add("MSFT");
 			}
@@ -99,6 +103,8 @@ public class AdditionalFeaturesServiceImpl implements AdditionalFeaturesService 
 	@Override
 	public Map<String, String> getAverageVolume(List<String> tickers)
 	{
+		List<StockRecord> stockRecords = dataRetrievalService.getStockRecords();
+		
 		Map<String, String> resultMap = new LinkedHashMap<String, String>();
 		
 		if(!tickers.stream().allMatch(ticker -> stockRecords.stream().anyMatch(record -> record.getTicker().equals(ticker))))
@@ -138,6 +144,8 @@ public class AdditionalFeaturesServiceImpl implements AdditionalFeaturesService 
 	@Override
 	public Map<String, Map<String, String>> getBusyDay(List<String> tickers)
 	{
+		List<StockRecord> stockRecords = dataRetrievalService.getStockRecords();
+		
 		Map<String, Map<String, String>> resultMap = new LinkedHashMap<String, Map<String, String>>();
 		
 		if(!tickers.stream().allMatch(ticker -> stockRecords.stream().anyMatch(record -> record.getTicker().equals(ticker))))
@@ -164,7 +172,10 @@ public class AdditionalFeaturesServiceImpl implements AdditionalFeaturesService 
 	}
 	
 	@Override
-	public Map<String, Integer> getBiggestLoser() {
+	public Map<String, Integer> getBiggestLoser()
+	{
+		List<StockRecord> stockRecords = dataRetrievalService.getStockRecords();
+		
 		Map<String, Integer> mapOfLoserCount = new LinkedHashMap<String, Integer>();
 		stockRecords.stream().filter(record -> record.isLoser()).collect(Collectors.groupingBy(StockRecord::getTicker))
 				.forEach((k, v) -> {

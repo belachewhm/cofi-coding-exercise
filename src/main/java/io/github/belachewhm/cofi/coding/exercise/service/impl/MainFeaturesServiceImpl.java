@@ -13,13 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import io.github.belachewhm.cofi.coding.exercise.model.StockRecord;
+import io.github.belachewhm.cofi.coding.exercise.service.DataRetrievalService;
 import io.github.belachewhm.cofi.coding.exercise.service.MainFeaturesService;
 import io.github.belachewhm.cofi.coding.exercise.util.Util;
 
 @Service
 public class MainFeaturesServiceImpl implements MainFeaturesService {
-	@Autowired
-	private List<StockRecord> stockRecords;
+	 @Autowired
+	 private DataRetrievalService dataRetrievalService;
 
 	@Override
 	public Map<String, Map<String, Map<String, String>>> getAllAverageMonthlyOpenAndCloses() {
@@ -46,13 +47,13 @@ public class MainFeaturesServiceImpl implements MainFeaturesService {
 	@Override
 	public Map<String, Map<String, Map<String, String>>> getAverageMonthlyOpenAndClose(List<String> tickers)
 	{
+		List<StockRecord> stockRecords = dataRetrievalService.getStockRecords();
+		
 		Map<String, Map<String, Map<String, String>>> resultMap = new LinkedHashMap<String, Map<String, Map<String, String>>>();
-				
 		if(!tickers.stream().allMatch(ticker -> stockRecords.stream().anyMatch(record -> record.getTicker().equals(ticker))))
 		{
 			return resultMap;
 		}
-		
 		for (String ticker : tickers) {
 			// Use a TreeMap to end up with a map ordered by Key (month, in this
 			// case)
