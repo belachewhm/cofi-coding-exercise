@@ -1,7 +1,10 @@
 package io.github.belachewhm.cofi.coding.exercise.controller;
 
-import java.util.Map;
+import org.springframework.http.ResponseEntity;
 
-public interface MainFeaturesController {
-	Map<String, Map<String, Map<String, String>>> averageMonthlyOpenAndClose();
+public interface MainFeaturesController
+{
+	ResponseEntity<?> getAllAverageMonthlyOpenAndCloses();
+	
+	ResponseEntity<?> getAverageMonthlyOpenAndClose(String ticker);
 }

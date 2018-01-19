@@ -5,9 +5,11 @@ import java.util.Map;
 
 public interface MainFeaturesService
 {
-	Map<String, Map<String, Map<String, String>>> averageMonthlyOpenAndClose(String ticker);
+	Map<String, Map<String, Map<String, String>>> getAllAverageMonthlyOpenAndCloses();
+	
+	Map<String, Map<String, Map<String, String>>> getAverageMonthlyOpenAndClose(String ticker);
 
-	Map<String, Map<String, Map<String, String>>> averageMonthlyOpenAndClose(String[] tickers);
+	Map<String, Map<String, Map<String, String>>> getAverageMonthlyOpenAndClose(String[] tickers);
 
-	Map<String, Map<String, Map<String, String>>> averageMonthlyOpenAndClose(List<String> tickers);
+	Map<String, Map<String, Map<String, String>>> getAverageMonthlyOpenAndClose(List<String> tickers);
 }

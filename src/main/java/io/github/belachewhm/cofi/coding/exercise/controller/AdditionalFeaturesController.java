@@ -1,13 +1,20 @@
 package io.github.belachewhm.cofi.coding.exercise.controller;
 
-import java.util.Map;
+import org.springframework.http.ResponseEntity;
 
-public interface AdditionalFeaturesController {
-	Map<String, Map<String, String>> maxDailyProfit();
-
-	Map<String, String> averageVolume();
-
-	Map<String, Map<String, String>> busyDay();
-
-	Map<String, Integer> biggestLoser();
+public interface AdditionalFeaturesController
+{
+	ResponseEntity<?> getAllMaxDailyProfits();
+	
+	ResponseEntity<?> getMaxDailyProfit(String ticker);
+	
+	ResponseEntity<?> getAllAverageVolumes();
+	
+	ResponseEntity<?> getAverageVolume(String ticker);
+	
+	ResponseEntity<?> getAllBusyDays();
+	
+	ResponseEntity<?> getBusyDay(String ticker);
+	
+	ResponseEntity<?> getBiggestLoser();
 }

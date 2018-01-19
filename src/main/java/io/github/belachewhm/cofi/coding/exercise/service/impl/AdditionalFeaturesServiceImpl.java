@@ -2,6 +2,7 @@ package io.github.belachewhm.cofi.coding.exercise.service.impl;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -25,18 +26,37 @@ public class AdditionalFeaturesServiceImpl implements AdditionalFeaturesService 
 	private List<StockRecord> stockRecords;
 
 	@Override
-	public Map<String, Map<String, String>> maxDailyProfit(String ticker) {
-		return maxDailyProfit(new String[] { ticker });
+	public Map<String, Map<String, String>> getAllMaxDailyProfits()
+	{
+		List<String> tickers = new ArrayList<String>() {
+			{
+				add("COF");
+				add("GOOGL");
+				add("MSFT");
+			}
+		};
+		return this.getMaxDailyProfit(tickers);
+	}
+	
+	@Override
+	public Map<String, Map<String, String>> getMaxDailyProfit(String ticker) {
+		return getMaxDailyProfit(new String[] { ticker });
 	}
 
 	@Override
-	public Map<String, Map<String, String>> maxDailyProfit(String[] tickers) {
-		return maxDailyProfit(Arrays.asList(tickers));
+	public Map<String, Map<String, String>> getMaxDailyProfit(String[] tickers) {
+		return getMaxDailyProfit(Arrays.asList(tickers));
 	}
 
 	@Override
-	public Map<String, Map<String, String>> maxDailyProfit(List<String> tickers) {
+	public Map<String, Map<String, String>> getMaxDailyProfit(List<String> tickers) {
 		Map<String, Map<String, String>> resultMap = new LinkedHashMap<String, Map<String, String>>();
+		
+		if(!tickers.stream().allMatch(ticker -> stockRecords.stream().anyMatch(record -> record.getTicker().equals(ticker))))
+		{
+			return resultMap;
+		}
+		
 		for (String ticker : tickers) {
 			resultMap.put(ticker, new LinkedHashMap<String, String>() {
 				{
@@ -54,37 +74,77 @@ public class AdditionalFeaturesServiceImpl implements AdditionalFeaturesService 
 	}
 
 	@Override
-	public Map<String, String> averageVolume(String ticker) {
-		return averageVolume(new String[] { ticker });
+	public Map<String, String> getAllAverageVolumes()
+	{
+		List<String> tickers = new ArrayList<String>() {
+			{
+				add("j");
+				add("GOOGL");
+				add("MSFT");
+			}
+		};
+		return this.getAverageVolume(tickers);
+	}
+	
+	@Override
+	public Map<String, String> getAverageVolume(String ticker) {
+		return getAverageVolume(new String[] { ticker });
 	}
 
 	@Override
-	public Map<String, String> averageVolume(String[] tickers) {
-		return averageVolume(Arrays.asList(tickers));
+	public Map<String, String> getAverageVolume(String[] tickers) {
+		return getAverageVolume(Arrays.asList(tickers));
 	}
 
 	@Override
-	public Map<String, String> averageVolume(List<String> tickers) {
-		Map<String, String> averageVolumeMap = new LinkedHashMap<String, String>();
-		for (String ticker : tickers) {
-			averageVolumeMap.put(ticker, (new DecimalFormat("#.00")).format(Util.averageVolume(ticker, stockRecords)));
+	public Map<String, String> getAverageVolume(List<String> tickers)
+	{
+		Map<String, String> resultMap = new LinkedHashMap<String, String>();
+		
+		if(!tickers.stream().allMatch(ticker -> stockRecords.stream().anyMatch(record -> record.getTicker().equals(ticker))))
+		{
+			return resultMap;
 		}
-		return averageVolumeMap;
+		
+		for (String ticker : tickers) {
+			resultMap.put(ticker, (new DecimalFormat("#.00")).format(Util.averageVolume(ticker, stockRecords)));
+		}
+		return resultMap;
 	}
 
 	@Override
-	public Map<String, Map<String, String>> busyDay(String ticker) {
-		return busyDay(new String[] { ticker });
+	public Map<String, Map<String, String>> getAllBusyDays()
+	{
+		List<String> tickers = new ArrayList<String>() {
+			{
+				add("COF");
+				add("GOOGL");
+				add("MSFT");
+			}
+		};
+		return this.getBusyDay(tickers);
+	}
+	
+	@Override
+	public Map<String, Map<String, String>> getBusyDay(String ticker) {
+		return getBusyDay(new String[] { ticker });
 	}
 
 	@Override
-	public Map<String, Map<String, String>> busyDay(String[] tickers) {
-		return busyDay(Arrays.asList(tickers));
+	public Map<String, Map<String, String>> getBusyDay(String[] tickers) {
+		return getBusyDay(Arrays.asList(tickers));
 	}
 
 	@Override
-	public Map<String, Map<String, String>> busyDay(List<String> tickers) {
+	public Map<String, Map<String, String>> getBusyDay(List<String> tickers)
+	{
 		Map<String, Map<String, String>> resultMap = new LinkedHashMap<String, Map<String, String>>();
+		
+		if(!tickers.stream().allMatch(ticker -> stockRecords.stream().anyMatch(record -> record.getTicker().equals(ticker))))
+		{
+			return resultMap;
+		}
+		
 		for (String ticker : tickers) {
 			Double averageVolume = Util.averageVolume(ticker, stockRecords);
 			resultMap.put(ticker, new LinkedHashMap<String, String>() {
@@ -102,14 +162,9 @@ public class AdditionalFeaturesServiceImpl implements AdditionalFeaturesService 
 		}
 		return resultMap;
 	}
-
+	
 	@Override
-	public Map<String, Integer> biggestLoser(String[] tickers) {
-		return biggestLoser(Arrays.asList(tickers));
-	}
-
-	@Override
-	public Map<String, Integer> biggestLoser(List<String> tickers) {
+	public Map<String, Integer> getBiggestLoser() {
 		Map<String, Integer> mapOfLoserCount = new LinkedHashMap<String, Integer>();
 		stockRecords.stream().filter(record -> record.isLoser()).collect(Collectors.groupingBy(StockRecord::getTicker))
 				.forEach((k, v) -> {

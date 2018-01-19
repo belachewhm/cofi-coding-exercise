@@ -1,10 +1,11 @@
 package io.github.belachewhm.cofi.coding.exercise.controller.impl;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,40 +23,84 @@ public class AdditionalFeaturesControllerImpl implements AdditionalFeaturesContr
 	@Autowired
 	private AdditionalFeaturesService additionalFeaturesService;
 
-	@SuppressWarnings("serial")
-	private List<String> tickers = new ArrayList<String>() {
-		{
-			add("COF");
-			add("GOOGL");
-			add("MSFT");
-		}
-	};
-
-	@RequestMapping(value = "/maxDailyProfit", method = RequestMethod.GET)
+	// Max Daily Profit
 	@ApiOperation(value = "Calculates and returns which day would provide the highest amount of profit for each security if purchased at the day's low and sold at the day's high", response = String.class)
-	public Map<String, Map<String, String>> maxDailyProfit() {
-		log.info("***** Request Recieved to " + this.getClass().getSimpleName() + " *****");
-		return additionalFeaturesService.maxDailyProfit(tickers);
+	@RequestMapping(value = "/maxDailyProfit/", method = RequestMethod.GET)
+	public ResponseEntity<?> getAllMaxDailyProfits() {
+		Map<?, ?> response = additionalFeaturesService.getAllMaxDailyProfits();
+		if (response.isEmpty() || response == null) {
+			log.error("ticker not found");
+			return new ResponseEntity("data not found", HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<Map<?, ?>>(response, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/averageVolume", method = RequestMethod.GET)
+	@ApiOperation(value = "Calculates and returns which day would provide the highest amount of profit for each security if purchased at the day's low and sold at the day's high", response = String.class)
+	@RequestMapping(value = "/maxDailyProfit/{ticker}/", method = RequestMethod.GET)
+	public ResponseEntity<?> getMaxDailyProfit(@PathVariable("ticker") String ticker) {
+		Map<?, ?> response = additionalFeaturesService.getMaxDailyProfit(ticker);
+		if (response.isEmpty() || response == null) {
+			log.error("ticker not found");
+			if (response.isEmpty() || response == null) {
+				log.error("ticker not found");
+				return new ResponseEntity(ticker + " not found", HttpStatus.NOT_FOUND);
+			}
+			return new ResponseEntity("", HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<Map<?, ?>>(response, HttpStatus.OK);
+	}
+
+	// Average Volume
 	@ApiOperation(value = "Calculates and returns the average volumes for each security", response = String.class)
-	public Map<String, String> averageVolume() {
-		log.info("***** Request Recieved to " + this.getClass().getSimpleName() + " *****");
-		return additionalFeaturesService.averageVolume(tickers);
+	@RequestMapping(value = "/averageVolume/", method = RequestMethod.GET)
+	public ResponseEntity<?> getAllAverageVolumes() {
+		Map<?, ?> response = additionalFeaturesService.getAllAverageVolumes();
+		if (response.isEmpty() || response == null) {
+			log.error("ticker not found");
+			return new ResponseEntity("data not found", HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<Map<?, ?>>(response, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/busyDay", method = RequestMethod.GET)
+	@ApiOperation(value = "Calculates and returns the average volumes for each security", response = String.class)
+	@RequestMapping(value = "/averageVolume/{ticker}/", method = RequestMethod.GET)
+	public ResponseEntity<?> getAverageVolume(@PathVariable("ticker") String ticker) {
+		Map<?, ?> response = additionalFeaturesService.getAverageVolume(ticker);
+		if (response.isEmpty() || response == null) {
+			log.error("ticker not found");
+			return new ResponseEntity(ticker + " not found", HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<Map<?, ?>>(response, HttpStatus.OK);
+	}
+
+	// Busy Day
 	@ApiOperation(value = "Calculates and returns which days generated unusually high activity for the securities", response = String.class)
-	public Map<String, Map<String, String>> busyDay() {
-		log.info("***** Request Recieved to " + this.getClass().getSimpleName() + " *****");
-		return additionalFeaturesService.busyDay(tickers);
+	@RequestMapping(value = "/busyDay/", method = RequestMethod.GET)
+	public ResponseEntity<?> getAllBusyDays() {
+		Map<?, ?> response = additionalFeaturesService.getAllBusyDays();
+		return new ResponseEntity<Map<?, ?>>(response, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/biggestLoser", method = RequestMethod.GET)
+	@ApiOperation(value = "Calculates and returns which days generated unusually high activity for the securities", response = String.class)
+	@RequestMapping(value = "/busyDay/{ticker}/", method = RequestMethod.GET)
+	public ResponseEntity<?> getBusyDay(@PathVariable("ticker") String ticker) {
+		Map<?, ?> response = additionalFeaturesService.getBusyDay(ticker);
+		if (response.isEmpty() || response == null) {
+			log.error("ticker not found");
+			return new ResponseEntity(ticker + " not found", HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<Map<?, ?>>(response, HttpStatus.OK);
+	}
+
+	// Biggest Loser
 	@ApiOperation(value = "Calculates and returns which security had the most days where the closing price was lower than the opening price", response = String.class)
-	public Map<String, Integer> biggestLoser() {
-		log.info("***** Request Recieved to " + this.getClass().getSimpleName() + " *****");
-		return additionalFeaturesService.biggestLoser(tickers);
+	@RequestMapping(value = "/biggestLoser/", method = RequestMethod.GET)
+	public ResponseEntity<?> getBiggestLoser() {
+		Map<?, ?> response = additionalFeaturesService.getBiggestLoser();
+		if (response.isEmpty() || response == null) {
+			log.error("ticker not found");
+			return new ResponseEntity("data not found", HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<Map<?, ?>>(response, HttpStatus.OK);
 	}
 }

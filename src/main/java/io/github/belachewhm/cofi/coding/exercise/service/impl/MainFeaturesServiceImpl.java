@@ -1,6 +1,7 @@
 package io.github.belachewhm.cofi.coding.exercise.service.impl;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -21,18 +22,37 @@ public class MainFeaturesServiceImpl implements MainFeaturesService {
 	private List<StockRecord> stockRecords;
 
 	@Override
-	public Map<String, Map<String, Map<String, String>>> averageMonthlyOpenAndClose(String ticker) {
-		return averageMonthlyOpenAndClose(new String[] { ticker });
+	public Map<String, Map<String, Map<String, String>>> getAllAverageMonthlyOpenAndCloses() {
+		List<String> tickers = new ArrayList<String>() {
+			{
+				add("COF");
+				add("GOOGL");
+				add("MSFT");
+			}
+		};
+		return this.getAverageMonthlyOpenAndClose(tickers);
 	}
 
 	@Override
-	public Map<String, Map<String, Map<String, String>>> averageMonthlyOpenAndClose(String[] tickers) {
-		return averageMonthlyOpenAndClose(Arrays.asList(tickers));
+	public Map<String, Map<String, Map<String, String>>> getAverageMonthlyOpenAndClose(String ticker) {
+		return getAverageMonthlyOpenAndClose(new String[] { ticker });
 	}
 
 	@Override
-	public Map<String, Map<String, Map<String, String>>> averageMonthlyOpenAndClose(List<String> tickers) {
+	public Map<String, Map<String, Map<String, String>>> getAverageMonthlyOpenAndClose(String[] tickers) {
+		return getAverageMonthlyOpenAndClose(Arrays.asList(tickers));
+	}
+
+	@Override
+	public Map<String, Map<String, Map<String, String>>> getAverageMonthlyOpenAndClose(List<String> tickers)
+	{
 		Map<String, Map<String, Map<String, String>>> resultMap = new LinkedHashMap<String, Map<String, Map<String, String>>>();
+				
+		if(!tickers.stream().allMatch(ticker -> stockRecords.stream().anyMatch(record -> record.getTicker().equals(ticker))))
+		{
+			return resultMap;
+		}
+		
 		for (String ticker : tickers) {
 			// Use a TreeMap to end up with a map ordered by Key (month, in this
 			// case)
@@ -44,8 +64,9 @@ public class MainFeaturesServiceImpl implements MainFeaturesService {
 								{
 									String average_open = (new DecimalFormat("#.00")).format(Util.truncateDoubleToPrice(
 											v.stream().collect(Collectors.averagingDouble(StockRecord::getOpen))));
-									String average_close = (new DecimalFormat("#.00")).format(Util.truncateDoubleToPrice(
-											v.stream().collect(Collectors.averagingDouble(StockRecord::getClose))));
+									String average_close = (new DecimalFormat("#.00"))
+											.format(Util.truncateDoubleToPrice(v.stream()
+													.collect(Collectors.averagingDouble(StockRecord::getClose))));
 									put("average_open", average_open);
 									put("average_close", average_close);
 								}

@@ -1,10 +1,11 @@
 package io.github.belachewhm.cofi.coding.exercise.controller.impl;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,19 +23,21 @@ public class MainFeaturesControllerImpl implements MainFeaturesController {
 	@Autowired
 	private MainFeaturesService mainFeaturesService;
 
-	@SuppressWarnings("serial")
-	private List<String> tickers = new ArrayList<String>() {
-		{
-			add("COF");
-			add("GOOGL");
-			add("MSFT");
-		}
-	};
-
-	@RequestMapping(value = "/averageMonthlyOpenAndClose", method = RequestMethod.GET)
+	@RequestMapping(value = "/averageMonthlyOpenAndClose/", method = RequestMethod.GET)
 	@ApiOperation(value = "Displays the average monthly open and close prices for each security for each month of data in the data set", response = String.class)
-	public Map<String, Map<String, Map<String, String>>> averageMonthlyOpenAndClose() {
-		log.info("***** Request Recieved to " + this.getClass().getName() + " *****");
-		return mainFeaturesService.averageMonthlyOpenAndClose(tickers);
+	public ResponseEntity<?> getAllAverageMonthlyOpenAndCloses() {
+		Map<?, ?> response = mainFeaturesService.getAllAverageMonthlyOpenAndCloses();
+		return new ResponseEntity<Map<?, ?>>(response, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/averageMonthlyOpenAndClose/{ticker}/", method = RequestMethod.GET)
+	@ApiOperation(value = "Displays the average monthly open and close prices for each security for each month of data in the data set", response = String.class)
+	public ResponseEntity<?> getAverageMonthlyOpenAndClose(@PathVariable("ticker") String ticker) {
+		Map<?, ?> response = mainFeaturesService.getAverageMonthlyOpenAndClose(ticker);
+		if (response.isEmpty() || response == null) {
+			log.error("ticker not found");
+			return new ResponseEntity(ticker + " not found", HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<Map<?, ?>>(response, HttpStatus.OK);
 	}
 }
