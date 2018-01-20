@@ -28,9 +28,10 @@ public class AdditionalFeaturesControllerImpl implements AdditionalFeaturesContr
 	@RequestMapping(value = "/maxDailyProfit/", method = RequestMethod.GET)
 	public ResponseEntity<?> getAllMaxDailyProfits() {
 		Map<?, ?> response = additionalFeaturesService.getAllMaxDailyProfits();
-		if (response.isEmpty() || response == null) {
-			log.error("ticker not found");
-			return new ResponseEntity("data not found", HttpStatus.NOT_FOUND);
+		if (response == null || response.isEmpty()) {
+			String message = "";
+			log.error(message);
+			return new ResponseEntity(message, HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<Map<?, ?>>(response, HttpStatus.OK);
 	}
@@ -39,13 +40,10 @@ public class AdditionalFeaturesControllerImpl implements AdditionalFeaturesContr
 	@RequestMapping(value = "/maxDailyProfit/{ticker}/", method = RequestMethod.GET)
 	public ResponseEntity<?> getMaxDailyProfit(@PathVariable("ticker") String ticker) {
 		Map<?, ?> response = additionalFeaturesService.getMaxDailyProfit(ticker);
-		if (response.isEmpty() || response == null) {
-			log.error("ticker not found");
-			if (response.isEmpty() || response == null) {
-				log.error("ticker not found");
-				return new ResponseEntity(ticker + " not found", HttpStatus.NOT_FOUND);
-			}
-			return new ResponseEntity("", HttpStatus.NOT_FOUND);
+		if (response == null || response.isEmpty()) {
+			String message = "";
+			log.error(message);
+			return new ResponseEntity(message, HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<Map<?, ?>>(response, HttpStatus.OK);
 	}
@@ -55,9 +53,10 @@ public class AdditionalFeaturesControllerImpl implements AdditionalFeaturesContr
 	@RequestMapping(value = "/averageVolume/", method = RequestMethod.GET)
 	public ResponseEntity<?> getAllAverageVolumes() {
 		Map<?, ?> response = additionalFeaturesService.getAllAverageVolumes();
-		if (response.isEmpty() || response == null) {
-			log.error("ticker not found");
-			return new ResponseEntity("data not found", HttpStatus.NOT_FOUND);
+		if (response == null || response.isEmpty()) {
+			String message = "";
+			log.error(message);
+			return new ResponseEntity(message, HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<Map<?, ?>>(response, HttpStatus.OK);
 	}
@@ -66,9 +65,10 @@ public class AdditionalFeaturesControllerImpl implements AdditionalFeaturesContr
 	@RequestMapping(value = "/averageVolume/{ticker}/", method = RequestMethod.GET)
 	public ResponseEntity<?> getAverageVolume(@PathVariable("ticker") String ticker) {
 		Map<?, ?> response = additionalFeaturesService.getAverageVolume(ticker);
-		if (response.isEmpty() || response == null) {
-			log.error("ticker not found");
-			return new ResponseEntity(ticker + " not found", HttpStatus.NOT_FOUND);
+		if (response == null || response.isEmpty()) {
+			String message = "";
+			log.error(message);
+			return new ResponseEntity(message, HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<Map<?, ?>>(response, HttpStatus.OK);
 	}
@@ -78,6 +78,11 @@ public class AdditionalFeaturesControllerImpl implements AdditionalFeaturesContr
 	@RequestMapping(value = "/busyDay/", method = RequestMethod.GET)
 	public ResponseEntity<?> getAllBusyDays() {
 		Map<?, ?> response = additionalFeaturesService.getAllBusyDays();
+		if (response == null || response.isEmpty()) {
+			String message = "";
+			log.error(message);
+			return new ResponseEntity(message, HttpStatus.NOT_FOUND);
+		}
 		return new ResponseEntity<Map<?, ?>>(response, HttpStatus.OK);
 	}
 
@@ -85,9 +90,10 @@ public class AdditionalFeaturesControllerImpl implements AdditionalFeaturesContr
 	@RequestMapping(value = "/busyDay/{ticker}/", method = RequestMethod.GET)
 	public ResponseEntity<?> getBusyDay(@PathVariable("ticker") String ticker) {
 		Map<?, ?> response = additionalFeaturesService.getBusyDay(ticker);
-		if (response.isEmpty() || response == null) {
-			log.error("ticker not found");
-			return new ResponseEntity(ticker + " not found", HttpStatus.NOT_FOUND);
+		if (response == null || response.isEmpty()) {
+			String message = "";
+			log.error(message);
+			return new ResponseEntity(message, HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<Map<?, ?>>(response, HttpStatus.OK);
 	}
@@ -97,9 +103,10 @@ public class AdditionalFeaturesControllerImpl implements AdditionalFeaturesContr
 	@RequestMapping(value = "/biggestLoser/", method = RequestMethod.GET)
 	public ResponseEntity<?> getBiggestLoser() {
 		Map<?, ?> response = additionalFeaturesService.getBiggestLoser();
-		if (response.isEmpty() || response == null) {
-			log.error("ticker not found");
-			return new ResponseEntity("data not found", HttpStatus.NOT_FOUND);
+		if (response == null || response.isEmpty()) {
+			String message = "";
+			log.error(message);
+			return new ResponseEntity(message, HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<Map<?, ?>>(response, HttpStatus.OK);
 	}

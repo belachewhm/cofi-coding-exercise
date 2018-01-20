@@ -1,13 +1,19 @@
 package io.github.belachewhm.cofi.coding.exercise.controller.impl;
 
-import static org.mockito.Matchers.anyList;
+import static org.mockito.Matchers.anyString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.LinkedHashMap;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -32,35 +38,182 @@ public class AdditionalFeaturesControllerImplTest {
 	@Autowired
 	private MockMvc mockMvc;
 
+	Map<String, Map<String, String>> dailyProfitMap;
+	Map<String, String> averageVolumeMap;
+	Map<String, Map<String, String>> busyDayMap;
+	Map<String, Integer> biggestLoserMap;
+
+	private SimpleDateFormat sdf;
+	private Random random;
+	private MvcResult result;
+
+	@Before
+	public void setup() {
+		dailyProfitMap = new HashMap<String, Map<String, String>>();
+		averageVolumeMap = new HashMap<String, String>();
+		busyDayMap = new HashMap<String, Map<String, String>>();
+		biggestLoserMap = new HashMap<String, Integer>();
+		sdf = new SimpleDateFormat("YYYY-MM");
+		random = new Random();
+	}
+
 	@Test
-	public void testMaxDailyProfit() throws Exception {
-		Map<String, Map<String, String>> testMap = new LinkedHashMap<String, Map<String, String>>();
-		Mockito.when(mockService.maxDailyProfit(anyList())).thenReturn(testMap);
-		MvcResult result = mockMvc.perform(get("/maxDailyProfit")).andDo(print()).andExpect(status().isOk())
+	public void testGetAllMaxDailyProfits_200() throws Exception {
+		dailyProfitMap.put("TEST", new HashMap<String, String>() {
+			{
+				this.put(sdf.format(new Date()), new DecimalFormat("#.##").format(100 * random.nextDouble()));
+			}
+		});
+		Mockito.when(mockService.getAllMaxDailyProfits()).thenReturn(dailyProfitMap);
+		result = mockMvc.perform(get("/maxDailyProfit/")).andDo(print()).andExpect(status().isOk()).andReturn();
+		// Assert further expectations
+	}
+
+	@Test
+	public void testGetAllMaxDailyProfits_404() throws Exception {
+		Mockito.when(mockService.getAllMaxDailyProfits()).thenReturn(dailyProfitMap);
+		mockMvc.perform(get("/maxDailyProfit/")).andDo(print()).andExpect(status().isNotFound()).andReturn();
+		// Assert further expectations
+
+		Mockito.when(mockService.getAllMaxDailyProfits()).thenReturn(null);
+		result = mockMvc.perform(get("/maxDailyProfit/")).andDo(print()).andExpect(status().isNotFound()).andReturn();
+		// Assert further expectations
+	}
+
+	@Test
+	public void testGetMaxDailyProfit_200() throws Exception {
+		dailyProfitMap.put("TEST", new HashMap<String, String>() {
+			{
+				this.put(sdf.format(new Date()), new DecimalFormat("#.##").format(100 * random.nextDouble()));
+			}
+		});
+		Mockito.when(mockService.getMaxDailyProfit(anyString())).thenReturn(dailyProfitMap);
+		result = mockMvc.perform(get("/maxDailyProfit/TEST/")).andDo(print()).andExpect(status().isOk()).andReturn();
+		// Assert further expectations
+	}
+
+	@Test
+	public void testGetMaxDailyProfit_400() throws Exception {
+		Mockito.when(mockService.getMaxDailyProfit(anyString())).thenReturn(dailyProfitMap);
+		result = mockMvc.perform(get("/maxDailyProfit/TEST/")).andDo(print()).andExpect(status().isNotFound())
 				.andReturn();
-		// TODO: Assert further expectations
+		// Assert further expectations
+
+		Mockito.when(mockService.getMaxDailyProfit(anyString())).thenReturn(null);
+		result = mockMvc.perform(get("/maxDailyProfit/TEST/")).andDo(print()).andExpect(status().isNotFound())
+				.andReturn();
+		// Assert further expectations
 	}
 
 	@Test
-	public void testAverageVolume() throws Exception {
-		Map<String, String> testMap = new LinkedHashMap<String, String>();
-		Mockito.when(mockService.averageVolume(anyList())).thenReturn(testMap);
-		MvcResult result = mockMvc.perform(get("/averageVolume")).andDo(print()).andExpect(status().isOk()).andReturn();
+	public void testGetAllAverageVolumes_200() throws Exception {
+		averageVolumeMap.put("TEST", new DecimalFormat("#.##").format(100 * random.nextDouble()));
+		Mockito.when(mockService.getAllAverageVolumes()).thenReturn(averageVolumeMap);
+		result = mockMvc.perform(get("/averageVolume/")).andDo(print()).andExpect(status().isOk()).andReturn();
+		// Assert further expectations
 	}
 
 	@Test
-	public void testBusyDay() throws Exception {
-		Map<String, Map<String, String>> testMap = new LinkedHashMap<String, Map<String, String>>();
-		Mockito.when(mockService.busyDay(anyList())).thenReturn(testMap);
-		MvcResult result = mockMvc.perform(get("/busyDay")).andDo(print()).andExpect(status().isOk()).andReturn();
-		// TODO: Assert further expectations
+	public void testGetAllAverageVolumes_404() throws Exception {
+		Mockito.when(mockService.getAllAverageVolumes()).thenReturn(averageVolumeMap);
+		mockMvc.perform(get("/averageVolume/")).andDo(print()).andExpect(status().isNotFound()).andReturn();
+		// Assert further expectations
+
+		Mockito.when(mockService.getAllAverageVolumes()).thenReturn(null);
+		result = mockMvc.perform(get("/averageVolume/")).andDo(print()).andExpect(status().isNotFound()).andReturn();
+		// Assert further expectations
 	}
 
 	@Test
-	public void testBiggestLoser() throws Exception {
-		Map<String, Integer> testMap = new LinkedHashMap<String, Integer>();
-		Mockito.when(mockService.biggestLoser(anyList())).thenReturn(testMap);
-		MvcResult result = mockMvc.perform(get("/biggestLoser")).andDo(print()).andExpect(status().isOk()).andReturn();
-		// TODO: Assert further expectations
+	public void testGetAverageVolume_200() throws Exception {
+		averageVolumeMap.put("TEST", new DecimalFormat("#.##").format(100 * random.nextDouble()));
+		Mockito.when(mockService.getAverageVolume(anyString())).thenReturn(averageVolumeMap);
+		result = mockMvc.perform(get("/averageVolume/TEST/")).andDo(print()).andExpect(status().isOk()).andReturn();
+		// Assert further expectations
+	}
+
+	@Test
+	public void testGetAverageVolume_404() throws Exception {
+		Mockito.when(mockService.getAverageVolume(anyString())).thenReturn(averageVolumeMap);
+		mockMvc.perform(get("/averageVolume/TEST/")).andDo(print()).andExpect(status().isNotFound()).andReturn();
+		// Assert further expectations
+
+		Mockito.when(mockService.getAverageVolume(anyString())).thenReturn(null);
+		result = mockMvc.perform(get("/averageVolume/TEST/")).andDo(print()).andExpect(status().isNotFound())
+				.andReturn();
+		// Assert further expectations
+	}
+
+	@Test
+	public void testGetAllBusyDays_200() throws Exception {
+		busyDayMap.put("TEST", new HashMap<String, String>() {
+			{
+				this.put(sdf.format(new Date()), new DecimalFormat("#.##").format(100 * random.nextDouble()));
+			}
+		});
+		Mockito.when(mockService.getAllBusyDays()).thenReturn(busyDayMap);
+		result = mockMvc.perform(get("/busyDay/")).andDo(print()).andExpect(status().isOk()).andReturn();
+		// Assert further expectations
+	}
+
+	@Test
+	public void testGetAllBusyDays_404() throws Exception {
+		Mockito.when(mockService.getAllBusyDays()).thenReturn(busyDayMap);
+		mockMvc.perform(get("/busyDay/")).andDo(print()).andExpect(status().isNotFound()).andReturn();
+		// Assert further expectations
+
+		Mockito.when(mockService.getAllBusyDays()).thenReturn(null);
+		result = mockMvc.perform(get("/busyDay/")).andDo(print()).andExpect(status().isNotFound()).andReturn();
+		// Assert further expectations
+	}
+
+	@Test
+	public void testGetBusyDay_200() throws Exception {
+		busyDayMap.put("TEST", new HashMap<String, String>() {
+			{
+				this.put(sdf.format(new Date()), new DecimalFormat("#.##").format(100 * random.nextDouble()));
+			}
+		});
+		Mockito.when(mockService.getBusyDay(anyString())).thenReturn(busyDayMap);
+		result = mockMvc.perform(get("/busyDay/TEST/")).andDo(print()).andExpect(status().isOk()).andReturn();
+		// Assert further expectations
+	}
+
+	@Test
+	public void testGetBusyDay_404() throws Exception {
+		Mockito.when(mockService.getBusyDay(anyString())).thenReturn(busyDayMap);
+		mockMvc.perform(get("/busyDay/TEST/")).andDo(print()).andExpect(status().isNotFound()).andReturn();
+		// Assert further expectations
+
+		Mockito.when(mockService.getBusyDay(anyString())).thenReturn(null);
+		result = mockMvc.perform(get("/busyDay/TEST/")).andDo(print()).andExpect(status().isNotFound()).andReturn();
+		// Assert further expectations
+	}
+
+	@Test
+	public void testGetBiggestLoser_200() throws Exception {
+		biggestLoserMap.put("TEST", random.nextInt());
+		Mockito.when(mockService.getBiggestLoser()).thenReturn(biggestLoserMap);
+		result = mockMvc.perform(get("/biggestLoser/")).andDo(print()).andExpect(status().isOk()).andReturn();
+		// Assert further expectations
+	}
+
+	@Test
+	public void testGetBiggestLoser_404() throws Exception {
+		Mockito.when(mockService.getBiggestLoser()).thenReturn(biggestLoserMap);
+		result = mockMvc.perform(get("/biggestLoser/")).andDo(print()).andExpect(status().isNotFound()).andReturn();
+
+		Mockito.when(mockService.getBiggestLoser()).thenReturn(null);
+		result = mockMvc.perform(get("/biggestLoser/")).andDo(print()).andExpect(status().isNotFound()).andReturn();
+	}
+
+	@After
+	public void teardown() {
+		dailyProfitMap = null;
+		averageVolumeMap = null;
+		busyDayMap = null;
+		biggestLoserMap = null;
+		sdf = null;
+		random = null;
 	}
 }
