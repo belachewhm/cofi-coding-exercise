@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.After;
@@ -17,11 +18,12 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import io.github.belachewhm.cofi.coding.exercise.model.StockRecord;
+import io.github.belachewhm.cofi.coding.exercise.service.DataRetrievalService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AdditionalFeaturesServiceImplTest {
 	@Mock
-	private List<StockRecord> mockStockRecords;
+	private DataRetrievalService dataRetrievalService;
 
 	@InjectMocks
 	private AdditionalFeaturesServiceImpl additionalFeaturesServiceImpl;
@@ -30,10 +32,53 @@ public class AdditionalFeaturesServiceImplTest {
 
 	private List<StockRecord> returnRecords;
 
+	Random random;
+
 	@Before
 	public void setup() {
+		random = new Random();
 		returnRecords = new ArrayList<StockRecord>();
-		Mockito.when(mockStockRecords.stream()).thenReturn(returnRecords.stream());
+		Mockito.when(dataRetrievalService.getStockRecords()).thenReturn(returnRecords);
+	}
+
+	@Test
+	public void testGetAllMaxDailyProfits_NotNull() {
+		Assert.assertNotNull(additionalFeaturesServiceImpl.getAllMaxDailyProfits());
+	}
+
+	@Test
+	public void testGetAllMaxDailyProfits_IsEmpty() {
+		Assert.assertTrue(additionalFeaturesServiceImpl.getAllMaxDailyProfits().isEmpty());
+	}
+
+	@Test
+	public void testGetAllMaxDailyProfits_NotEmpty() {
+		returnRecords.add(new StockRecord() {
+			{
+				setTicker("COF");
+				setHigh(100 * random.nextDouble());
+				setLow(100 * random.nextDouble());
+				setDate(new Date());
+			}
+		});
+		returnRecords.add(new StockRecord() {
+			{
+				setTicker("GOOGL");
+				setHigh(100 * random.nextDouble());
+				setLow(100 * random.nextDouble());
+				setDate(new Date());
+			}
+		});
+		returnRecords.add(new StockRecord() {
+			{
+				setTicker("MSFT");
+				setHigh(100 * random.nextDouble());
+				setLow(100 * random.nextDouble());
+				setDate(new Date());
+			}
+		});
+		Mockito.when(dataRetrievalService.getStockRecords()).thenReturn(returnRecords);
+		Assert.assertFalse(additionalFeaturesServiceImpl.getAllMaxDailyProfits().isEmpty());
 	}
 
 	@Test
@@ -72,9 +117,8 @@ public class AdditionalFeaturesServiceImplTest {
 		Double profit_2 = (high_2 - low_2);
 		Double profit_3 = (high_3 - low_3);
 		Double maxProfit = Math.max(profit_1, Math.max(profit_2, profit_3));
-		Assert.assertEquals(maxProfit,
-				Double.parseDouble(
-						additionalFeaturesServiceImpl.maxDailyProfit("TEST_TICKER").get("TEST_TICKER").get("profit")),
+		Assert.assertEquals(maxProfit, Double.parseDouble(
+				additionalFeaturesServiceImpl.getMaxDailyProfit("TEST_TICKER").get("TEST_TICKER").get("profit")),
 				DELTA);
 	}
 
@@ -106,13 +150,75 @@ public class AdditionalFeaturesServiceImplTest {
 			}
 		});
 		Assert.assertEquals((new SimpleDateFormat("yyyy-MM-dd")).format(date),
-				additionalFeaturesServiceImpl.maxDailyProfit("TEST_TICKER").get("TEST_TICKER").get("date"));
+				additionalFeaturesServiceImpl.getMaxDailyProfit("TEST_TICKER").get("TEST_TICKER").get("date"));
 	}
 
-	//TODO: add test cases for averageVolume
-	
-	//TODO: add test cases for busyDay
-	
+	@Test
+	public void testGetAllAverageVolumes_NotNull() {
+		Assert.assertNotNull(additionalFeaturesServiceImpl.getAllAverageVolumes());
+	}
+
+	@Test
+	public void testGetAllAverageVolumes_IsEmpty() {
+		Assert.assertTrue(additionalFeaturesServiceImpl.getAllAverageVolumes().isEmpty());
+	}
+
+	@Test
+	public void testGetAllAverageVolumes_NotEmpty() {
+		returnRecords.add(new StockRecord() {
+			{
+				setTicker("COF");
+				setVolume(100 * random.nextDouble());
+			}
+		});
+		returnRecords.add(new StockRecord() {
+			{
+				setTicker("GOOGL");
+				setVolume(100 * random.nextDouble());
+			}
+		});
+		returnRecords.add(new StockRecord() {
+			{
+				setTicker("MSFT");
+				setVolume(100 * random.nextDouble());
+			}
+		});
+		Mockito.when(dataRetrievalService.getStockRecords()).thenReturn(returnRecords);
+		Assert.assertFalse(additionalFeaturesServiceImpl.getAllAverageVolumes().isEmpty());
+	}
+
+	@Test
+	public void testGetAverageVolume() {
+		Double volume1 = 100 * random.nextDouble();
+		Double volume2 = 100 * random.nextDouble();
+		Double volume3 = 100 * random.nextDouble();
+
+		returnRecords.add(new StockRecord() {
+			{
+				setTicker("TEST");
+				setVolume(volume1);
+			}
+		});
+		returnRecords.add(new StockRecord() {
+			{
+				setTicker("TEST");
+				setVolume(volume2);
+			}
+		});
+		returnRecords.add(new StockRecord() {
+			{
+				setTicker("TEST");
+				setVolume(volume3);
+			}
+		});
+		Mockito.when(dataRetrievalService.getStockRecords()).thenReturn(returnRecords);
+
+		Assert.assertEquals((volume1 + volume2 + volume3) / 3,
+				Double.parseDouble(additionalFeaturesServiceImpl.getAverageVolume("TEST").get("TEST")), DELTA * 6);
+	}
+
+	// TODO: add test cases for busyDay
+
 	@Test
 	public void testBiggestLoser() {
 		returnRecords.add(new StockRecord() {
@@ -143,8 +249,7 @@ public class AdditionalFeaturesServiceImplTest {
 				setClose(100.0);
 			}
 		});
-		Assert.assertEquals("2", additionalFeaturesServiceImpl.biggestLoser(new String[] { "TEST_TICKER_1" })
-				.get("TEST_TICKER_1").toString());
+		Assert.assertEquals("2", additionalFeaturesServiceImpl.getBiggestLoser().get("TEST_TICKER_1").toString());
 	}
 
 	@After

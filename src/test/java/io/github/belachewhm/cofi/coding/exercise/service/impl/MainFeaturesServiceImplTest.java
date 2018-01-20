@@ -17,11 +17,12 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import io.github.belachewhm.cofi.coding.exercise.model.StockRecord;
+import io.github.belachewhm.cofi.coding.exercise.service.DataRetrievalService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MainFeaturesServiceImplTest {
 	@Mock
-	private List<StockRecord> mockStockRecords;
+	private DataRetrievalService dataRetrievalService;
 
 	@InjectMocks
 	private MainFeaturesServiceImpl mainFeaturesServiceImpl;
@@ -33,7 +34,7 @@ public class MainFeaturesServiceImplTest {
 	@Before
 	public void setup() {
 		returnRecords = new ArrayList<StockRecord>();
-		Mockito.when(mockStockRecords.stream()).thenReturn(returnRecords.stream());
+		Mockito.when(dataRetrievalService.getStockRecords()).thenReturn(returnRecords);
 	}
 
 	@Test
@@ -68,7 +69,7 @@ public class MainFeaturesServiceImplTest {
 				setDate(new Date());
 			}
 		});
-		String average_open = mainFeaturesServiceImpl.averageMonthlyOpenAndClose("TEST_TICKER").get("TEST_TICKER")
+		String average_open = mainFeaturesServiceImpl.getAverageMonthlyOpenAndClose("TEST_TICKER").get("TEST_TICKER")
 				.get((new SimpleDateFormat("YYYY-MM").format(new Date()))).get("average_open");
 		Assert.assertEquals((open_1 + open_2 + open_3) / 3, Double.parseDouble(average_open), DELTA * 4);
 	}
@@ -105,7 +106,7 @@ public class MainFeaturesServiceImplTest {
 				setDate(new Date());
 			}
 		});
-		String average_close = mainFeaturesServiceImpl.averageMonthlyOpenAndClose("TEST_TICKER").get("TEST_TICKER")
+		String average_close = mainFeaturesServiceImpl.getAverageMonthlyOpenAndClose("TEST_TICKER").get("TEST_TICKER")
 				.get((new SimpleDateFormat("YYYY-MM").format(new Date()))).get("average_close");
 		Assert.assertEquals((close_1 + close_2 + close_3) / 3, Double.parseDouble(average_close), DELTA * 4);
 	}
