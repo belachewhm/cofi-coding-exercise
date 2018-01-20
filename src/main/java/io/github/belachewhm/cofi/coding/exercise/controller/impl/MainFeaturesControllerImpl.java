@@ -27,6 +27,11 @@ public class MainFeaturesControllerImpl implements MainFeaturesController {
 	@ApiOperation(value = "Displays the average monthly open and close prices for each security for each month of data in the data set", response = String.class)
 	public ResponseEntity<?> getAllAverageMonthlyOpenAndCloses() {
 		Map<?, ?> response = mainFeaturesService.getAllAverageMonthlyOpenAndCloses();
+		if (response == null || response.isEmpty()) {
+			String message = "";
+			log.error(message);
+			return new ResponseEntity(message, HttpStatus.NOT_FOUND);
+		}
 		return new ResponseEntity<Map<?, ?>>(response, HttpStatus.OK);
 	}
 
@@ -35,8 +40,9 @@ public class MainFeaturesControllerImpl implements MainFeaturesController {
 	public ResponseEntity<?> getAverageMonthlyOpenAndClose(@PathVariable("ticker") String ticker) {
 		Map<?, ?> response = mainFeaturesService.getAverageMonthlyOpenAndClose(ticker);
 		if (response == null || response.isEmpty()) {
-			log.error("ticker not found");
-			return new ResponseEntity(ticker + " not found", HttpStatus.NOT_FOUND);
+			String message = "";
+			log.error(message);
+			return new ResponseEntity(message, HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<Map<?, ?>>(response, HttpStatus.OK);
 	}

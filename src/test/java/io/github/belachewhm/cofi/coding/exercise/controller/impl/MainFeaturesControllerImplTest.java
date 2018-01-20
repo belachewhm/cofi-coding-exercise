@@ -1,5 +1,9 @@
 package io.github.belachewhm.cofi.coding.exercise.controller.impl;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,6 +14,7 @@ import java.util.Random;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -57,12 +62,42 @@ public class MainFeaturesControllerImplTest
 				this.put("average_close", new DecimalFormat("#.##").format(100 * random.nextDouble()));
 			}});
 		}});
-		
+		Mockito.when(mockService.getAllAverageMonthlyOpenAndCloses()).thenReturn(averageMonthlyOpenAndCloseMap);
+		result = mockMvc.perform(get("/averageMonthlyOpenAndClose/")).andDo(print()).andExpect(status().isOk()).andReturn();
 	}
 	
 	@Test
 	public void testAverageMonthlyOpenAndClose_404() throws Exception
 	{
-
+		Mockito.when(mockService.getAllAverageMonthlyOpenAndCloses()).thenReturn(averageMonthlyOpenAndCloseMap);
+		result = mockMvc.perform(get("/averageMonthlyOpenAndClose/")).andDo(print()).andExpect(status().isNotFound()).andReturn();
+		
+		Mockito.when(mockService.getAllAverageMonthlyOpenAndCloses()).thenReturn(null);
+		result = mockMvc.perform(get("/averageMonthlyOpenAndClose/")).andDo(print()).andExpect(status().isNotFound()).andReturn();
+	}
+	
+	@Test
+	public void testgGetAverageMonthlyOpenAndClose_200() throws Exception
+	{
+		averageMonthlyOpenAndCloseMap.put("TEST", new HashMap<String, Map<String, String>>()
+		{{
+			this.put(sdf.format(new Date()), new HashMap<String, String>()
+			{{
+				this.put("average_open", new DecimalFormat("#.##").format(100 * random.nextDouble()));
+				this.put("average_close", new DecimalFormat("#.##").format(100 * random.nextDouble()));
+			}});
+		}});
+		Mockito.when(mockService.getAverageMonthlyOpenAndClose(Mockito.anyString())).thenReturn(averageMonthlyOpenAndCloseMap);
+		result = mockMvc.perform(get("/averageMonthlyOpenAndClose/TEST/")).andDo(print()).andExpect(status().isOk()).andReturn();
+	}
+	
+	@Test
+	public void testgGetAverageMonthlyOpenAndClose_404() throws Exception
+	{
+		Mockito.when(mockService.getAverageMonthlyOpenAndClose(Mockito.anyString())).thenReturn(averageMonthlyOpenAndCloseMap);
+		result = mockMvc.perform(get("/averageMonthlyOpenAndClose/TEST/")).andDo(print()).andExpect(status().isNotFound()).andReturn();
+		
+		Mockito.when(mockService.getAverageMonthlyOpenAndClose(Mockito.anyString())).thenReturn(null);
+		result = mockMvc.perform(get("/averageMonthlyOpenAndClose/TEST/")).andDo(print()).andExpect(status().isNotFound()).andReturn();
 	}
 }
