@@ -20,7 +20,10 @@ This application retrieves pricing data from the Quandl WIKI Stock Price API for
 <table border="1" style="border: 1px solid #1C6EA4;background-color: #EEEEEE;border-collapse: collapse;text-align: center;">
 	<tbody>
 		<tr>
-			<th>Calculation</th>
+			<th colspan="3">Stock Price Calculations</th>
+		</tr>
+		<tr>
+			<th>Name</th>
 			<th>API</th>
 			<th>Description</th>
 		</tr>
