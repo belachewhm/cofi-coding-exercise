@@ -65,18 +65,18 @@ public class AdditionalFeaturesControllerImplTest {
 			}
 		});
 		Mockito.when(mockService.getAllMaxDailyProfits()).thenReturn(dailyProfitMap);
-		result = mockMvc.perform(get("/maxDailyProfit/")).andDo(print()).andExpect(status().isOk()).andReturn();
+		result = mockMvc.perform(get("/maxDailyProfit/")).andExpect(status().isOk()).andReturn();
 		// Assert further expectations
 	}
 
 	@Test
 	public void testGetAllMaxDailyProfits_404() throws Exception {
 		Mockito.when(mockService.getAllMaxDailyProfits()).thenReturn(dailyProfitMap);
-		mockMvc.perform(get("/maxDailyProfit/")).andDo(print()).andExpect(status().isNotFound()).andReturn();
+		mockMvc.perform(get("/maxDailyProfit/")).andExpect(status().isNotFound()).andReturn();
 		// Assert further expectations
 
 		Mockito.when(mockService.getAllMaxDailyProfits()).thenReturn(null);
-		result = mockMvc.perform(get("/maxDailyProfit/")).andDo(print()).andExpect(status().isNotFound()).andReturn();
+		result = mockMvc.perform(get("/maxDailyProfit/")).andExpect(status().isNotFound()).andReturn();
 		// Assert further expectations
 	}
 
@@ -88,19 +88,19 @@ public class AdditionalFeaturesControllerImplTest {
 			}
 		});
 		Mockito.when(mockService.getMaxDailyProfit(anyString())).thenReturn(dailyProfitMap);
-		result = mockMvc.perform(get("/maxDailyProfit/TEST/")).andDo(print()).andExpect(status().isOk()).andReturn();
+		result = mockMvc.perform(get("/maxDailyProfit/TEST/")).andExpect(status().isOk()).andReturn();
 		// Assert further expectations
 	}
 
 	@Test
 	public void testGetMaxDailyProfit_400() throws Exception {
 		Mockito.when(mockService.getMaxDailyProfit(anyString())).thenReturn(dailyProfitMap);
-		result = mockMvc.perform(get("/maxDailyProfit/TEST/")).andDo(print()).andExpect(status().isNotFound())
+		result = mockMvc.perform(get("/maxDailyProfit/TEST/")).andExpect(status().isNotFound())
 				.andReturn();
 		// Assert further expectations
 
 		Mockito.when(mockService.getMaxDailyProfit(anyString())).thenReturn(null);
-		result = mockMvc.perform(get("/maxDailyProfit/TEST/")).andDo(print()).andExpect(status().isNotFound())
+		result = mockMvc.perform(get("/maxDailyProfit/TEST/")).andExpect(status().isNotFound())
 				.andReturn();
 		// Assert further expectations
 	}
@@ -109,18 +109,18 @@ public class AdditionalFeaturesControllerImplTest {
 	public void testGetAllAverageVolumes_200() throws Exception {
 		averageVolumeMap.put("TEST", new DecimalFormat("#.##").format(100 * random.nextDouble()));
 		Mockito.when(mockService.getAllAverageVolumes()).thenReturn(averageVolumeMap);
-		result = mockMvc.perform(get("/averageVolume/")).andDo(print()).andExpect(status().isOk()).andReturn();
+		result = mockMvc.perform(get("/averageVolume/")).andExpect(status().isOk()).andReturn();
 		// Assert further expectations
 	}
 
 	@Test
 	public void testGetAllAverageVolumes_404() throws Exception {
 		Mockito.when(mockService.getAllAverageVolumes()).thenReturn(averageVolumeMap);
-		mockMvc.perform(get("/averageVolume/")).andDo(print()).andExpect(status().isNotFound()).andReturn();
+		mockMvc.perform(get("/averageVolume/")).andExpect(status().isNotFound()).andReturn();
 		// Assert further expectations
 
 		Mockito.when(mockService.getAllAverageVolumes()).thenReturn(null);
-		result = mockMvc.perform(get("/averageVolume/")).andDo(print()).andExpect(status().isNotFound()).andReturn();
+		result = mockMvc.perform(get("/averageVolume/")).andExpect(status().isNotFound()).andReturn();
 		// Assert further expectations
 	}
 
@@ -128,18 +128,18 @@ public class AdditionalFeaturesControllerImplTest {
 	public void testGetAverageVolume_200() throws Exception {
 		averageVolumeMap.put("TEST", new DecimalFormat("#.##").format(100 * random.nextDouble()));
 		Mockito.when(mockService.getAverageVolume(anyString())).thenReturn(averageVolumeMap);
-		result = mockMvc.perform(get("/averageVolume/TEST/")).andDo(print()).andExpect(status().isOk()).andReturn();
+		result = mockMvc.perform(get("/averageVolume/TEST/")).andExpect(status().isOk()).andReturn();
 		// Assert further expectations
 	}
 
 	@Test
 	public void testGetAverageVolume_404() throws Exception {
 		Mockito.when(mockService.getAverageVolume(anyString())).thenReturn(averageVolumeMap);
-		mockMvc.perform(get("/averageVolume/TEST/")).andDo(print()).andExpect(status().isNotFound()).andReturn();
+		mockMvc.perform(get("/averageVolume/TEST/")).andExpect(status().isNotFound()).andReturn();
 		// Assert further expectations
 
 		Mockito.when(mockService.getAverageVolume(anyString())).thenReturn(null);
-		result = mockMvc.perform(get("/averageVolume/TEST/")).andDo(print()).andExpect(status().isNotFound())
+		result = mockMvc.perform(get("/averageVolume/TEST/")).andExpect(status().isNotFound())
 				.andReturn();
 		// Assert further expectations
 	}
@@ -152,18 +152,18 @@ public class AdditionalFeaturesControllerImplTest {
 			}
 		});
 		Mockito.when(mockService.getAllBusyDays()).thenReturn(busyDayMap);
-		result = mockMvc.perform(get("/busyDay/")).andDo(print()).andExpect(status().isOk()).andReturn();
+		result = mockMvc.perform(get("/busyDay/")).andExpect(status().isOk()).andReturn();
 		// Assert further expectations
 	}
 
 	@Test
 	public void testGetAllBusyDays_404() throws Exception {
 		Mockito.when(mockService.getAllBusyDays()).thenReturn(busyDayMap);
-		mockMvc.perform(get("/busyDay/")).andDo(print()).andExpect(status().isNotFound()).andReturn();
+		mockMvc.perform(get("/busyDay/")).andExpect(status().isNotFound()).andReturn();
 		// Assert further expectations
 
 		Mockito.when(mockService.getAllBusyDays()).thenReturn(null);
-		result = mockMvc.perform(get("/busyDay/")).andDo(print()).andExpect(status().isNotFound()).andReturn();
+		result = mockMvc.perform(get("/busyDay/")).andExpect(status().isNotFound()).andReturn();
 		// Assert further expectations
 	}
 
@@ -175,18 +175,18 @@ public class AdditionalFeaturesControllerImplTest {
 			}
 		});
 		Mockito.when(mockService.getBusyDay(anyString())).thenReturn(busyDayMap);
-		result = mockMvc.perform(get("/busyDay/TEST/")).andDo(print()).andExpect(status().isOk()).andReturn();
+		result = mockMvc.perform(get("/busyDay/TEST/")).andExpect(status().isOk()).andReturn();
 		// Assert further expectations
 	}
 
 	@Test
 	public void testGetBusyDay_404() throws Exception {
 		Mockito.when(mockService.getBusyDay(anyString())).thenReturn(busyDayMap);
-		mockMvc.perform(get("/busyDay/TEST/")).andDo(print()).andExpect(status().isNotFound()).andReturn();
+		mockMvc.perform(get("/busyDay/TEST/")).andExpect(status().isNotFound()).andReturn();
 		// Assert further expectations
 
 		Mockito.when(mockService.getBusyDay(anyString())).thenReturn(null);
-		result = mockMvc.perform(get("/busyDay/TEST/")).andDo(print()).andExpect(status().isNotFound()).andReturn();
+		result = mockMvc.perform(get("/busyDay/TEST/")).andExpect(status().isNotFound()).andReturn();
 		// Assert further expectations
 	}
 
@@ -194,17 +194,17 @@ public class AdditionalFeaturesControllerImplTest {
 	public void testGetBiggestLoser_200() throws Exception {
 		biggestLoserMap.put("TEST", random.nextInt());
 		Mockito.when(mockService.getBiggestLoser()).thenReturn(biggestLoserMap);
-		result = mockMvc.perform(get("/biggestLoser/")).andDo(print()).andExpect(status().isOk()).andReturn();
+		result = mockMvc.perform(get("/biggestLoser/")).andExpect(status().isOk()).andReturn();
 		// Assert further expectations
 	}
 
 	@Test
 	public void testGetBiggestLoser_404() throws Exception {
 		Mockito.when(mockService.getBiggestLoser()).thenReturn(biggestLoserMap);
-		result = mockMvc.perform(get("/biggestLoser/")).andDo(print()).andExpect(status().isNotFound()).andReturn();
+		result = mockMvc.perform(get("/biggestLoser/")).andExpect(status().isNotFound()).andReturn();
 
 		Mockito.when(mockService.getBiggestLoser()).thenReturn(null);
-		result = mockMvc.perform(get("/biggestLoser/")).andDo(print()).andExpect(status().isNotFound()).andReturn();
+		result = mockMvc.perform(get("/biggestLoser/")).andExpect(status().isNotFound()).andReturn();
 	}
 
 	@After

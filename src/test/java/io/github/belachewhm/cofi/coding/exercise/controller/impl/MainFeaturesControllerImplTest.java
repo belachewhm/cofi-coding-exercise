@@ -62,18 +62,18 @@ public class MainFeaturesControllerImplTest {
 			}
 		});
 		Mockito.when(mockService.getAllAverageMonthlyOpenAndCloses()).thenReturn(averageMonthlyOpenAndCloseMap);
-		result = mockMvc.perform(get("/averageMonthlyOpenAndClose/")).andDo(print()).andExpect(status().isOk())
+		result = mockMvc.perform(get("/averageMonthlyOpenAndClose/")).andExpect(status().isOk())
 				.andReturn();
 	}
 
 	@Test
 	public void testAverageMonthlyOpenAndClose_404() throws Exception {
 		Mockito.when(mockService.getAllAverageMonthlyOpenAndCloses()).thenReturn(averageMonthlyOpenAndCloseMap);
-		result = mockMvc.perform(get("/averageMonthlyOpenAndClose/")).andDo(print()).andExpect(status().isNotFound())
+		result = mockMvc.perform(get("/averageMonthlyOpenAndClose/")).andExpect(status().isNotFound())
 				.andReturn();
 
 		Mockito.when(mockService.getAllAverageMonthlyOpenAndCloses()).thenReturn(null);
-		result = mockMvc.perform(get("/averageMonthlyOpenAndClose/")).andDo(print()).andExpect(status().isNotFound())
+		result = mockMvc.perform(get("/averageMonthlyOpenAndClose/")).andExpect(status().isNotFound())
 				.andReturn();
 	}
 
@@ -91,7 +91,7 @@ public class MainFeaturesControllerImplTest {
 		});
 		Mockito.when(mockService.getAverageMonthlyOpenAndClose(Mockito.anyString()))
 				.thenReturn(averageMonthlyOpenAndCloseMap);
-		result = mockMvc.perform(get("/averageMonthlyOpenAndClose/TEST/")).andDo(print()).andExpect(status().isOk())
+		result = mockMvc.perform(get("/averageMonthlyOpenAndClose/TEST/")).andExpect(status().isOk())
 				.andReturn();
 	}
 
@@ -99,11 +99,11 @@ public class MainFeaturesControllerImplTest {
 	public void testgGetAverageMonthlyOpenAndClose_404() throws Exception {
 		Mockito.when(mockService.getAverageMonthlyOpenAndClose(Mockito.anyString()))
 				.thenReturn(averageMonthlyOpenAndCloseMap);
-		result = mockMvc.perform(get("/averageMonthlyOpenAndClose/TEST/")).andDo(print())
+		result = mockMvc.perform(get("/averageMonthlyOpenAndClose/TEST/"))
 				.andExpect(status().isNotFound()).andReturn();
 
 		Mockito.when(mockService.getAverageMonthlyOpenAndClose(Mockito.anyString())).thenReturn(null);
-		result = mockMvc.perform(get("/averageMonthlyOpenAndClose/TEST/")).andDo(print())
+		result = mockMvc.perform(get("/averageMonthlyOpenAndClose/TEST/"))
 				.andExpect(status().isNotFound()).andReturn();
 	}
 }

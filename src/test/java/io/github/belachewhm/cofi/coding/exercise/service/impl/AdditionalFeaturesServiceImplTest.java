@@ -1,9 +1,11 @@
 package io.github.belachewhm.cofi.coding.exercise.service.impl;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -192,7 +194,6 @@ public class AdditionalFeaturesServiceImplTest {
 		Double volume1 = 100 * random.nextDouble();
 		Double volume2 = 100 * random.nextDouble();
 		Double volume3 = 100 * random.nextDouble();
-
 		returnRecords.add(new StockRecord() {
 			{
 				setTicker("TEST");
@@ -216,8 +217,70 @@ public class AdditionalFeaturesServiceImplTest {
 		Assert.assertEquals((volume1 + volume2 + volume3) / 3,
 				Double.parseDouble(additionalFeaturesServiceImpl.getAverageVolume("TEST").get("TEST")), DELTA * 6);
 	}
+	
+	@Test
+	public void testGetAllBusyDays_NotNull() {
+		Assert.assertNotNull(additionalFeaturesServiceImpl.getAllBusyDays());
+	}
 
-	// TODO: add test cases for busyDay
+	@Test
+	public void testGetAllBusyDays_IsEmpty() {
+		Assert.assertTrue(additionalFeaturesServiceImpl.getAllBusyDays().isEmpty());
+	}
+
+	@Test
+	public void testGetAllBusyDays_NotEmpty() {
+		returnRecords.add(new StockRecord() {
+			{
+				setTicker("COF");
+				setVolume(100 * random.nextDouble());
+			}
+		});
+		returnRecords.add(new StockRecord() {
+			{
+				setTicker("GOOGL");
+				setVolume(100 * random.nextDouble());
+			}
+		});
+		returnRecords.add(new StockRecord() {
+			{
+				setTicker("MSFT");
+				setVolume(100 * random.nextDouble());
+			}
+		});
+		Mockito.when(dataRetrievalService.getStockRecords()).thenReturn(returnRecords);
+		Assert.assertFalse(additionalFeaturesServiceImpl.getAllBusyDays().isEmpty());
+	}
+
+	@Test
+	public void testGetBusyDay() {
+		Date date = new Date();
+		returnRecords.add(new StockRecord() {
+			{
+				setTicker("TEST");
+				setVolume(Double.parseDouble("10"));
+				setDate(new Date(1));
+			}
+		});
+		returnRecords.add(new StockRecord() {
+			{
+				setTicker("TEST");
+				setVolume(Double.parseDouble("100"));
+				setDate(new Date(1));
+			}
+		});
+		returnRecords.add(new StockRecord() {
+			{
+				setTicker("TEST");
+				setVolume(Double.parseDouble("1000"));
+				setDate(date);
+			}
+		});
+		Mockito.when(dataRetrievalService.getStockRecords()).thenReturn(returnRecords);
+		Map<String, Map<String, String>> busyDays = additionalFeaturesServiceImpl.getBusyDay("TEST");
+		Assert.assertEquals((new DecimalFormat("#.00")).format(Double.parseDouble("1000")),
+				busyDays.get("TEST").get(new SimpleDateFormat("YYYY-MM-dd").format(date)));
+	}
 
 	@Test
 	public void testBiggestLoser() {
@@ -254,6 +317,7 @@ public class AdditionalFeaturesServiceImplTest {
 
 	@After
 	public void teardown() {
+		random = null;
 		returnRecords = null;
 	}
 }
