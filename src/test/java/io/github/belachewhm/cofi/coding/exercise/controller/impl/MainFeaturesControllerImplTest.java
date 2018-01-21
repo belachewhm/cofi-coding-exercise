@@ -29,7 +29,7 @@ import io.github.belachewhm.cofi.coding.exercise.service.MainFeaturesService;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = Application.class)
 @WebMvcTest(MainFeaturesControllerImpl.class)
-public class MainFeaturesControllerImplIT {
+public class MainFeaturesControllerImplTest {
 	@MockBean
 	private MainFeaturesService mockService;
 

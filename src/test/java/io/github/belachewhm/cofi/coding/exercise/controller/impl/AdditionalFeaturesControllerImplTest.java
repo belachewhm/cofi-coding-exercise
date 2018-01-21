@@ -31,7 +31,7 @@ import io.github.belachewhm.cofi.coding.exercise.service.AdditionalFeaturesServi
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = Application.class)
 @WebMvcTest(AdditionalFeaturesControllerImpl.class)
-public class AdditionalFeaturesControllerImplIT {
+public class AdditionalFeaturesControllerImplTest {
 	@MockBean
 	private AdditionalFeaturesService mockService;
 
