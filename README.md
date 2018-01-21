@@ -17,7 +17,7 @@
 
 This application retrieves pricing data from the Quandl WIKI Stock Price API for a set of securities (COF, GOOGL, MSFT) and given date range (January 1st, 2017 to June 30th, 2017). The application exposes the following APIs that, when triggered, will perform calculations on the data set.
   
-<table border="1" style="border: 1px solid #1C6EA4;background-color: #EEEEEE;width: 100%;border-collapse: collapse;text-align: center;">
+<table border="1" style="border: 1px solid #1C6EA4;background-color: #EEEEEE;border-collapse: collapse;text-align: center;">
 	<tbody>
 		<tr>
 			<th>Calculation</th>
@@ -25,32 +25,90 @@ This application retrieves pricing data from the Quandl WIKI Stock Price API for
 			<th>Description</th>
 		</tr>
 		<tr style="background: #D0E4F5;">
-			<td style="padding: 10px;">Average Monthly Open and Close</td>
-			<td style="padding: 10px;">/<b>averageMonthlyOpenAndClose</b></td>
-			<td style="padding: 10px;">Calculates the average monthly open and close prices for each security for each month of data in the data set</td>
+			<td>
+				Average Monthly Open and Close
+			</td>
+			<td>
+				<table>
+					<tr border="1" ><td>/averageMonthlyOpenAndClose/</td></tr>
+					<tr border="1" ><td>/averageMonthlyOpenAndClose/{ticker}/</td></tr>
+				</table>
+			</td>
+			<td>
+				<table>
+					<tr><td>Calculates the average monthly open and close prices for each security for each month of data in the data set</td></tr>
+					<tr><td>Calculates the average monthly open and close prices for each security for each month of data in the data set</td></tr>
+				</table>
+			</td>
 		</tr>
 		<tr>
-			<td style="padding: 10px;">Average Volume</td>
-			<td style="padding: 10px;">/<b>averageVolume</b></td>
-			<td style="padding: 10px;">Calculates and returns the average volumes for each security</td>
+			<td>
+				Average Volume
+			</td>
+			<td>
+				<table>
+					<tr><td>/averageVolume/</td></tr>
+					<tr><td>/averageVolume/{ticker}/</td></tr>
+				</table>
+			</td>
+			<td>
+				<table>
+					<tr><td>Calculates and returns the average volumes for each security</td></tr>
+					<tr><td>Calculates and returns the average volumes for each security</td></tr>
+				</table>
+			</td>
 		</tr>
 		<tr style="background: #D0E4F5;">
-			<td style="padding: 10px;">Biggest Loser</td>
-			<td style="padding: 10px;">/<b>biggestLoser</b></td>
-			<td style="padding: 10px;">Calculates and returns which security had the most days where the closing price was lower than the opening price</td>
+			<td>
+				Biggest Loser
+			</td>
+			<td>
+				<table>
+					<tr><td>/biggestLoser/</td></tr>
+				</table>
+			</td>
+			<td>
+				<table>
+					<tr><td>Calculates and returns which security had the most days where the closing price was lower than the opening price</td></tr>
+				</table>
+			</td>
 		</tr>
 		<tr>
-			<td style="padding: 10px;">Busy Day</td>
-			<td style="padding: 10px;">/<b>busyDay</b></td>
-			<td style="padding: 10px;">Calculates and returns which days generated unusually high activity for the securities</td>
+			<td>
+				Busy Day
+			</td>
+			<td>
+				<table>
+					<tr><td>/busyDay/</td></tr>
+					<tr><td>/busyDay/{ticker}/</td></tr>
+				</table>
+			</td>
+			<td>
+				<table>
+					<tr><td>Calculates and returns which days generated unusually high activity for the securities</td></tr>
+					<tr><td>Calculates and returns which days generated unusually high activity for the securities</td></tr>
+				</table>
+			</td>
 		</tr>
-		<tr style="background: #D0E4F5;">
-			<td style="padding: 10px;">Max Daily Profit</td>
-			<td style="padding: 10px;">/<b>maxDailyProfit</b></td>
-			<td style="padding: 10px;">Calculates and returns which day would provide the highest amount of profit for each security if purchased at the day's low and sold at the day's high</td>
+		<tr>
+			<td>
+				Max Daily Profit
+			</td>
+			<td>
+				<table>
+					<tr><td>/maxDailyProfit/</td></tr>
+					<tr><td>/maxDailyProfit/{ticker}/</td></tr>
+				</table>
+			</td>
+			<td>
+				<table>
+					<tr><td>Calculates and returns which day would provide the highest amount of profit for each security if purchased at the day's low and sold at the day's high</td></tr>
+					<tr><td>Calculates and returns which day would provide the highest amount of profit for each security if purchased at the day's low and sold at the day's high</td></tr>
+				</table>
+			</td>
 		</tr>
 	</tbody>
-</table>  
+</table>
 
 This application also generates a customized Swagger Page that serves as a user interface for the above APIs.
 
