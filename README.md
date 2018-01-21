@@ -61,16 +61,19 @@ This application also generates a customized Swagger Page that serves as a user 
 	<img height="200" width="189" src="src/main/resources/images/java8-logo.png" title="Java 8">
 	<img height="100" width="375" src="src/main/resources/images/spring-boot-logo.png" title="Spring/Spring Boot">
 	<img height="130" width="375" src="src/main/resources/images/maven-logo.png" title="Apache Maven">
+	<img height="150" width="495" src="src/main/resources/images/hystrix-logo.png" title="Hystrix">
 	<img height="100" width="330" src="src/main/resources/images/swagger-logo.png" title="Swagger 2">
 </p>
 
 The following technologies were used to build this application:  
 
+* Git (v2.10.0.windows.1)
 * Java (jdk1.8.0_111)
 * Spring Boot (v1.5.2.RELEASE)
 * Apache Maven (v3.3.9)
+* Hystrix (v1.2.5.RELEASE)
 * Swagger/Swagger-UI (v2.7.0)
-* Git (v2.10.0.windows.1)
+
 
 ## Build
 
