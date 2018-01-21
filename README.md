@@ -1,6 +1,8 @@
 # COFI Coding Exercise
 
-[![Build Status](https://travis-ci.org/belachewhm/cofi-coding-exercise.svg?branch=master)](https://travis-ci.org/belachewhm/cofi-coding-exercise) [![Coverage Status](https://coveralls.io/repos/github/belachewhm/cofi-coding-exercise/badge.svg?branch=master)](https://coveralls.io/github/belachewhm/cofi-coding-exercise?branch=master) [![Coverity Scan Build Status](https://scan.coverity.com/projects/14880/badge.svg)](https://scan.coverity.com/projects/belachewhm-cofi-coding-exercise) [![Heroku](http://heroku-badge.herokuapp.com/?app=cofi-coding-exercise&style=flat&svg=1&root=cofi-coding-exercise/swagger-ui.html)](https://cofi-coding-exercise.herokuapp.com/cofi-coding-exercise/swagger-ui.html)
+[![Build Status](https://travis-ci.org/belachewhm/cofi-coding-exercise.svg?branch=master)](https://travis-ci.org/belachewhm/cofi-coding-exercise)
+[![Coverage Status](https://coveralls.io/repos/github/belachewhm/cofi-coding-exercise/badge.svg?branch=master)](https://coveralls.io/github/belachewhm/cofi-coding-exercise?branch=master)
+[![Heroku](http://heroku-badge.herokuapp.com/?app=cofi-coding-exercise&style=flat&svg=1&root=cofi-coding-exercise/swagger-ui.html)](https://cofi-coding-exercise.herokuapp.com/cofi-coding-exercise/swagger-ui.html)
 
 * [Summary](#summary)
 * [Tech-Stack](#tech-stack)
